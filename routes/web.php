@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+    Route::get('/', 'admin\HomeController@index');
+    Route::get('/alamacen/articulo', 'admin\AlmacenController@articulo');

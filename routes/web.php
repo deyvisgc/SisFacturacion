@@ -16,3 +16,4 @@
 });*/
     Route::get('/', 'admin\HomeController@index');
     Route::get('/alamacen/articulo', 'admin\AlmacenController@articulo');
+    Route::resource('Compras/Ingresos','IngresosController');

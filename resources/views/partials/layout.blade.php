@@ -7,17 +7,24 @@
     <title>UBold - Responsive Admin Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}">
     <!-- Plugins css -->
     <link href="{{asset('assets/libs/flatpickr/flatpickr.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
 
     <!-- App css -->
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+ <!--<link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">-->
+    <link href="{{asset('assets/libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/datatables/responsive.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/datatables/buttons.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -1065,6 +1072,21 @@
 
 <!-- App js-->
 <script src="{{asset('assets/js/app.min.js')}}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!--<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>-->
+<script src="{{asset('assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/dataTables.bootstrap4.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/buttons.html5.min.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/buttons.flash.min.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/buttons.print.min.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/dataTables.keyTable.min.js')}}"></script>
+<script src="{{asset('assets/libs/datatables/dataTables.select.min.js')}}"></script>
 @yield('script')
 
 </body>

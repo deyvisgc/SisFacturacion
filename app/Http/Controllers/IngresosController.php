@@ -59,16 +59,33 @@ class IngresosController extends Controller
 
     }
     public function AddCarrito(Request $request){
-       return response()->json($this->repository->addcarrito($request));
-
+        $resultado=$this->repository->addcarrito($request);
+        $subotal=$resultado[0]->subtotal;
+        $IGV=$subotal*0.18;
+        $total=$subotal+$IGV;
+        $count=$resultado[0]->count;
+        return response()->json(array('Igv'=>$IGV,'subtotal'=>$subotal,'total'=>$total,'count'=>$count));
     }
     public function getcarrito($id){
         $result=$this->repository->getcarrito($id);
         return DataTables::of($result)->make(true);
     }
-    public function getcarr(){
-        $result=DB::table('temcarrito as tem')->join('productos as p','tem.id_Producto','=','p.idProductos')->select('*','p.Nombre_Productos','p.Precio_Productos')->get();
-        return DataTables::of($result)->make(true);
+    public function getcarr(Request $request,$id){
+        $result=$this->repository->getcarrito($id);
+        if ($request->ajax()){
+            return DataTables::of($result)->make(true);
+        }
+    }
+    public function getcarrxprove($id){
+        $resultado=$this->repository->getcarrito($id);
+        $subotal=$resultado[0]->sumsubtotal;
+        $IGV= round($subotal*0.18, 4);
+        $total= round($subotal+$IGV, 4);
+     //   $count=$resultado[0]->count;
+        return response()->json(array('Igv'=>$IGV,'subtotal'=>$subotal,'total'=>$total));
+    }
+    public function UpdateCantidad(Request $request){
+        return response()->json($this->repository->UpdateCantidad($request));
     }
 
 }

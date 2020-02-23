@@ -20,5 +20,7 @@
     Route::post('Buscar/Producto', 'IngresosController@BuscarProducto');
     Route::post('AddCarrito', 'IngresosController@AddCarrito');
     Route::get('getcarrito/{id}', 'IngresosController@getcarrito');
-    Route::get('getcarr','IngresosController@getcarr');
+    Route::get('getcarr/{id}','IngresosController@getcarr');
+    Route::post('getcarrxprove/{id}','IngresosController@getcarrxprove');
+    Route::post('UpdateCantidad','IngresosController@UpdateCantidad');
     Route::resource('Compras/Ingresos','IngresosController');

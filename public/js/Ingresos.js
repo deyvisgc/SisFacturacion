@@ -1,17 +1,20 @@
 $(document).ready(function () {
     var url;
+    var tabla;
     var ur11=$('#rutagetcar').val();
-
-    $('#tablecar').DataTable({
+  var id=localStorage.getItem("id");
+    cargarDetalleCompra(id);
+   tabla= $('#tablecar').DataTable({
         processing: false,
         serverSide: true,
         destroy:true,
-        ajax: ur11,
+        ajax: ur11+id,
         columns: [
             { data: 'Nombre_Productos' },
             {data: null,
                 render: function ( data, type, row ) {
-                    return '<input type="number" class="form-control" value="'+data.Cantidad+'">';
+                    return '<input type="number" class="form-control" id="Cantidad"   onkeyup="sumCantidad('+row.id_Tem_Carito+')" value="'+data.Cantidad+'">'+
+                        '<input type="number" class="form-control" hidden id="idprovedor" value="'+row.id_Proveedor+'">';
                 }},
             { data: 'Precio_Productos' },
             { data: 'Subtotal'},
@@ -20,7 +23,7 @@ $(document).ready(function () {
                 render: function ( data, type, row ) {
                     return '<button type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-delete"></i></button>';
                 }}
-        ]
+        ],
     });
     $('#searchproveedor').autocomplete({
         source:function (request ,response) {
@@ -55,6 +58,8 @@ $(document).ready(function () {
             $('#razonsocial').val(ui.item.razonsocial);
             $('#searchproveedor').val(ui.item.ruc);
             $('#idprove').val(ui.item.idprovee);
+            var idprove=$('#idprove').val();
+            localStorage.setItem("id", idprove);
             return false;
         }
 
@@ -119,6 +124,10 @@ $(document).ready(function () {
                 var url1=$('#rutagetcarr').val();
                 var idprovee=$('#idprove').val();
              console.log(data[0]);
+                 $('#total').html(data['total']);
+                $('#subtotal').html(data['subtotal']);
+                $('#Igv').html(data['Igv']);
+                $('#total1').html(data['total']);
                 $('#tablecar').DataTable({
                     processing: false,
                     serverSide: true,
@@ -128,7 +137,8 @@ $(document).ready(function () {
                         { data: 'Nombre_Productos' },
                         {data: null,
                             render: function ( data, type, row ) {
-                                return '<input type="number" class="form-control" value="'+data.Cantidad+'">';
+                                return '<input type="number" onkeyup="sumCantidad('+row.id_Tem_Carito+')" id="Cantidad" class="form-control" value="'+row.Cantidad+'">'+
+                                    '<input type="number" class="form-control" hidden id="idprove" value="'+row.id_Proveedor+'">';
                             }},
                         { data: 'Precio_Productos' },
                         { data: 'Subtotal'},
@@ -142,6 +152,7 @@ $(document).ready(function () {
 
             }
         })
+
     });
 
 
@@ -156,4 +167,58 @@ function validar() {
     if (searchproducto===''){
 //    $('#razonsocial').val("");
 }
+}
+
+function cargarDetalleCompra(id) {
+    var ur11=$('#rutagetcarxprove').val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url:ur11+id,
+        dataType:'json',
+        type:'post',
+        success:function (data) {
+            $('#total').html(data['total']);
+            $('#subtotal').html(data['subtotal']);
+            $('#Igv').html(data['Igv']);
+            $('#total1').html(data['total']);
+        }
+    });
+
+}
+
+function sumCantidad(id) {
+    var data={};
+    data.cantidad=$('#Cantidad').val();
+    data.idprove=$('#idprovedor').val();
+    data.idtem=id;
+    var urlupdate=$('#UpdateCantidad').val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url:urlupdate,
+        dataType:'json',
+        type:'post',
+        data:data,
+        success:function (data) {
+            var subtotal=data[0]['sumsubtotal'];
+            var cantidad=$('#Cantidad').val();
+            var sumSubTotal=parseFloat(subtotal);
+            var Igv=parseFloat(sumSubTotal)*0.18;
+            var Total=parseFloat(sumSubTotal)+parseFloat(Igv);
+            $('#total').html(Total);
+            $('#subtotal').html(sumSubTotal);
+            $('#Igv').html(Igv);
+            $('#total1').html(Total);
+            $('#tablecar').DataTable().ajax.reload();
+        }
+    });
+
+
 }

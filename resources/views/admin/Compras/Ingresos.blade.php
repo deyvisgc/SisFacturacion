@@ -79,12 +79,13 @@
                                                 <button type="button" id="addcarrito" class="btn btn-success waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i>Agregar Al carrito</button>
                                                 <input type="hidden" id="rutaaddcarr" value="{{url('AddCarrito')}}">
                                                 <input type="hidden" id="rutagetcarr" value="{{url('getcarrito')}}/">
-                                                <input type="hidden" id="rutagetcar" value="{{url('getcarr')}}">
+                                                <input type="hidden" id="rutagetcar" value="{{url('getcarr')}}/">
+                                                <input type="hidden" id="rutagetcarxprove" value="{{url('getcarrxprove')}}/">
                                                 <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-delete mr-1"></i>Limpiar Campos</button>
-
                                             </div>
                                         </div>
                                     </form>
+                                    <input type="hidden" id="UpdateCantidad" value="{{url('UpdateCantidad')}}">
                                     <div class="table-responsive">
                                         <table class="table table-centered mb-0" id="tablecar">
                                             <thead class="thead-light">
@@ -183,7 +184,7 @@
                                         <a href="javascript:;" data-toggle="reload"><i class="mdi mdi-refresh"></i></a>
                                         <a data-toggle="collapse" href="#cardCollpase5" role="button" aria-expanded="true" aria-controls="cardCollpase2" class=""><i class="mdi mdi-minus"></i></a>
                                     </div>
-                                    <h1 class="card-title mb-0 text-white"style="text-align: center">S/ 120.00</h1>
+                                    <h1 class="card-title mb-0 text-white" id="total" style="text-align: center">0.00</h1>
                                 </div>
                                 <div id="cardCollpase5" class="collapse show" style="">
                                     <div class="card-body">
@@ -221,9 +222,9 @@
                                             </div>
                                             <hr class="new1" style="border-top: 1px solid black;width: 100%">
                                             <div class="float-left">
-                                                <p><b>Sub-total:</b> <span class="float-right">$4597.50</span></p>
-                                                <p><b>IGV (18%):</b> <span class="float-right"> &nbsp;&nbsp;&nbsp; $459.75</span></p>
-                                                <p><b>Total:</b> <span class="float-right">$4597.50</span></p>
+                                                <p><b>Sub-total:  </b> <span class="float-right" id="subtotal">0.00</span></p>
+                                                <p><b>IGV (18%):  </b> <span class="float-right" id="Igv" style="margin-left: 5px"> &nbsp;&nbsp;&nbsp;0.00</span></p>
+                                                <p><b>Total:</b>  <span class="float-right" id="total1">0.00</span></p>
                                             </div>
                                             <button type="button" style="margin-left: 25%" class="btn btn-success waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i>Comprar</button>
 

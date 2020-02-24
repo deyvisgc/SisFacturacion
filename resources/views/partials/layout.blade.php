@@ -18,14 +18,7 @@
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
-    <!-- datatables -->
-    <link href="{{asset('css/buttons.dataTables.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('css/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css" />
-    <!-- end datatable-->
-    {{--selectpicker--}}
-    <link href="{{asset('css/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
-    {{--end selectpiker--}}
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body>
@@ -396,19 +389,31 @@
                             </li>
                         </ul>
                     </li>
-    
+
                     <li>
                         <a href="javascript: void(0);">
                             <i class="fe-pocket"></i>
-                            <span> Almacen </span>
+                            <span> Apps </span>
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
                             <li>
-                                <a href="{{url('admin/alamacen/categoria')}}">Categoria</a>
+                                <a href="apps-kanbanboard.html">Kanban Board</a>
                             </li>
                             <li>
-                                <a href="{{url('admin/alamacen/producto')}}">Producto</a>
+                                <a href="apps-calendar.html">Calendar</a>
+                            </li>
+                            <li>
+                                <a href="apps-contacts.html">Contacts</a>
+                            </li>
+                            <li>
+                                <a href="apps-projects.html">Projects</a>
+                            </li>
+                            <li>
+                                <a href="apps-tickets.html">Tickets</a>
+                            </li>
+                            <li>
+                                <a href="apps-companies.html">Companies</a>
                             </li>
                         </ul>
                     </li>
@@ -1055,11 +1060,9 @@
 <script src="{{asset('assets/libs/flot-charts/jquery.flot.selection.js')}}"></script>
 <script src="{{asset('assets/libs/flot-charts/jquery.flot.crosshair.js')}}"></script>
 
-<!-- Datatable-->
-<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
-<!-- End Datatable -->
-<script src="{{asset('js/bootstrap-select.min.js')}}"></script>
-<script src="{{asset('js/sweetalert2.js')}}"></script>
+<!-- Dashboar 1 init js-->
+<script src="{{asset('assets/js/pages/dashboard-1.init.js')}}"></script>
+
 <!-- App js-->
 <script src="{{asset('assets/js/app.min.js')}}"></script>
 @yield('script')

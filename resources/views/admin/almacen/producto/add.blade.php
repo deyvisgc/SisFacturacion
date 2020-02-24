@@ -46,7 +46,7 @@
                             <div class="col-md-3 mb-3">
                                 <label >Imagen</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="pro_imagen"  name="imagen">
+                                    <input type="file" class="custom-file-input" id="pro_imagen" placeholder="ed" name="imagen">
                                     <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
                                 </div>
                             </div>

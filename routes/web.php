@@ -16,11 +16,17 @@
 });*/
     Route::get('/', 'admin\HomeController@index');
     Route::get('/alamacen/articulo', 'admin\AlmacenController@articulo');
+    //Ingreso
     Route::post('Buscar/Proveedor', 'IngresosController@buscarProveedor');
     Route::post('Buscar/Producto', 'IngresosController@BuscarProducto');
     Route::post('AddCarrito', 'IngresosController@AddCarrito');
-    Route::get('getcarrito/{id}', 'IngresosController@getcarrito');
+    Route::get('detallecarrito/{id}', 'IngresosController@detallecarrito');
     Route::get('getcarr/{id}','IngresosController@getcarr');
     Route::post('getcarrxprove/{id}','IngresosController@getcarrxprove');
     Route::post('UpdateCantidad','IngresosController@UpdateCantidad');
+     Route::post('UpdateCantCarr','IngresosController@UpdateCantCarr');
+    Route::post('EliminarProducto','IngresosController@EliminarProducto');
+Route::post('getcantidadComprobante','IngresosController@tipocomprobante');
+    //pagar compras
+Route::post('Pagar','IngresosController@Pagar');
     Route::resource('Compras/Ingresos','IngresosController');

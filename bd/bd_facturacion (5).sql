@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-02-2020 a las 04:11:47
+-- Tiempo de generación: 29-02-2020 a las 23:34:54
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.1
 
@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addcarIngreso` (IN `var_id_Producto` INT, IN `var_cantidad` INT, IN `var_proveedor` INT, IN `var_precio` DOUBLE)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addcarIngreso` (IN `var_id_Producto` INT, IN `var_cantidad` INT, IN `var_vendedor` INT, IN `var_precio` DOUBLE, IN `var_provedor` INT)  BEGIN
 DECLARE IGV double;
 DECLARE subtotal double;
 
@@ -37,22 +37,24 @@ INSERT INTO temcarrito
 (
  temcarrito.Cantidad,
  temcarrito.id_Producto,
- temcarrito.id_Proveedor,
+ temcarrito.usuario_id_usuario,
  temcarrito.Subtotal,
  temcarrito.Igv,
- temcarrito.Precio_pro,
+ temcarrito.Precio_Compra,
+ temcarrito.id_Proveedor,
  temcarrito.Fecha_Carrito
 )VALUES(
     var_cantidad,
     var_id_Producto,
-    var_proveedor,
+    var_vendedor,
     subtotal,
     IGV,
     var_precio,
+    var_provedor,
     CURDATE()
  );
  
- SELECT SUM(temcarrito.Subtotal) as subtotal,COUNT(temcarrito.id_Tem_Carito) count from temcarrito WHERE temcarrito.id_Proveedor=var_proveedor;
+ SELECT SUM(temcarrito.Subtotal) as subtotal,COUNT(temcarrito.id_Tem_Carito) count from temcarrito WHERE temcarrito.usuario_id_usuario=var_vendedor;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addventa` (IN `varid_Persona` INT)  NO SQL
@@ -86,6 +88,34 @@ SELECT * from venta WHERE venta.idPersona=varid_Persona;
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetCarrito` (IN `var_idVendedor` INT)  NO SQL
+BEGIN
+SELECT
+temcarrito.Cantidad,
+productos.Nombre_Productos,
+temcarrito.id_Persona,
+temcarrito.Precio_Compra,
+temcarrito.Igv,
+temcarrito.Subtotal,
+temcarrito.id_Producto,
+temcarrito.id_Proveedor,
+subcon.sumsubtotal,
+empresas.Razon_social_Empre,
+temcarrito.id_Tem_Carito
+from (SELECT ROUND(SUM(temcarrito.Subtotal),4)  as sumsubtotal from temcarrito WHERE temcarrito.usuario_id_usuario=var_idVendedor) as subcon,
+temcarrito,productos,empresas
+WHERE temcarrito.id_Producto=productos.idProductos and temcarrito.usuario_id_usuario=var_idVendedor and temcarrito.id_Proveedor=empresas.Id_Empresas_Empre
+GROUP BY 
+ temcarrito.Cantidad,
+ productos.Nombre_Productos,
+ temcarrito.id_Persona,
+temcarrito.Precio_Compra,
+temcarrito.Igv,
+temcarrito.Subtotal,
+empresas.Razon_social_Empre,
+temcarrito.id_Producto,temcarrito.id_Tem_Carito ORDER BY temcarrito.id_Tem_Carito;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetCarritoIngresos` (IN `var_id_Proveedor` INT)  NO SQL
 BEGIN
  SELECT
@@ -113,7 +143,7 @@ temcarrito.Subtotal,
 temcarrito.id_Producto,temcarrito.id_Tem_Carito ORDER BY temcarrito.id_Tem_Carito;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_ingreso_registrar` (IN `var_idprove` INT, IN `var_id_usuario` INT, IN `var_monto_efectivo` DOUBLE(15,4), IN `var_monto_credito` DOUBLE(15,4), IN `var_monto_debito` DOUBLE(15,4), IN `var_vuelto` DOUBLE(15,4), IN `tipo_pago` INT, IN `tipo_comprovante` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_ingreso_registrar` (IN `var_id_usuario` INT, IN `var_monto_efectivo` DOUBLE(15,4), IN `var_monto_credito` DOUBLE(15,4), IN `var_monto_debito` DOUBLE(15,4), IN `var_vuelto` DOUBLE(15,4), IN `tipo_pago` INT, IN `tipo_comprovante` INT)  BEGIN
 DECLARE var_subtotal double(15,4);
 DECLARE var_Cantidad int;
 DECLARE var_precio double(15,4);
@@ -124,6 +154,9 @@ DECLARE var_id_Ingreso int;
 DECLARE var_id_caja int;
 DECLARE var_idProducto int;
 DECLARE var_Fecha_ingreso date;
+DECLARE var_id_proveedor int;
+DECLARE var_id_detalle_ingreso int;
+DECLARE var_cantidad_comprobante int;
 DECLARE done INT DEFAULT FALSE;
 DECLARE cursor_temp CURSOR FOR
 
@@ -131,13 +164,14 @@ SELECT
  temcarrito.id_Producto,
  temcarrito.Cantidad,
  temcarrito.Precio_pro,
- temcarrito.Fecha_Carrito
-from temcarrito WHERE temcarrito.id_Proveedor=4 and temcarrito.usuario_id_usuario=1;
+ temcarrito.Fecha_Carrito,
+ temcarrito.id_Proveedor
+from temcarrito WHERE temcarrito.usuario_id_usuario=var_id_usuario;
 
    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 SELECT 
   IFNULL(SUM(temcarrito.Subtotal),0) subtotal into var_subtotal from  temcarrito 
-WHERE temcarrito.id_Proveedor=var_idprove and temcarrito.usuario_id_usuario=1 ;
+WHERE temcarrito.usuario_id_usuario=var_id_usuario ;
 
 set var_Igv:=var_subtotal*0.18;
 set var_total:=var_subtotal+var_Igv;
@@ -146,7 +180,6 @@ SET var_id_caja=1;
         
 INSERT INTO 
    ingresos(
-    Id_Proveedor,
     Ingre_Subtotal,
     Ingre_IGV,
     Ingre_Precio,
@@ -159,21 +192,20 @@ INSERT INTO
     Ingre_Estado
    )
     VALUES (
-        var_idprove,
         var_subtotal,
         var_Igv,
         var_precio,
         var_monto_efectivo,
         var_monto_debito,
         var_monto_credito,
-        1,
+        var_id_usuario,
         var_id_caja,
         NOW(),
         1);
      SET var_id_Ingreso = LAST_INSERT_ID();
        OPEN cursor_temp;
         read_loop: LOOP
-        FETCH cursor_temp INTO var_idProducto,var_Cantidad,var_precio,var_Fecha_ingreso;
+        FETCH cursor_temp INTO var_idProducto,var_Cantidad,var_precio,var_Fecha_ingreso,var_id_proveedor;
         IF done THEN
             LEAVE read_loop;
         END IF;
@@ -184,7 +216,10 @@ INSERT INTO
      productos_idProductos,
      Ingresos_Id_Ingresos,
      Ingre_vuelto,
-     fecha_Ingreso
+     fecha_Ingreso,
+     id_proveedor,
+     id_tipo_Comprobante,
+     id_tipo_pago
  ) 
      VALUES(
      var_Cantidad,
@@ -192,12 +227,20 @@ INSERT INTO
      var_idProducto,
      var_id_Ingreso,
      var_vuelto,
-     var_Fecha_ingreso);
-     
+     var_Fecha_ingreso,
+     var_id_proveedor,
+     tipo_comprovante,
+     tipo_pago
+     );
+     SET var_id_detalle_ingreso:=LAST_INSERT_ID();
        END LOOP;
     CLOSE cursor_temp;
-    DELETE FROM temcarrito WHERE temcarrito.usuario_id_usuario=1;
-END$$
+    IF(var_id_detalle_ingreso !='') THEN
+       DELETE FROM temcarrito WHERE temcarrito.usuario_id_usuario=var_id_usuario; 
+       SELECT tipo_comprobante.cantidad into var_cantidad_comprobante from tipo_comprobante WHERE tipo_comprobante.id=tipo_comprovante;
+       UPDATE tipo_comprobante SET tipo_comprobante.cantidad=var_cantidad_comprobante+1 WHERE tipo_comprobante.id=tipo_comprovante;
+    end IF;
+   END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectCarrito` (IN `var_id_persona` INT)  NO SQL
 SELECT temcarrito.Cantidad,temcarrito.Subtotal,temcarrito.Igv,temcarrito.Precio_pro,productos.Nombre_Productos,imagenes.ruta_imagen,countador.conta,productos.modelo_producto,countador.subt,temcarrito.id_Producto,temcarrito.id_Persona
@@ -209,17 +252,28 @@ temcarrito,productos,imagenes WHERE temcarrito.id_Producto=productos.idProductos
 GROUP BY 
 temcarrito.Cantidad,temcarrito.Subtotal,temcarrito.Igv,temcarrito.Precio_pro,productos.Nombre_Productos,imagenes.ruta_imagen,productos.modelo_producto,temcarrito.id_Producto,temcarrito.id_Persona$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateCantidad` (IN `var_Cantidad` INT, IN `var_IdCarrito` INT, IN `var_IdProvee` INT)  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateCantidad` (IN `var_Cantidad` INT, IN `var_IdCarrito` INT, IN `var_IdVendedor` INT)  NO SQL
 BEGIN
 DECLARE varprecio double;
 DECLARE var_subtotal double;
 DECLARE var_Igv double;
 
-SELECT temcarrito.Precio_pro INTO varprecio from temcarrito WHERE temcarrito.id_Proveedor=var_IdProvee and temcarrito.id_Tem_Carito=var_IdCarrito;
+SELECT temcarrito.Precio_Compra INTO varprecio from temcarrito WHERE temcarrito.usuario_id_usuario=var_IdVendedor and temcarrito.id_Tem_Carito=var_IdCarrito;
 SET var_subtotal:=var_Cantidad*varprecio;
 SET var_Igv:=var_subtotal*0.18;
-UPDATE temcarrito SET Cantidad=var_Cantidad, Subtotal=var_subtotal , Igv=var_Igv WHERE id_Proveedor=var_IdProvee and id_Tem_Carito=var_IdCarrito;
-call GetCarritoIngresos(var_IdProvee);
+UPDATE temcarrito SET Cantidad=var_Cantidad, Subtotal=var_subtotal , Igv=var_Igv WHERE usuario_id_usuario=var_IdVendedor and id_Tem_Carito=var_IdCarrito;
+call GetCarrito(var_IdVendedor);
+END$$
+
+--
+-- Funciones
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `detalleingreso` () RETURNS INT(11) BEGIN
+DECLARE varid_producto INT;
+
+ SELECT productos.idProductos into varid_producto
+ from detalle_ingreso,ingresos,productos,empresas WHERE detalle_ingreso.Ingresos_Id_Ingresos=ingresos.Id_Ingresos and detalle_ingreso.productos_idProductos=productos.idProductos and detalle_ingreso.id_proveedor=empresas.Id_Empresas_Empre and ingresos.Usuario_id_Usuarios=1;
+  RETURN varid_producto;
 END$$
 
 DELIMITER ;
@@ -339,19 +393,19 @@ CREATE TABLE `detalle_ingreso` (
   `productos_idProductos` int(11) NOT NULL,
   `Ingresos_Id_Ingresos` int(11) NOT NULL,
   `Ingre_vuelto` double(15,4) NOT NULL,
-  `fecha_Ingreso` date NOT NULL
+  `fecha_Ingreso` date NOT NULL,
+  `id_proveedor` int(11) NOT NULL,
+  `id_tipo_Comprobante` int(11) NOT NULL,
+  `id_tipo_pago` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `detalle_ingreso`
 --
 
-INSERT INTO `detalle_ingreso` (`Iddetalle_Ingreso`, `Ingre_Deta_Cantidad`, `Ingre_Deta_Total`, `productos_idProductos`, `Ingresos_Id_Ingresos`, `Ingre_vuelto`, `fecha_Ingreso`) VALUES
-(1, 5, 336.3, 12, 6, 59.0000, '2020-02-23'),
-(2, 4, 336.3, 9, 6, 59.0000, '2020-02-23'),
-(3, 1, 336.3, 9, 6, 59.0000, '2020-02-23'),
-(4, 7, 336.3, 11, 6, 59.0000, '2020-02-24'),
-(5, 4, 336.3, 9, 6, 59.0000, '2020-02-24');
+INSERT INTO `detalle_ingreso` (`Iddetalle_Ingreso`, `Ingre_Deta_Cantidad`, `Ingre_Deta_Total`, `productos_idProductos`, `Ingresos_Id_Ingresos`, `Ingre_vuelto`, `fecha_Ingreso`, `id_proveedor`, `id_tipo_Comprobante`, `id_tipo_pago`) VALUES
+(35, 2, 203.5028, 11, 29, 1.4972, '2020-02-29', 4, 1, 3),
+(36, 4, 203.5028, 12, 29, 1.4972, '2020-02-29', 5, 1, 3);
 
 --
 -- Disparadores `detalle_ingreso`
@@ -402,7 +456,7 @@ CREATE TABLE `empresas` (
 --
 
 INSERT INTO `empresas` (`Id_Empresas_Empre`, `Razon_social_Empre`, `Provincia_Empre`, `Distrito_Empre`, `Departamento_Empre`, `Ruc_Empre`, `Direccion_Empre`, `telefono_Empre`, `Id_Usuario`, `gmail_Empre`) VALUES
-(4, 'Hermanos Garcia', 'Lima', 'Lima', 'lima', '123456789', 'Lima', 123456789, NULL, 'hermanos@gmail.com'),
+(4, 'Hermanos Garciasdsdsdsdsdsds', 'Lima', 'Lima', 'lima', '123456789', 'Lima', 123456789, NULL, 'hermanos@gmail.com'),
 (5, 'Hermanos Cercados', 'Lima', 'Lima', 'lima', '3344345', 'Lima', 123456789, NULL, 'hermanosCerca@gmail.com'),
 (7, 'Hermanos Cardenas', 'Lima', 'Lima', 'lima', '3344344445', 'Lima', 444433444, NULL, 'hermanosCercwwa@gmail.com');
 
@@ -457,7 +511,7 @@ CREATE TABLE `ingresos` (
 --
 
 INSERT INTO `ingresos` (`Id_Ingresos`, `Id_Proveedor`, `Ingre_Subtotal`, `Ingre_IGV`, `Ingre_Precio`, `Ingre_Fecha`, `Ingre_monto_efectivo`, `Ingre_monto_debito`, `Ingre_monto_credito`, `Ingre_Estado`, `Usuario_id_Usuarios`, `Id_Caja`) VALUES
-(6, 4, 285, 51.3, NULL, '2020-02-24', 60000, 0, 0, 1, 1, 1);
+(29, NULL, 172.46, 31.0428, NULL, '2020-02-29', 205, 0, 0, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -532,18 +586,20 @@ CREATE TABLE `productos` (
   `Stock_Productos` int(11) NOT NULL,
   `Estado_Producto` int(11) NOT NULL,
   `modelo_producto` varchar(100) NOT NULL,
-  `codigo_Producto` varchar(100) NOT NULL
+  `codigo_Producto` varchar(100) NOT NULL,
+  `precio_compra` double(15,4) NOT NULL,
+  `precio_venta` double(15,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`idProductos`, `Nombre_Productos`, `Precio_Productos`, `descripcion_Productos`, `categoria_idcategoria`, `Imagenes_idImagenes`, `Stock_Productos`, `Estado_Producto`, `modelo_producto`, `codigo_Producto`) VALUES
-(9, 'Tanque de agua Negro 1100 litros', 12, 'Es un tanque para el ahorro de agua', 2, 13, 33, 1, 'Tanque de agua Negro 1100 litros', ''),
-(10, 'caño', 12, 'dddddd', 4, 14, 4, 1, 'lps', ''),
-(11, 'semento', 12.3, 'dddddddd', 9, 15, 12, 1, 'cemntoa1', ''),
-(12, 'Espejo', 12.34, 'es para mirarse bebi', 1, 16, 2, 1, 'aldj4', '');
+INSERT INTO `productos` (`idProductos`, `Nombre_Productos`, `Precio_Productos`, `descripcion_Productos`, `categoria_idcategoria`, `Imagenes_idImagenes`, `Stock_Productos`, `Estado_Producto`, `modelo_producto`, `codigo_Producto`, `precio_compra`, `precio_venta`) VALUES
+(9, 'Tanque de agua Negro 1100 litros', 12, 'Es un tanque para el ahorro de agua', 2, 13, 47, 1, 'Tanque de agua Negro 1100 litros', '', 34.5000, 45.3000),
+(10, 'caño', 12, 'dddddd', 4, 14, 29, 1, 'lps', '', 30.5000, 34.4500),
+(11, 'semento', 12.3, 'dddddddd', 9, 15, 55, 1, 'cemntoa1', '', 45.4300, 50.0000),
+(12, 'Espejo', 12.34, 'es para mirarse bebi', 1, 16, 24, 1, 'aldj4', '', 20.4000, 30.0000);
 
 -- --------------------------------------------------------
 
@@ -603,8 +659,33 @@ CREATE TABLE `temcarrito` (
   `Precio_pro` double(15,2) NOT NULL,
   `Fecha_Carrito` date NOT NULL,
   `id_Proveedor` int(11) DEFAULT NULL,
-  `usuario_id_usuario` int(11) NOT NULL
+  `usuario_id_usuario` int(11) NOT NULL,
+  `Precio_Compra` double(15,4) NOT NULL,
+  `Precio_Venta` double(15,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_comprobante`
+--
+
+CREATE TABLE `tipo_comprobante` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  `igv` int(11) DEFAULT NULL,
+  `serie` varchar(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tipo_comprobante`
+--
+
+INSERT INTO `tipo_comprobante` (`id`, `nombre`, `cantidad`, `igv`, `serie`) VALUES
+(1, 'Factura', 2, 0, '001'),
+(2, 'Boleta', 1, 0, '001'),
+(3, 'Ticket', 0, 0, '001');
 
 -- --------------------------------------------------------
 
@@ -812,6 +893,12 @@ ALTER TABLE `temcarrito`
   ADD PRIMARY KEY (`id_Tem_Carito`);
 
 --
+-- Indices de la tabla `tipo_comprobante`
+--
+ALTER TABLE `tipo_comprobante`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `tipo_persona`
 --
 ALTER TABLE `tipo_persona`
@@ -877,7 +964,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `detalle_ingreso`
 --
 ALTER TABLE `detalle_ingreso`
-  MODIFY `Iddetalle_Ingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Iddetalle_Ingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_venta`
@@ -901,7 +988,7 @@ ALTER TABLE `imagenes`
 -- AUTO_INCREMENT de la tabla `ingresos`
 --
 ALTER TABLE `ingresos`
-  MODIFY `Id_Ingresos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id_Ingresos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `ofertas`
@@ -949,7 +1036,13 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `temcarrito`
 --
 ALTER TABLE `temcarrito`
-  MODIFY `id_Tem_Carito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `id_Tem_Carito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_comprobante`
+--
+ALTER TABLE `tipo_comprobante`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_persona`

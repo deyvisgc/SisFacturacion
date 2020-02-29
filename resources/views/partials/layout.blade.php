@@ -7,7 +7,6 @@
     <title>UBold - Responsive Admin Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
@@ -17,6 +16,7 @@
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet" type="text/css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 
 
     <!-- App css -->
@@ -948,7 +948,6 @@
 <script src="https://github.com/CodeSeven/toastr/blob/master/nuget/content/scripts/toastr.js"></script>
 
 <!-- toastr init js-->
-
 @yield('script')
 
 </body>

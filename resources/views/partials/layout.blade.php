@@ -9,6 +9,7 @@
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}">
     <!-- Plugins css -->
@@ -30,6 +31,15 @@
     <link href="{{asset('assets/libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/custombox/custombox.min.css')}}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" />
+    <link rel="stylesheet" href="https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+    <!-- Main css -->
+
+
+
 
 </head>
 
@@ -232,357 +242,28 @@
             <div id="sidebar-menu">
 
                 <ul class="metismenu" id="side-menu">
-
-                    <li class="menu-title">Navigation</li>
-
                     <li>
                         <a href="javascript: void(0);">
                             <i class="fe-airplay"></i>
                             <span class="badge badge-success badge-pill float-right">4</span>
                             <span> Dashboards </span>
                         </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="index.html">Dashboard 1</a>
-                            </li>
-                            <li>
-                                <a href="dashboard-2.html">Dashboard 2</a>
-                            </li>
-                            <li>
-                                <a href="dashboard-3.html">Dashboard 3</a>
-                            </li>
-                            <li>
-                                <a href="dashboard-4.html">Dashboard 4</a>
-                            </li>
-                        </ul>
                     </li>
-
-                    <li>
-                        <a href="javascript: void(0);">
-                            <i class="fe-pocket"></i>
-                            <span> Apps </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="apps-kanbanboard.html">Kanban Board</a>
-                            </li>
-                            <li>
-                                <a href="apps-calendar.html">Calendar</a>
-                            </li>
-                            <li>
-                                <a href="apps-contacts.html">Contacts</a>
-                            </li>
-                            <li>
-                                <a href="apps-projects.html">Projects</a>
-                            </li>
-                            <li>
-                                <a href="apps-tickets.html">Tickets</a>
-                            </li>
-                            <li>
-                                <a href="apps-companies.html">Companies</a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <li>
                         <a href="javascript: void(0);">
                             <i class="fe-users"></i>
-                            <span> CRM </span>
+                            <span> Administracion </span>
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
                             <li>
-                                <a href="crm-dashboard.html">Dashboard</a>
+                                <a href="{{url('')}}">Usuarios</a>
                             </li>
                             <li>
-                                <a href="crm-contacts.html">Contacts</a>
+                                <a href="icons-mdi.html">Roles</a>
                             </li>
                             <li>
-                                <a href="crm-opportunities.html">Opportunities</a>
-                            </li>
-                            <li>
-                                <a href="crm-leads.html">Leads</a>
-                            </li>
-                            <li>
-                                <a href="crm-customers.html">Customers</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="javascript: void(0);">
-                            <i class="fe-shopping-cart"></i>
-                            <span> eCommerce </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="ecommerce-dashboard.html">Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="ecommerce-products.html">Products</a>
-                            </li>
-                            <li>
-                                <a href="ecommerce-prduct-detail.html">Product Detail</a>
-                            </li>
-                            <li>
-                                <a href="ecommerce-product-edit.html">Product Edit</a>
-                            </li>
-                            <li>
-                                <a href="ecommerce-orders.html">Orders</a>
-                            </li>
-                            <li>
-                                <a href="ecommerce-sellers.html">Sellers</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="javascript: void(0);">
-                            <i class="fe-sidebar"></i>
-                            <span class="badge badge-pink float-right">New</span>
-                            <span> Layouts </span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="layouts-sidebar-user.html">Sidebar with User</a>
-                            </li>
-                            <li>
-                                <a href="layouts-sidebar-sm.html">Small Sidebar</a>
-                            </li>
-                            <li>
-                                <a href="layouts-dark-sidebar.html">Dark Sidebar</a>
-                            </li>
-                            <li>
-                                <a href="layouts-light-topbar.html">Light Topbar</a>
-                            </li>
-                            <li>
-                                <a href="layouts-preloader.html">Preloader</a>
-                            </li>
-                            <li>
-                                <a href="layouts-sidebar-collapsed.html">Sidebar Collapsed</a>
-                            </li>
-                            <li>
-                                <a href="layouts-boxed.html">Boxed</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="javascript: void(0);">
-                            <i class="fe-mail"></i>
-                            <span> Email </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="email-inbox.html">Inbox</a>
-                            </li>
-                            <li>
-                                <a href="email-read.html">Read Email</a>
-                            </li>
-                            <li>
-                                <a href="email-compose.html">Compose Email</a>
-                            </li>
-                            <li>
-                                <a href="email-templates.html">Email Templates</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="javascript: void(0);">
-                            <i class="fe-file-text"></i>
-                            <span> Pages </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="pages-starter.html">Starter</a>
-                            </li>
-                            <li>
-                                <a href="pages-login.html">Log In</a>
-                            </li>
-                            <li>
-                                <a href="pages-register.html">Register</a>
-                            </li>
-                            <li>
-                                <a href="pages-signin-signup.html">Signin - Signup</a>
-                            </li>
-                            <li>
-                                <a href="pages-recoverpw.html">Recover Password</a>
-                            </li>
-                            <li>
-                                <a href="pages-lock-screen.html">Lock Screen</a>
-                            </li>
-                            <li>
-                                <a href="pages-logout.html">Logout</a>
-                            </li>
-                            <li>
-                                <a href="pages-confirm-mail.html">Confirm Mail</a>
-                            </li>
-                            <li>
-                                <a href="pages-404.html">Error 404</a>
-                            </li>
-                            <li>
-                                <a href="pages-404-alt.html">Error 404-alt</a>
-                            </li>
-                            <li>
-                                <a href="pages-500.html">Error 500</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="javascript: void(0);">
-                            <i class="fe-package"></i>
-                            <span> Extra Pages </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="extras-profile.html">Profile</a>
-                            </li>
-                            <li>
-                                <a href="extras-timeline.html">Timeline</a>
-                            </li>
-                            <li>
-                                <a href="extras-sitemap.html">Sitemap</a>
-                            </li>
-                            <li>
-                                <a href="extras-invoice.html">Invoice</a>
-                            </li>
-                            <li>
-                                <a href="extras-faqs.html">FAQs</a>
-                            </li>
-                            <li>
-                                <a href="extras-search-results.html">Search Results</a>
-                            </li>
-                            <li>
-                                <a href="extras-pricing.html">Pricing</a>
-                            </li>
-                            <li>
-                                <a href="extras-maintenance.html">Maintenance</a>
-                            </li>
-                            <li>
-                                <a href="extras-coming-soon.html">Coming Soon</a>
-                            </li>
-                            <li>
-                                <a href="extras-gallery.html">Gallery</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu-title mt-2">Components</li>
-
-                    <li>
-                        <a href="javascript: void(0);">
-                            <i class="fe-briefcase"></i>
-                            <span> UI Elements </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="ui-buttons.html">Buttons</a>
-                            </li>
-                            <li>
-                                <a href="ui-cards.html">Cards</a>
-                            </li>
-                            <li>
-                                <a href="ui-portlets.html">Portlets</a>
-                            </li>
-                            <li>
-                                <a href="ui-tabs-accordions.html">Tabs & Accordions</a>
-                            </li>
-                            <li>
-                                <a href="ui-modals.html">Modals</a>
-                            </li>
-                            <li>
-                                <a href="ui-progress.html">Progress</a>
-                            </li>
-                            <li>
-                                <a href="ui-notifications.html">Notifications</a>
-                            </li>
-                            <li>
-                                <a href="ui-spinners.html">Spinners</a>
-                            </li>
-                            <li>
-                                <a href="ui-images.html">Images</a>
-                            </li>
-                            <li>
-                                <a href="ui-carousel.html">Carousel</a>
-                            </li>
-                            <li>
-                                <a href="ui-video.html">Embed Video</a>
-                            </li>
-                            <li>
-                                <a href="ui-dropdowns.html">Dropdowns</a>
-                            </li>
-                            <li>
-                                <a href="ui-ribbons.html">Ribbons</a>
-                            </li>
-                            <li>
-                                <a href="ui-tooltips-popovers.html">Tooltips & Popovers</a>
-                            </li>
-                            <li>
-                                <a href="ui-general.html">General UI</a>
-                            </li>
-                            <li>
-                                <a href="ui-typography.html">Typography</a>
-                            </li>
-                            <li>
-                                <a href="ui-grid.html">Grid</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="javascript: void(0);">
-                            <i class="fe-layers"></i>
-                            <span class="badge badge-info float-right">Hot</span>
-                            <span> Admin UI </span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="admin-widgets.html">Widgets</a>
-                            </li>
-                            <li>
-                                <a href="admin-nestable.html">Nestable List</a>
-                            </li>
-                            <li>
-                                <a href="admin-range-slider.html">Range Slider</a>
-                            </li>
-                            <li>
-                                <a href="admin-animation.html">Animation</a>
-                            </li>
-                            <li>
-                                <a href="admin-sweet-alert.html">Sweet Alert</a>
-                            </li>
-                            <li>
-                                <a href="admin-tour.html">Tour Page</a>
-                            </li>
-                            <li>
-                                <a href="admin-loading-buttons.html">Loading Buttons</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="javascript: void(0);">
-                            <i class="fe-cpu"></i>
-                            <span> Icons </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="nav-second-level" aria-expanded="false">
-                            <li>
-                                <a href="icons-feather.html">Feather Icons</a>
-                            </li>
-                            <li>
-                                <a href="icons-mdi.html">Material Design Icons</a>
-                            </li>
-                            <li>
-                                <a href="icons-dripicons.html">Dripicons</a>
+                                <a href="icons-dripicons.html">Permisos</a>
                             </li>
                             <li>
                                 <a href="icons-font-awesome.html">Font Awesome</a>
@@ -601,16 +282,16 @@
 
                     <li>
                         <a href="javascript: void(0);">
-                            <i class="fe-bookmark"></i>
-                            <span> Forms </span>
+                            <i class="fe-shopping-cart"></i>
+                            <span> Movimientos </span>
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
                             <li>
-                                <a href="forms-elements.html">General Elements</a>
+                                <a href="{{url('Compras/Ingresos')}}">Compras</a>
                             </li>
                             <li>
-                                <a href="forms-advanced.html">Advanced</a>
+                                <a href="forms-advanced.html">Ventas</a>
                             </li>
                             <li>
                                 <a href="forms-validation.html">Validation</a>
@@ -760,6 +441,8 @@
                             </li>
                         </ul>
                     </li>
+
+
                 </ul>
 
             </div>
@@ -916,19 +599,16 @@
 
 <!-- Vendor js -->
 <script src="{{asset('assets/js/vendor.min.js')}}"></script>
-
+<script src="{{asset('assets/js/app.min.js')}}"></script>
 <!-- Plugins js-->
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
 <script src="{{asset('assets/libs/jquery-knob/jquery.knob.min.js')}}"></script>
 <script src="{{asset('assets/libs/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
-
 <!-- App js-->
-<script src="{{asset('assets/js/app.min.js')}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<!--<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>-->
 <script src="{{asset('assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/dataTables.bootstrap4.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/dataTables.responsive.min.js')}}"></script>
@@ -940,12 +620,27 @@
 <script src="{{asset('assets/libs/datatables/buttons.print.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/dataTables.keyTable.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/dataTables.select.min.js')}}"></script>
+
 <script src="{{asset('assets/libs/sweetalert2/sweetalert2.min.js')}}"></script>
 <script src="{{asset('assets/libs/custombox/custombox.min.js')}}"></script>
-<!-- Sweet alert init js-->
-<script src="{{asset('assets/js/pages/sweet-alerts.init.js')}}"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://github.com/CodeSeven/toastr/blob/master/nuget/content/scripts/toastr.js"></script>
+<script src="{{asset('assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
+<!-- Init js-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+<!-- App js -->
+
+
+
+<!-- Sweet alert init js-->
+
 
 <!-- toastr init js-->
 @yield('script')

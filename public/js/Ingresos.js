@@ -1,8 +1,6 @@
 $(document).ready(function () {
     var tipo_pago,comprobante,url,tabla,urlgetcarrito,idproveencri,idprovedesc;
     var urlgeneral='http://127.0.0.1:8000/';
-
-
     urlgetcarrito = $('#rutagetcar').val();
             //captura el id del storage del proveedor
        //     idproveencri  = localStorage.getItem("id");
@@ -261,6 +259,11 @@ $(document).ready(function () {
             });
             $('#comprobante').change(event,function () {
              comprobante = event.target.value;
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
               $.ajax({
                   url:urlgeneral+'getcantidadComprobante',
                   type:'post',
@@ -333,6 +336,7 @@ $(document).ready(function () {
                         data.vuelto=$('#vuelto').val();
                         data.tipo_pago=tipo_pago;
                         data.comprobante=comprobante;
+                        data.num_venta=num_venta;
                         var form = $(this).parents('form');
                         url = form.attr('action');
                         $.ajaxSetup({
@@ -346,6 +350,15 @@ $(document).ready(function () {
                             type: 'post',
                             data: data,
                             success: function (data) {
+                                toastr.options ={ "closeButton":true, "progressBar": true};
+                                toastr.success(
+                                    "!Compra Exitosa",
+                                    "Revise su historial de compras",
+                                );
+                                $('#modalPagar').modal('hide');
+                                limpiarcarrito();
+                                $('#tablecar').DataTable().ajax.reload();
+                                limpiardetalle();
                                 console.log(data);
                             },
                             error:function (data) {
@@ -506,7 +519,20 @@ $(document).ready(function () {
        $('#searchproveedor').val("");
         $('#precio_venta').val("");
         $('#precio_compra').val("");
+        $('#totalapagar').val("");
+        $('#monto').val("");
+        $('#vuelto').val("");
     }
+function limpiardetalle() {
+    $('#total').html('S/.'+ '0.00');
+    $('#subtotal').html('S/.'+ '0.00');
+    $('#Igv').html('S/.'+ '0.00');
+    $('#total1').html('S/.'+ '0.00');
+    $('#n_venta').val('');
+    $('#serie').val('');
+    $('#comprobante option:first').prop('selected', true);
+    $('#pagos option:first').prop('selected', true);
+}
 
 
 function generarnumero(numero){

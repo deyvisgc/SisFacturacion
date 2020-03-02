@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Movimiento;
 
+use App\Http\Controllers\Controller;
 use App\Http\Repositorios\IngresosRepository;
-use App\TipoComprobante;
+use App\Modelos\TipoComprobante;
 use Illuminate\Http\Request;
 use DB;
 use Yajra\DataTables\DataTables;
-
 class IngresosController extends Controller
 {
     /**

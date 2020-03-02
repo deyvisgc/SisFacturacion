@@ -52,7 +52,8 @@ class IngresosRepository implements IngresoInterface
         $vuelto=$data->vuelto;
         $tipo_pago=$data->tipo_pago;
         $tipo_comprovante=$data->comprobante;
-        return DB::select("call proc_ingreso_registrar(?,?,?,?,?,?,?)",array($idusuario,$monto_efectivo,$monto_credito,$monto_debito,$vuelto,$tipo_pago,$tipo_comprovante));
+        $n_venta=$data->num_venta;
+        return DB::select("call proc_ingreso_registrar(?,?,?,?,?,?,?,?)",array($idusuario,$monto_efectivo,$monto_credito,$monto_debito,$vuelto,$tipo_pago,$tipo_comprovante,$n_venta));
 
     }
     public function getcantidadcomprobante($data){

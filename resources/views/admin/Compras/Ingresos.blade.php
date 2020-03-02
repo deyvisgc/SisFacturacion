@@ -11,6 +11,12 @@
             background-image: none;
             background-color: #d17905;
         }
+        #toast-container >
+        .toast-success {
+            background-image: none;
+            background-color: #1d643b;
+        }
+
     </style>
     <div class="row">
         <div class="col-12">
@@ -208,6 +214,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-4">
                             <div class="card">
                                 <div class="card-header bg-blue py-3 text-white">
@@ -222,13 +229,15 @@
                                         <div class="col-lg-12">
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <strong><label for="inputEmail4" class="col-form-label" style="color: black">DOCUMENTO</label></strong>
+                                                    <strong><label for="inputEmail4" class="col-form-label" style="color: black">COMPROBANTE</label></strong>
                                                     <select class="custom-select"  id="comprobante" autocomplete="true">
                                                         <option selected="">Choose...</option>
                                                         @foreach($tipocomprobante as $tipocompro)
-                                                            <option value="{{$tipocompro->id}}">{{$tipocompro->nombre}}</option>
+                                                            <option  value="{{$tipocompro->id}}">{{$tipocompro->nombre}}</option>
                                                             @endforeach
                                                     </select>
+
+
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                    <strong><label for="inputPassword4" class="col-form-label" style="color: black">Tipo Pago</label></strong>
@@ -321,5 +330,7 @@
 @endsection
 @section('script')
     <script src="{{asset('js/Ingresos.js')}}"></script>
+
+
 
 @endsection

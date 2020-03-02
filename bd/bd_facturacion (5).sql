@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-02-2020 a las 23:34:54
+-- Tiempo de generación: 03-03-2020 a las 00:09:32
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.1
 
@@ -143,7 +143,7 @@ temcarrito.Subtotal,
 temcarrito.id_Producto,temcarrito.id_Tem_Carito ORDER BY temcarrito.id_Tem_Carito;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_ingreso_registrar` (IN `var_id_usuario` INT, IN `var_monto_efectivo` DOUBLE(15,4), IN `var_monto_credito` DOUBLE(15,4), IN `var_monto_debito` DOUBLE(15,4), IN `var_vuelto` DOUBLE(15,4), IN `tipo_pago` INT, IN `tipo_comprovante` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_ingreso_registrar` (IN `var_id_usuario` INT, IN `var_monto_efectivo` DOUBLE(15,4), IN `var_monto_credito` DOUBLE(15,4), IN `var_monto_debito` DOUBLE(15,4), IN `var_vuelto` DOUBLE(15,4), IN `tipo_pago` INT, IN `tipo_comprovante` INT, IN `n_venta` VARCHAR(50))  BEGIN
 DECLARE var_subtotal double(15,4);
 DECLARE var_Cantidad int;
 DECLARE var_precio double(15,4);
@@ -189,7 +189,8 @@ INSERT INTO
     Usuario_id_Usuarios,
     Id_Caja,
     Ingre_Fecha,
-    Ingre_Estado
+    Ingre_Estado,
+     n_ventas
    )
     VALUES (
         var_subtotal,
@@ -201,7 +202,8 @@ INSERT INTO
         var_id_usuario,
         var_id_caja,
         NOW(),
-        1);
+        1,
+       n_venta);
      SET var_id_Ingreso = LAST_INSERT_ID();
        OPEN cursor_temp;
         read_loop: LOOP
@@ -354,7 +356,8 @@ CREATE TABLE `caja` (
   `caj_abierta` varchar(10) DEFAULT NULL,
   `est_id_estado` int(11) DEFAULT NULL,
   `usuarios_idusuarios` int(11) NOT NULL,
-  `Monto_Caja` double DEFAULT NULL
+  `Monto_Caja_final` double DEFAULT NULL,
+  `monto_Caja_Inicial` double(15,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -404,8 +407,18 @@ CREATE TABLE `detalle_ingreso` (
 --
 
 INSERT INTO `detalle_ingreso` (`Iddetalle_Ingreso`, `Ingre_Deta_Cantidad`, `Ingre_Deta_Total`, `productos_idProductos`, `Ingresos_Id_Ingresos`, `Ingre_vuelto`, `fecha_Ingreso`, `id_proveedor`, `id_tipo_Comprobante`, `id_tipo_pago`) VALUES
-(35, 2, 203.5028, 11, 29, 1.4972, '2020-02-29', 4, 1, 3),
-(36, 4, 203.5028, 12, 29, 1.4972, '2020-02-29', 5, 1, 3);
+(37, 4, 310.7176, 11, 30, 9.2824, '2020-02-29', 4, 1, 3),
+(38, 4, 310.7176, 12, 30, 9.2824, '2020-02-29', 7, 1, 3),
+(39, 4, 162.84, 9, 31, 37.1600, '2020-02-29', 4, 1, 3),
+(40, 3, 233.0382, 11, 32, 66.9618, '2020-02-29', 4, 1, 3),
+(41, 3, 233.0382, 12, 32, 66.9618, '2020-02-29', 5, 1, 3),
+(42, 3, 160.8222, 11, 33, 39.1778, '2020-02-29', 4, 2, 3),
+(43, 3, 364.3722, 11, 34, 35.6278, '2020-02-29', 7, 1, 3),
+(44, 5, 364.3722, 9, 34, 35.6278, '2020-02-29', 7, 1, 3),
+(45, 4, 162.84, 9, 36, 37.1600, '2020-02-29', 5, 1, 3),
+(46, 4, 214.4296, 11, 37, 25.5704, '2020-02-29', 4, 2, 3),
+(47, 4, 162.84, 9, 38, 37.1600, '2020-02-29', 5, 1, 3),
+(48, 4, 214.4296, 11, 39, 0.5704, '2020-02-29', 4, 1, 3);
 
 --
 -- Disparadores `detalle_ingreso`
@@ -493,7 +506,6 @@ INSERT INTO `imagenes` (`idImagenes`, `ruta_imagen`) VALUES
 
 CREATE TABLE `ingresos` (
   `Id_Ingresos` int(11) NOT NULL,
-  `Id_Proveedor` int(11) DEFAULT NULL,
   `Ingre_Subtotal` double DEFAULT NULL,
   `Ingre_IGV` double DEFAULT NULL,
   `Ingre_Precio` double DEFAULT NULL,
@@ -503,15 +515,25 @@ CREATE TABLE `ingresos` (
   `Ingre_monto_credito` double DEFAULT NULL,
   `Ingre_Estado` int(11) DEFAULT NULL,
   `Usuario_id_Usuarios` int(11) NOT NULL,
-  `Id_Caja` int(11) NOT NULL
+  `Id_Caja` int(11) NOT NULL,
+  `n_ventas` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `ingresos`
 --
 
-INSERT INTO `ingresos` (`Id_Ingresos`, `Id_Proveedor`, `Ingre_Subtotal`, `Ingre_IGV`, `Ingre_Precio`, `Ingre_Fecha`, `Ingre_monto_efectivo`, `Ingre_monto_debito`, `Ingre_monto_credito`, `Ingre_Estado`, `Usuario_id_Usuarios`, `Id_Caja`) VALUES
-(29, NULL, 172.46, 31.0428, NULL, '2020-02-29', 205, 0, 0, 1, 1, 1);
+INSERT INTO `ingresos` (`Id_Ingresos`, `Ingre_Subtotal`, `Ingre_IGV`, `Ingre_Precio`, `Ingre_Fecha`, `Ingre_monto_efectivo`, `Ingre_monto_debito`, `Ingre_monto_credito`, `Ingre_Estado`, `Usuario_id_Usuarios`, `Id_Caja`, `n_ventas`) VALUES
+(30, 263.32, 47.3976, NULL, '2020-02-29', 320, 0, 0, 1, 1, 1, '000003'),
+(31, 138, 24.84, NULL, '2020-02-29', 200, 0, 0, 1, 1, 1, '000004'),
+(32, 197.49, 35.5482, NULL, '2020-02-29', 300, 0, 0, 1, 1, 1, '000005'),
+(33, 136.29, 24.5322, NULL, '2020-02-29', 200, 0, 0, 1, 1, 1, '000002'),
+(34, 308.79, 55.5822, NULL, '2020-02-29', 400, 0, 0, 1, 1, 1, '000002'),
+(35, 0, 0, NULL, '2020-02-29', 400, 0, 0, 1, 1, 1, '000006'),
+(36, 138, 24.84, NULL, '2020-02-29', 200, 0, 0, 1, 1, 1, '000007'),
+(37, 181.72, 32.7096, NULL, '2020-02-29', 240, 0, 0, 1, 1, 1, '000003'),
+(38, 138, 24.84, NULL, '2020-02-29', 200, 0, 0, 1, 1, 1, '000008'),
+(39, 181.72, 32.7096, NULL, '2020-02-29', 215, 0, 0, 1, 1, 1, '000009');
 
 -- --------------------------------------------------------
 
@@ -552,7 +574,8 @@ CREATE TABLE `persona` (
   `apellidos_per` varchar(50) NOT NULL,
   `telefono_per` int(11) NOT NULL,
   `dni_per` int(11) NOT NULL,
-  `gmail` varchar(200) NOT NULL
+  `gmail` varchar(200) NOT NULL,
+  `Fecha_Nacimiento` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -596,10 +619,10 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idProductos`, `Nombre_Productos`, `Precio_Productos`, `descripcion_Productos`, `categoria_idcategoria`, `Imagenes_idImagenes`, `Stock_Productos`, `Estado_Producto`, `modelo_producto`, `codigo_Producto`, `precio_compra`, `precio_venta`) VALUES
-(9, 'Tanque de agua Negro 1100 litros', 12, 'Es un tanque para el ahorro de agua', 2, 13, 47, 1, 'Tanque de agua Negro 1100 litros', '', 34.5000, 45.3000),
+(9, 'Tanque de agua Negro 1100 litros', 12, 'Es un tanque para el ahorro de agua', 2, 13, 64, 1, 'Tanque de agua Negro 1100 litros', '', 34.5000, 45.3000),
 (10, 'caño', 12, 'dddddd', 4, 14, 29, 1, 'lps', '', 30.5000, 34.4500),
-(11, 'semento', 12.3, 'dddddddd', 9, 15, 55, 1, 'cemntoa1', '', 45.4300, 50.0000),
-(12, 'Espejo', 12.34, 'es para mirarse bebi', 1, 16, 24, 1, 'aldj4', '', 20.4000, 30.0000);
+(11, 'semento', 12.3, 'dddddddd', 9, 15, 76, 1, 'cemntoa1', '', 45.4300, 50.0000),
+(12, 'Espejo', 12.34, 'es para mirarse bebi', 1, 16, 31, 1, 'aldj4', '', 20.4000, 30.0000);
 
 -- --------------------------------------------------------
 
@@ -612,6 +635,14 @@ CREATE TABLE `rol` (
   `nombre_rol` varchar(50) NOT NULL,
   `estado_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `rol`
+--
+
+INSERT INTO `rol` (`id_rol`, `nombre_rol`, `estado_rol`) VALUES
+(1, 'Vendedor', 1),
+(2, 'Administrador', 1);
 
 -- --------------------------------------------------------
 
@@ -683,8 +714,8 @@ CREATE TABLE `tipo_comprobante` (
 --
 
 INSERT INTO `tipo_comprobante` (`id`, `nombre`, `cantidad`, `igv`, `serie`) VALUES
-(1, 'Factura', 2, 0, '001'),
-(2, 'Boleta', 1, 0, '001'),
+(1, 'Factura', 9, 0, '001'),
+(2, 'Boleta', 3, 0, '001'),
 (3, 'Ticket', 0, 0, '001');
 
 -- --------------------------------------------------------
@@ -964,7 +995,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `detalle_ingreso`
 --
 ALTER TABLE `detalle_ingreso`
-  MODIFY `Iddetalle_Ingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `Iddetalle_Ingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_venta`
@@ -988,7 +1019,7 @@ ALTER TABLE `imagenes`
 -- AUTO_INCREMENT de la tabla `ingresos`
 --
 ALTER TABLE `ingresos`
-  MODIFY `Id_Ingresos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `Id_Ingresos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `ofertas`
@@ -1018,7 +1049,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `rol_privilegios`
@@ -1036,7 +1067,7 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `temcarrito`
 --
 ALTER TABLE `temcarrito`
-  MODIFY `id_Tem_Carito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
+  MODIFY `id_Tem_Carito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_comprobante`

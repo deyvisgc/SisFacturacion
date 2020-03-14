@@ -11,8 +11,16 @@
 |
 */
  //modulo usuario
+     Auth::routes();
      Route::resource('Usuario','admin\UsuarioController');
-     //modelo administrativo
+     Route::post('edit/{id}','admin\UsuarioController@edit');
+     Route::post('update','admin\UsuarioController@update');
+
+     Route::get('/home', 'HomeController@index')->name('home');
+  //   Route::get('/loginprueba', 'Auth\LoginController@login');
+//modulo Inicio de Sesion
+
+
 
 
 

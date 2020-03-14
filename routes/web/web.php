@@ -11,10 +11,12 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-    Route::get('/', 'admin\HomeController@index');
+Route::get('/', function () {
+    return view('layouts.app');
+});
+
+   // Route::get('/', 'admin\HomeController@index');
+// Route::get('/', 'admin\HomeController@index');
   //  Route::get('/alamacen/articulo', 'admin\AlmacenController@articulo');
     // Modulo de Ingreso
     Route::post('Buscar/Proveedor', 'Movimiento\IngresosController@buscarProveedor');
@@ -32,6 +34,8 @@
     Route::resource('Compras/Ingresos','Movimiento\IngresosController');
     //modulo ventas
      Route::resource('Ventas','Movimiento\VentaController');
+
+
 
      //modelo administrativo
 

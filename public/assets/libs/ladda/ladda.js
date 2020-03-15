@@ -118,7 +118,7 @@
 
 				if (instance.isLoading()) {
 					button.disabled = false;
-					button.removeAttribute( 'data-loading' );	
+					button.removeAttribute( 'data-loading' );
 				}
 
 				// Kill the animation after a delay to make sure it

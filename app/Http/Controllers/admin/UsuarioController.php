@@ -20,7 +20,8 @@ class UsuarioController extends Controller
     public function __construct(UsuarioRepository $repository)
     {
         $this->repository = $repository;
-        $this->middleware('guest');
+        $this->middleware('auth');
+
     }
 
     /**

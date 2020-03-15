@@ -1,431 +1,272 @@
+
 @extends('partials.layout')
 @section('contenido')
-    <div class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
 
-        <!-- Start Content-->
-        <div class="container-fluid">
+                </div>
 
-            <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box">
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">UBold</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
-                                <li class="breadcrumb-item active">Orders</li>
-                            </ol>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+
+    <div class="row">
+        <div class="col-xl-8 order-xl-1 order-2">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <form class="form-inline">
+                                <div class="form-group mx-sm-3">
+                                    <label for="status-select" class="mr-2"><i class="mdi mdi-cart-minus"  style="font-size: 30px;color: #1F7F6B;"></i></label>
+                                    <h5>REGISTRO DE VENTAS</h5>
+                                </div>
+                            </form>
                         </div>
-                        <h4 class="page-title">Registro de Venta</h4>
+                        <div class="col-lg-4">
+
+                        </div><!-- end col-->
+                    </div> <!-- end row -->
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+            <div class="card">
+               <i></i> <h5 class="card-header" style="background-color: #2E82C1"><label style="color: #ffffff">Datos del Cliente</label></h5>
+                <div class="card-box mb-2">
+                    <div class="row col-md-12">
+                        <div class="form-group col-md-4">
+                            <label for="example-gridsize" style="color: black">MODO DE VENTA</label>
+                            <select class="form-control">
+                                <option selected>ELIJA DOCUMENTO</option>
+                                <option value="1" >DNI</option>
+                                <option value="2" >RUC</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="example-gridsize" style="color: black">Precio Compra</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="precio_compra" placeholder="0.00" aria-label="Username" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="example-gridsize" style="color: black">Buscar</label>
+                            <button class="ladda-button  btn btn-primary" data-style="expand-left" id="hola" value="1"><span class="ladda-label">Buscar</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px;"></div></button>
+                            <button class="ladda-button  btn btn-primary" data-style="expand-left" id="btn1" style="display: none" ><span class="ladda-label">Buscar1</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px"></div></button>
+
+                        </div>
+
+
+                    </div>
+                </div> <!-- end card-box-->
+            </div>
+            <div class="card">
+                <h5 class="card-header" style="background-color: #2D6792"><label style="color: #ffffff">Datos del Producto</label></h5>
+                <div class="card-box mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-sm-4">
+                            <div class="media">
+                                <img class="d-flex align-self-center mr-3 rounded-circle" src="assets/images/companies/amazon.png" alt="Generic placeholder image" height="64">
+                                <div class="media-body">
+                                    <h4 class="mt-0 mb-2 font-16">Amazon Inc.</h4>
+                                    <p class="mb-1"><b>Location:</b> Seattle, Washington</p>
+                                    <p class="mb-0"><b>Category:</b> Ecommerce</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="mb-1 mt-3 mt-sm-0"><i class="mdi mdi-email mr-1"></i> collier@jourrapide.com</p>
+                            <p class="mb-0"><i class="mdi mdi-phone-classic mr-1"></i> 828-216-2190</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="text-center mt-3 mt-sm-0">
+                                <div class="badge font-14 bg-soft-info text-info p-1">Hot</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="text-sm-right">
+                                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                            </div>
+                        </div> <!-- end col-->
+                    </div> <!-- end row -->
+                </div> <!-- end card-box-->
+            </div>
+            <div class="card-box mb-2">
+                <div class="row align-items-center">
+                    <div class="col-sm-4">
+                        <div class="media">
+                            <img class="d-flex align-self-center mr-3 rounded-circle" src="assets/images/companies/apple.png" alt="Generic placeholder image" height="64">
+                            <div class="media-body">
+                                <h4 class="mt-0 mb-2 font-16">Apple Inc.</h4>
+                                <p class="mb-1"><b>Location:</b> Cupertino, California</p>
+                                <p class="mb-0"><b>Category:</b> Ecommerce</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="mb-1 mt-3 mt-sm-0"><i class="mdi mdi-email mr-1"></i> deanes@dayrep.com</p>
+                        <p class="mb-0"><i class="mdi mdi-phone-classic mr-1"></i> 077 6157 4248</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-center mt-3 mt-sm-0">
+                            <div class="badge font-14 bg-soft-primary text-primary p-1">Cold</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-sm-right">
+                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                        </div>
+                    </div> <!-- end col-->
+                </div> <!-- end row -->
+            </div> <!-- end card-box-->
+
+            <div class="card-box mb-2">
+                <div class="row align-items-center">
+                    <div class="col-sm-4">
+                        <div class="media">
+                            <img class="d-flex align-self-center mr-3 rounded-circle" src="assets/images/companies/google.png" alt="Generic placeholder image" height="64">
+                            <div class="media-body">
+                                <h4 class="mt-0 mb-2 font-16">Google LLC</h4>
+                                <p class="mb-1"><b>Location:</b> Menlo Park, California</p>
+                                <p class="mb-0"><b>Category:</b> Search engine</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="mb-1 mt-3 mt-sm-0"><i class="mdi mdi-email mr-1"></i> nnac@hotmai.us</p>
+                        <p class="mb-0"><i class="mdi mdi-phone-classic mr-1"></i> (216) 76 298 896	</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-center mt-3 mt-sm-0">
+                            <div class="badge font-14 bg-soft-warning text-warning p-1">In-progress</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-sm-right">
+                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                        </div>
+                    </div> <!-- end col-->
+                </div> <!-- end row -->
+            </div> <!-- end card-box-->
+
+            <div class="card-box mb-2">
+                <div class="row align-items-center">
+                    <div class="col-sm-4">
+                        <div class="media">
+                            <img class="d-flex align-self-center mr-3 rounded-circle" src="assets/images/companies/airbnb.png" alt="Generic placeholder image" height="64">
+                            <div class="media-body">
+                                <h4 class="mt-0 mb-2 font-16">Airbnb Inc.</h4>
+                                <p class="mb-1"><b>Location:</b> San Francisco, California</p>
+                                <p class="mb-0"><b>Category:</b> Real Estate</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="mb-1 mt-3 mt-sm-0"><i class="mdi mdi-email mr-1"></i> austin@dayrep.com</p>
+                        <p class="mb-0"><i class="mdi mdi-phone-classic mr-1"></i> (02) 75 150 655</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-center mt-3 mt-sm-0">
+                            <div class="badge font-14 bg-soft-danger text-danger p-1">Lost</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-sm-right">
+                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                        </div>
+                    </div> <!-- end col-->
+                </div> <!-- end row -->
+            </div> <!-- end card-box-->
+
+            <div class="card-box mb-2">
+                <div class="row align-items-center">
+                    <div class="col-sm-4">
+                        <div class="media">
+                            <img class="d-flex align-self-center mr-3 rounded-circle" src="assets/images/companies/cisco.png" alt="Generic placeholder image" height="64">
+                            <div class="media-body">
+                                <h4 class="mt-0 mb-2 font-16">Cisco Systems</h4>
+                                <p class="mb-1"><b>Location:</b> San Jose, California</p>
+                                <p class="mb-0"><b>Category:</b> Operating Systems</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="mb-1 mt-3 mt-sm-0"><i class="mdi mdi-email mr-1"></i> annette@email.net</p>
+                        <p class="mb-0"><i class="mdi mdi-phone-classic mr-1"></i> (+15) 73 483 758</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-center mt-3 mt-sm-0">
+                            <div class="badge font-14 bg-soft-success text-success p-1">Won</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-sm-right">
+                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                        </div>
+                    </div> <!-- end col-->
+                </div> <!-- end row -->
+            </div> <!-- end card-box-->
+
+            <div class="text-center my-4">
+                <a href="javascript:void(0);" class="text-danger"><i class="mdi mdi-spin mdi-loading mr-1"></i> Load more </a>
+            </div>
+
+        </div> <!-- end col -->
+
+        <div class="col-xl-4 order-xl-2 order-1">
+            <div class="card-box">
+                <div class="media mb-3">
+                    <img class="d-flex mr-3 rounded-circle avatar-lg" src="assets/images/users/user-8.jpg" alt="Generic placeholder image">
+                    <div class="media-body">
+                        <h4 class="mt-0 mb-1">Jade M. Walker</h4>
+                        <p class="text-muted">Branch manager</p>
+                        <p class="text-muted"><i class="mdi mdi-office-building"></i> Vine Corporation</p>
+
+                        <a href="javascript: void(0);" class="btn- btn-xs btn-info">Send Email</a>
+                        <a href="javascript: void(0);" class="btn- btn-xs btn-secondary">Call</a>
+                        <a href="javascript: void(0);" class="btn- btn-xs btn-secondary">Edit</a>
                     </div>
                 </div>
-            </div>
-            <!-- end page title -->
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row mb-2">
-                                <div class="col-lg-8">
-                                    <form class="form-inline">
-                                        <div class="form-group mb-2">
-                                            <label for="inputPassword2" class="sr-only">Search</label>
-                                            <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
-                                        </div>
-                                        <div class="form-group mx-sm-3 mb-2">
-                                            <label for="status-select" class="mr-2">Status</label>
-                                            <select class="custom-select" id="status-select">
-                                                <option selected="">Choose...</option>
-                                                <option value="1">Paid</option>
-                                                <option value="2">Awaiting Authorization</option>
-                                                <option value="3">Payment failed</option>
-                                                <option value="4">Cash On Delivery</option>
-                                                <option value="5">Fulfilled</option>
-                                                <option value="6">Unfulfilled</option>
-                                            </select>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="text-lg-right">
-                                        <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> Add New Order</button>
-                                        <button type="button" class="btn btn-light waves-effect mb-2">Export</button>
-                                    </div>
-                                </div><!-- end col-->
-                            </div>
+                <h5 class="mb-3 mt-4 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i> Personal Information</h5>
+                <div class="">
+                    <h4 class="font-13 text-muted text-uppercase">About Me :</h4>
+                    <p class="mb-3">
+                        Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the
+                        1500s, when an unknown printer took a galley of type.
+                    </p>
 
-                            <div class="table-responsive">
-                                <table class="table table-centered mb-0">
-                                    <thead class="thead-light">
-                                    <tr>
-                                        <th style="width: 20px;">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label" for="customCheck1">&nbsp;</label>
-                                            </div>
-                                        </th>
-                                        <th>Order ID</th>
-                                        <th>Products</th>
-                                        <th>Date</th>
-                                        <th>Payment Status</th>
-                                        <th>Total</th>
-                                        <th>Payment Method</th>
-                                        <th>Order Status</th>
-                                        <th style="width: 125px;">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                <label class="custom-control-label" for="customCheck2">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9708</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-1.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-2.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>
-                                            August 05 2018 <small class="text-muted">10:29 PM</small>
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-success text-success"><i class="mdi mdi-coin"></i> Paid</span></h5>
-                                        </td>
-                                        <td>
-                                            $176.41
-                                        </td>
-                                        <td>
-                                            Mastercard
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-info">Shipped</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
+                    <h4 class="font-13 text-muted text-uppercase mb-1">Date of Birth :</h4>
+                    <p class="mb-3"> March 23, 1984 (34 Years)</p>
 
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                                <label class="custom-control-label" for="customCheck3">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9707</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-3.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-4.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-5.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>August 04 2018 <small class="text-muted">08:18 AM</small></td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-warning text-warning"><i class="mdi mdi-timer-sand"></i> Awaiting Authorization</span></h5>
-                                        </td>
-                                        <td>
-                                            $1,458.65
-                                        </td>
-                                        <td>
-                                            Visa
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-warning">Processing</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck4">
-                                                <label class="custom-control-label" for="customCheck4">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9706</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-7.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>August 04 2018 <small class="text-muted">10:29 PM</small></td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-success text-success"><i class="mdi mdi-coin"></i> Paid</span></h5>
-                                        </td>
-                                        <td>
-                                            $801.99
-                                        </td>
-                                        <td>
-                                            Credit Card
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-warning">Processing</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck5">
-                                                <label class="custom-control-label" for="customCheck5">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9705</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-3.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-8.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>August 03 2018 <small class="text-muted">07:56 AM</small></td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-success text-success"><i class="mdi mdi-coin"></i> Paid</span></h5>
-                                        </td>
-                                        <td>
-                                            $215.35
-                                        </td>
-                                        <td>
-                                            Mastercard
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-success">Delivered</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck6">
-                                                <label class="custom-control-label" for="customCheck6">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9704</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-5.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-7.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>May 22 2018 <small class="text-muted">07:22 PM</small></td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-danger text-danger"><i class="mdi mdi-cancel"></i> Payment Failed</span></h5>
-                                        </td>
-                                        <td>
-                                            $2,514.36
-                                        </td>
-                                        <td>
-                                            Paypal
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-danger">Cancelled</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck7">
-                                                <label class="custom-control-label" for="customCheck7">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9703</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-2.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>April 02 2018 <small class="text-muted">03:02 AM</small></td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-success text-success"><i class="mdi mdi-coin"></i> Paid</span></h5>
-                                        </td>
-                                        <td>
-                                            $183.20
-                                        </td>
-                                        <td>
-                                            Payoneer
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-info">Shipped</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
+                    <h4 class="font-13 text-muted text-uppercase mb-1">Company :</h4>
+                    <p class="mb-3">Vine Corporation</p>
 
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck8">
-                                                <label class="custom-control-label" for="customCheck8">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9702</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-4.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-6.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>March 18 2018 <small class="text-muted">11:19 PM</small></td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-warning text-warning"><i class="mdi mdi-timer-sand"></i> Awaiting Authorization</span></h5>
-                                        </td>
-                                        <td>
-                                            $1,768.41
-                                        </td>
-                                        <td>
-                                            Visa
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-warning">Processing</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
+                    <h4 class="font-13 text-muted text-uppercase mb-1">Added :</h4>
+                    <p class="mb-3"> April 22, 2016</p>
 
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck9">
-                                                <label class="custom-control-label" for="customCheck9">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9701</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-6.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-8.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-3.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>February 01 2018 <small class="text-muted">07:22 AM</small></td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-info text-info"><i class="mdi mdi-cash"></i> Cash on Delivery</span></h5>
-                                        </td>
-                                        <td>
-                                            $3,582.99
-                                        </td>
-                                        <td>
-                                            Paypal
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-info">Shipped</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck10">
-                                                <label class="custom-control-label" for="customCheck10">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9700</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-2.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-5.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>January 22 2018 <small class="text-muted">08:09 PM</small></td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-success text-success"><i class="mdi mdi-coin"></i> Paid</span></h5>
-                                        </td>
-                                        <td>
-                                            $923.95
-                                        </td>
-                                        <td>
-                                            Credit Card
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-success">Delivered</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck11">
-                                                <label class="custom-control-label" for="customCheck11">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body font-weight-bold">#UB9699</a> </td>
-                                        <td>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-7.jpg" alt="product-img" height="32"></a>
-                                            <a href="ecommerce-prduct-detail.html"><img src="assets/images/products/product-8.jpg" alt="product-img" height="32"></a>
-                                        </td>
-                                        <td>January 17 2018 <small class="text-muted">02:30 PM</small></td>
-                                        <td>
-                                            <h5><span class="badge bg-soft-success text-success"><i class="mdi mdi-coin"></i> Paid</span></h5>
-                                        </td>
-                                        <td>
-                                            $5,177.68
-                                        </td>
-                                        <td>
-                                            Mastercard
-                                        </td>
-                                        <td>
-                                            <h5><span class="badge badge-info">Shipped</span></h5>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                        </td>
-                                    </tr>
+                    <h4 class="font-13 text-muted text-uppercase mb-1">Updated :</h4>
+                    <p class="mb-0"> Dec 13, 2017</p>
 
-                                    </tbody>
-                                </table>
-                            </div>
+                </div>
 
-                            <ul class="pagination pagination-rounded justify-content-end my-2">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript: void(0);" aria-label="Previous">
-                                        <span aria-hidden="true">«</span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript: void(0);" aria-label="Next">
-                                        <span aria-hidden="true">»</span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div> <!-- end card-body-->
-                    </div> <!-- end card-->
-                </div> <!-- end col -->
-            </div>
-            <!-- end row -->
-
-        </div> <!-- container -->
-
+            </div> <!-- end card-box-->
+        </div> <!-- end col -->
     </div>
+
     @endsection
 @section('script')
+    <script src="{{asset('js/Movimiento/ventas.js')}}"></script>
+    <script>
+        var url = '{{url('Ventas')}}'
+    </script>
 
     @endsection
 

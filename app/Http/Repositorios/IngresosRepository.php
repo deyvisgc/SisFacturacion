@@ -3,7 +3,7 @@
 
 namespace App\Http\Repositorios;
 use App\Http\Interfaces\IngresoInterface;
-use App\TipoComprobante;
+use App\Modelos\TipoComprobante;
 use DB;
 class IngresosRepository implements IngresoInterface
 {

@@ -4,9 +4,11 @@
 namespace App\Http\Repositorios;
 
 
-use App\Categoria;
+use App\Modelos\Caja;
+use App\Modelos\Categoria;
 use App\Imagen;
-use App\Producto;
+use App\Modelos\Producto;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -132,6 +134,69 @@ class AlmacenRepository
         $model->Estado_categoria=0;
         $model->update();
         return $model;
+    }
+    /************************************************************/
+    /******** CAJA ********************/
+    public static function insertarCaja($data){
+        $obj=new Caja();
+        $obj->caj_descripcion=$data->caj_descripcion;
+        $obj->caj_codigo=$data->caj_codigo;
+        $obj->caj_abierta=$data->caj_abierta;
+        $obj->usuarios_idusuarios=$data->usuarios_idusuarios;
+        $obj->Monto_Caja_final=$data->Monto_Caja_final;
+        $obj->monto_Caja_Inicial=$data->monto_Caja_Inicial;
+        $obj->estado=0;
+        $data = $obj->save();
+        return $data;
+    }
+    public static function listCaja(){
+        return DB::table('caja as c')
+            ->join('usuarios as u','u.idusuarios','=','c.usuarios_idusuarios')
+            ->select('u.usuario',
+                'u.idusuarios',
+                'c.idCaja',
+                'c.caj_descripcion',
+                'c.caj_codigo',
+                'c.caj_abierta',
+                'c.estado',
+                'c.Monto_Caja_final',
+                'c.monto_Caja_Inicial')
+            ->get();
+    }
+    public static function getCaja($id){
+        $data=Caja::where('idCaja',$id)->get();
+        return $data[0];
+    }
+    public static function updateCaja($data,$id){
+        $up= Caja::find($id);
+        $up->caj_descripcion=$data->get('caj_descripcion');
+        $up->caj_codigo=$data->get('caj_codigo');
+        $up->caj_abierta=$data->get('caj_abierta');
+        $up->usuarios_idusuarios=$data->get('usuarios_idusuarios');
+        $up->Monto_Caja_final=$data->get('Monto_Caja_final');
+        $up->monto_Caja_Inicial=$data->get('monto_Caja_Inicial');
+        $up->estado=0;
+        $up->update();
+        return $up;
+    }
+    public static function EliminarCaja($id){
+        $del=Caja::destroy($id);
+        return $del;
+    }
+    public static function estadoInactivoCaja($id){
+        $model=Caja::where('idCaja',$id)->first();
+        $model->estado=1;
+        $model->update();
+        return $model;
+    }
+    public static function estadoActivoCaja($id){
+        $model=Categoria::where('idCaja',$id)->first();
+        $model->estado=0;
+        $model->update();
+        return $model;
+    }
+    public static function estadoUsuario($estado){
+        return User::where('estado_user',$estado)->get();
     }
     /************************************************************/
 }

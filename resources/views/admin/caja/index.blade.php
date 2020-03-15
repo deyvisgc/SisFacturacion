@@ -11,7 +11,7 @@
                         <li class="breadcrumb-item active">Datatables</li>
                     </ol>
                 </div>
-                <h4 class="page-title">CATEGORIA</h4>
+                <h4 class="page-title">CAJA</h4>
             </div>
         </div>
     </div>
@@ -28,7 +28,10 @@
                         <thead>
                         <tr>
                             <th>Codigo</th>
-                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                            <th>Abierta</th>
+                            <th>Monto Inicial</th>
+                            <th>Monto Final</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -44,8 +47,8 @@
             </div> <!-- end card -->
         </div><!-- end col-->
     </div>
-    @include('admin.almacen.categoria.add')
+    @include('admin.caja.add')
 @endsection
 @section('script')
-<script src="{{asset("js/categoria.js")}}"></script>
+<script src="{{asset("js/caja.js")}}"></script>
 @endsection

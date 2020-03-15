@@ -73,4 +73,37 @@ class AlmacenController extends Controller
         $dato=AlmacenRepository::estadoActivo($request['id']);
         return $dato;
     }
+    /************* CAJA  *************************************/
+    public function Caja(){
+        $user=AlmacenRepository::estadoUsuario(1);
+        return view('admin.caja.index',compact('user'));
+    }
+    public function addCaja(Request $request){
+        AlmacenRepository::insertarCaja($request);
+        return response()->json(array("success" => true));
+    }
+    public function listarCaja(){
+        $list = AlmacenRepository::listCaja();
+        return DataTables::of($list)->make(true);
+    }
+    public function getCaja(Request $request){
+        $update = AlmacenRepository::getCaja($request->id);
+        return response()->json([$update]);
+    }
+    public function updateCaja(Request $request,$id){
+        AlmacenRepository::updateCaja($request,$id);
+        return response()->json(array("success" => true));
+    }
+    public function EliminarCaja(Request $request){
+        $del=AlmacenRepository::EliminarCaja($request['id']);
+        return $del;
+    }
+    public function estadoInactivoCaja(Request $request){
+        $dato=AlmacenRepository::estadoInactivoCaja($request['id']);
+        return $dato;
+    }
+    public function estadoActivoCaja(Request $request){
+        $dato=AlmacenRepository::estadoActivoCaja($request['id']);
+        return $dato;
+    }
 }

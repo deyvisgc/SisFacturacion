@@ -31,9 +31,8 @@
     <link href="{{asset('assets/libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/custombox/custombox.min.css')}}" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" />
-    <link rel="stylesheet" href="https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css" />
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
 
@@ -327,18 +326,18 @@
                     <li>
                         <a href="javascript: void(0);">
                             <i class="fe-grid"></i>
-                            <span> Tables </span>
+                            <span> Inventario </span>
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
                             <li>
-                                <a href="tables-basic.html">Basic Tables</a>
+                                <a href="{{url('admin/Categoria')}}">Categoria</a>
                             </li>
                             <li>
-                                <a href="tables-datatables.html">Data Tables</a>
+                                <a href="{{url('admin/Producto')}}">Producto</a>
                             </li>
                             <li>
-                                <a href="tables-editable.html">Editable Tables</a>
+                                <a href="{{url('admin/Caja')}}">Caja</a>
                             </li>
                             <li>
                                 <a href="tables-responsive.html">Responsive Tables</a>
@@ -629,8 +628,8 @@
 <script src="https://github.com/CodeSeven/toastr/blob/master/nuget/content/scripts/toastr.js"></script>
 <script src="{{asset('assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
 <!-- Init js-->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 <script src="{{asset('assets/libs/ladda/spin.js')}}"></script>
 <script src="{{asset('assets/libs/ladda/ladda.js')}}"></script>

@@ -53,28 +53,31 @@ $(document).ready(function() {
         },
         ajax: ListCategoria,
         columns: [
-            {data: 'idcategoria', name: 'idcategoria'},
-            {data: 'Nombre_Categoria',name:'Nombre_Categoria'},
-            {data: 'Estado_categoria',
+            {data: 'caj_codigo', name: 'caj_codigo'},
+            {data: 'caj_descripcion',name:'caj_descripcion'},
+            {data: 'caj_abierta',name:'caj_abierta'},
+            {data: 'monto_Caja_Inicial',name:'monto_Caja_Inicial'},
+            {data: 'Monto_Caja_final',name:'Monto_Caja_final'},
+            {data: 'estado',
                 "render": function (data, type, row) {
-                    if (row.Estado_categoria === 0) {
+                    if (row.estado === 0) {
                         return ' <label class="badge badge-success badge-pill">Activo</label>';
                     }
-                    else if(row.Estado_categoria === "1"){
+                    else if(row.estado === "1"){
                         return '<label class="badge badge-danger badge-pill">Inactivo</label>';
                     }
                 }},
             {"mRender": function ( data, type, row ) {
-                    if (row.Estado_categoria===0){
-                        return '<a onclick="editarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Editar" ><i class="fe-edit fa-2x" style="color: green"></i></a>'+
-                            '<a onclick="EliminarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Eliminar" ><i class="fa fa-trash fa-2x" style="color: red"></i></a>'+
-                            '<a onclick="inactivoCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Cambiar de estado" ><i class="fa fa-exclamation-triangle fa-2x" style="color: yellow"></i></a>'
-                    }else if (row.Estado_categoria==="1"){
-                        return '<a onclick="editarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Editar" ><i class="fe-edit fa-2x" style="color: green"></i></a>'+
-                            '<a onclick="EliminarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Eliminar" ><i class="fa fa-trash fa-2x" style="color: red"></i></a>'+
-                            '<a onclick="activoCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Cambiar de estado" ><i class="fa fa-check fa-2x" style="color: green"></i></a>'
+                    if (row.estado===0){
+                        return '<a onclick="editarCategoria('+row.idCaja+')" href="javascript:void(0)" title="Editar" ><i class="fe-edit fa-2x" style="color: green"></i></a>'+
+                            '<a onclick="EliminarCategoria('+row.idCaja+')" href="javascript:void(0)" title="Eliminar" ><i class="fa fa-trash fa-2x" style="color: red"></i></a>'+
+                            '<a onclick="inactivoCategoria('+row.idCaja+')" href="javascript:void(0)" title="Cambiar de estado" ><i class="fa fa-exclamation-triangle fa-2x" style="color: yellow"></i></a>'
+                    }else if (row.estado==="1"){
+                        return '<a onclick="editarCategoria('+row.idCaja+')" href="javascript:void(0)" title="Editar" ><i class="fe-edit fa-2x" style="color: green"></i></a>'+
+                            '<a onclick="EliminarCategoria('+row.idCaja+')" href="javascript:void(0)" title="Eliminar" ><i class="fa fa-trash fa-2x" style="color: red"></i></a>'+
+                            '<a onclick="activoCategoria('+row.idCaja+')" href="javascript:void(0)" title="Cambiar de estado" ><i class="fa fa-check fa-2x" style="color: green"></i></a>'
                     }
-                        ;}
+                    ;}
             }
 
         ],
@@ -83,7 +86,7 @@ $(document).ready(function() {
 });
 $('#modalCategoria').click(function () {
     $('.formaddcategoria')[0].reset();
-    $('.modal-title').text('Nuevo Categoria');
+    $('.modal-title').text('Nueva Caja');
     $('#modalAddCategoria').modal('show');
 });
 var categoria;
@@ -120,10 +123,15 @@ function editarCategoria(id) {
     categoria=id;
     $('.UpdateCategoria').show();
     $('.GuardarCategoria').hide();
-    $('.modal-title').text('Editar Categoria');
+    $('.modal-title').text('Editar Caja');
     $.get(urlrf+'?id=' + id, function (data) {
-        $('#rg_idcategoria').val(data[0].idcategoria);
-        $('.ca_nombre').val(data[0].Nombre_Categoria);
+        $('#idCaja').val(data[0].idCaja);
+        $('.caj_descripcion').val(data[0].caj_descripcion);
+        $('.caj_codigo').val(data[0].caj_codigo);
+        $('.caj_abierta').val(data[0].caj_abierta);
+        $('.Monto_Caja_final').val(data[0].Monto_Caja_final);
+        $('.monto_Caja_Inicial').val(data[0].monto_Caja_Inicial);
+        $('#usuarios_idusuarios').val(data[0].usuarios_idusuarios).selectpicker('refresh');;
         $('#modalAddCategoria').modal('show');
     });
 }
@@ -229,4 +237,5 @@ function activoCategoria(id) {
 //// reset form ////////
 $('#modalCategoria').click(function () {
     $('.formaddcategoria')[0].reset();
+    $('#usuarios_idusuarios').val('default').selectpicker('refresh');
 });

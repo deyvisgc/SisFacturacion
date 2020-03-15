@@ -155,3 +155,8 @@ function funcionRegistrar(e){
         }
     });
 }
+//// reset form ////////
+$('#modalProducto').click(function () {
+    $('.formaddproducto')[0].reset();
+    $('#pro_categoria').val('default').selectpicker('refresh');
+});

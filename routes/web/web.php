@@ -34,6 +34,7 @@ Route::get('/', function () {
     Route::resource('Compras/Ingresos','Movimiento\IngresosController');
     //modulo ventas
      Route::resource('Ventas','Movimiento\VentaController');
+     Route::post('buscardni','Movimiento\VentaController@buscardni');
 
 
 

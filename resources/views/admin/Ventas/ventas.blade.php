@@ -29,6 +29,7 @@
                 </div> <!-- end card-body-->
             </div> <!-- end card-->
             <div class="row">
+
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -50,39 +51,95 @@
                                         <div class="tab-pane active" id="home-b1">
                                             <div class="card">
                                                 <i></i> <h5 class="card-header" style="background-color: #2E82C1"><label style="color: #ffffff">Datos del Cliente</label></h5>
-                                                <div class="card-box mb-2">
-                                                    <div class="row col-md-12">
-                                                        <div class="form-group col-md-4">
-                                                            <label for="example-gridsize" style="color: black">MODO DE VENTA</label>
-                                                            <select class="form-control"  onchange="escogercliente(this.value)">
-                                                                <option selected>Seleccionar</option>
-                                                                <option value="1" >DNI</option>
-                                                                <option value="2" >RUC</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group col-md-6" id="dni1" >
-                                                            <label for="example-gridsize" style="color: black" id="dnilabel">DNI</label>
-                                                            <div class="input-group">
-                                                                <input type="number" class="form-control" id="dni" placeholder="DNI" aria-label="Username" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-describedby="basic-addon1">
+                                                <div class="col-xl-12">
+                                                    <div class="card-box">
+                                                        <ul class="nav nav-pills navtab-bg nav-justified">
+                                                            <li class="nav-item">
+                                                                <a href="#home1" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                                                                    CLIENTES NUEVOS
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a href="#profile1" data-toggle="tab" aria-expanded="true" class="nav-link">
+                                                                    CLIENTES DEL SISTEMA
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane active" id="home1">
+                                                                <div class="card-box mb-2">
+                                                                    <div class="row col-md-12">
+                                                                        <div class="form-group col-md-4">
+                                                                            <label for="example-gridsize" style="color: black">MODO DE VENTA</label>
+                                                                            <select class="form-control"  onchange="escogercliente(this.value)">
+                                                                                <option selected>Seleccionar</option>
+                                                                                <option value="1" >DNI</option>
+                                                                                <option value="2" >RUC</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group col-md-6" id="dni1" >
+                                                                            <label for="example-gridsize" style="color: black" id="dnilabel">DNI</label>
+                                                                            <div class="input-group">
+                                                                                <input type="text"   maxlength="9" onkeypress="return controltag(event)" class="form-control" id="dni" placeholder="DNI" aria-label="Username" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group col-md-2">
+                                                                            <label for="example-gridsize" style="color: black">Buscar</label>
+                                                                            <button class="btn btn-primary my-btn has-spinner" data-style="expand-left" id="bsucardni"><span class="ladda-label">Buscar</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px;"></div></button>
+                                                                            <button class="ladda-button  btn btn-primary" data-style="expand-left" id="btn1" style="display: none" ><span class="ladda-label">Buscar1</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px"></div></button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row col-md-12">
+                                                                        <div class="form-group col-md-12" id="clie" >
+                                                                            <div class="input-group"  id="rucsocial">
+                                                                                <div class="input-group-prepend">
+                                                                                    <button class="btn btn-primary waves-effect btncliente waves-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CLIENTE</button>
+                                                                                </div>
+                                                                                <input type="text" class="form-control" id="cliente"  aria-label="Username" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> <!-- end card-box-->
+                                                            </div>
+                                                            <div class="tab-pane show" id="profile1">
+                                                                <div class="card-box mb-2">
+                                                                    <div class="row col-md-12">
+                                                                        <div class="form-group col-md-4">
+                                                                            <label for="example-gridsize" style="color: black">MODO DE VENTA</label>
+                                                                            <select class="form-control"  onchange="escogerclientedelsistema(this.value)">
+                                                                                <option selected>Seleccionar</option>
+                                                                                <option value="1" >DNI</option>
+                                                                                <option value="2" >RUC</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group col-md-6" id="cli_dni" >
+                                                                            <label for="example-gridsize" style="color: black" id="dnilabelsistema">DNI</label>
+                                                                            <div class="input-group">
+                                                                                <input type="text" class="form-control"  maxlength="8" onkeypress="return controltag(event)" id="dnicliente" placeholder="DNI" aria-label="Username" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group col-md-2">
+                                                                            <label for="example-gridsize" style="color: black">Buscar</label>
+                                                                            <button class="ladda-button  btn btn-primary" data-style="expand-left" id="hola" value="1"><span class="ladda-label">Buscar</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px;"></div></button>
+                                                                            <button class="ladda-button  btn btn-primary" data-style="expand-left" id="btn1" style="display: none" ><span class="ladda-label">Buscar1</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px"></div></button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row col-md-12">
+                                                                        <div class="form-group col-md-12" id="cliente_sistema" >
+                                                                            <div class="input-group"  id="rucsocialcliente">
+                                                                                <div class="input-group-prepend">
+                                                                                    <button class="btn btn-primary waves-effect btnclientesistema waves-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CLIENTE</button>
+                                                                                </div>
+                                                                                <input type="text" class="form-control" id="client_sistema"  aria-label="Username" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-describedby="basic-addon1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> <!-- end card-box-->
                                                             </div>
                                                         </div>
-                                                        <div class="form-group col-md-2">
-                                                            <label for="example-gridsize" style="color: black">Buscar</label>
-                                                            <button class="ladda-button  btn btn-primary" data-style="expand-left" id="hola" value="1"><span class="ladda-label">Buscar</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px;"></div></button>
-                                                            <button class="ladda-button  btn btn-primary" data-style="expand-left" id="btn1" style="display: none" ><span class="ladda-label">Buscar1</span><span class="ladda-spinner"></span><div class="ladda-progress" style="width: 0px"></div></button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row col-md-12">
-                                                        <div class="form-group col-md-12" id="clie" >
-                                                            <div class="input-group"  id="rucsocial">
-                                                                <div class="input-group-prepend">
-                                                                    <button class="btn btn-primary waves-effect btncliente waves-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CLIENTE</button>
-                                                                </div>
-                                                                <input type="text" class="form-control" id="cliente"  aria-label="Username" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-describedby="basic-addon1">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> <!-- end card-box-->
+                                                    </div> <!-- end card-box-->
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div class="tab-pane show" id="profile-b1">
@@ -112,6 +169,7 @@
                                                                 <input type="number" class="form-control" readonly id="precio_venta" placeholder="0.00" aria-label="Username" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-describedby="basic-addon1">
                                                             </div>
                                                         </div>
+
                                                         <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100 dataTable no-footer dtr-inline collapsed" id="tablecar">
                                                             <thead class="thead-light">
                                                             <tr>
@@ -127,8 +185,6 @@
                                                             <tbody>
                                                             </tbody>
                                                         </table>
-
-
                                                     </div> <!-- end row -->
                                                 </div> <!-- end card-box-->
                                             </div>
@@ -165,7 +221,7 @@
                     </div>
                 </div>
               <!---<h5 class="mb-3 mt-4 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i>Detalle de PAGO</h5>-->
-                <div class="card-header bg-warning py-3 text-white">
+                <div class="card-header  py-3 text-white" style="background-color: black">
                     <div class="card-widgets">
                         <a href="javascript:;" data-toggle="reload"><i class="mdi mdi-refresh"></i></a>
                         <a data-toggle="collapse" href="#cardCollpase6" role="button" aria-expanded="false" aria-controls="cardCollpase2"><i class="mdi mdi-minus"></i></a>
@@ -221,13 +277,19 @@
 
             </div> <!-- end card-box-->
         </div> <!-- end col -->
+
+
     </div>
 
     @endsection
 @section('script')
+
+    <link href="{{asset('css/buttonLoader.css')}}" rel="stylesheet" type="text/css" />
     <script src="{{asset('js/Movimiento/ventas.js')}}"></script>
+    <script src="{{asset('js/jquery.buttonLoader.js')}}"></script>
     <script>
-        var url = '{{url('Ventas')}}'
+        var url = '{{url('Ventas')}}';
+        var urlbuscar = '{{url('buscardni')}}'
     </script>
 
     @endsection

@@ -1,0 +1,15 @@
+#toast-container >
+.toast-error {
+    background-image: none;
+    background-color: #ee324d;
+}
+#toast-container >
+.toast-warning {
+    background-image: none;
+    background-color: #d17905;
+}
+#toast-container >
+.toast-success {
+    background-image: none;
+    background-color: #1d643b;
+}

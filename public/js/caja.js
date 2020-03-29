@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    var id=localStorage.getItem('cajabierta');
+   if (id==='true'){
+       $("#monto" ).prop( "disabled", true );
+       $("#caja" ).prop( "disabled", true );
+       $("#aperturarcaja").remove();
+       $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
+   }
     var ListCategoria    = $('#rg_lisCategoria').val();
     tabla=$('#example').DataTable({
         "pageLength": 10,
@@ -83,7 +90,6 @@ $(document).ready(function() {
         ],
     });
     $('.UpdateCategoria').hide();
-});
 $('#modalCategoria').click(function () {
     $('.formaddcategoria')[0].reset();
     $('.modal-title').text('Nueva Caja');
@@ -163,6 +169,7 @@ $('.UpdateCategoria').click(function (e) {
         }
     })
 });
+});
 function EliminarCategoria(id) {
     var urlrf    = $('#rg_Eliminar').val();
     Swal.fire({
@@ -239,3 +246,37 @@ $('#modalCategoria').click(function () {
     $('.formaddcategoria')[0].reset();
     $('#usuarios_idusuarios').val('default').selectpicker('refresh');
 });
+function aperturarcaja() {
+   var frm= $('#frmaperturarcaja').serialize();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+    });
+   $.ajax({
+       'url':url,
+       'type':'post',
+       'data':frm,
+       dataType:'json',
+       success:function (response) {
+           if (response.success==true){
+               toastr.options ={ "closeButton":true, "progressBar": true};
+               toastr.success(
+                   "!Registro Exitoso",
+                   "EXITO AL APERTURAR  CAJA",
+               );
+               $("#monto" ).prop( "disabled", true );
+               $("#caja" ).prop( "disabled", true );
+               $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
+               $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
+
+               localStorage.setItem('cajabierta','true');
+           }else{
+               console.log(response);
+           }
+
+       }
+
+   })
+
+}

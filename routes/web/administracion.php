@@ -28,7 +28,7 @@
     Route::get('admin/alamacen/categoria/estadoInactivo','admin\AlmacenController@estadoInactivo');
     Route::get('admin/alamacen/categoria/estadoActivo','admin\AlmacenController@estadoActivo');
     Route::get('admin/alamacen/categoria/eliminar','admin\AlmacenController@EliminarCategoria');
-    
+
     // Producto
     Route::get('admin/Producto', 'admin\AlmacenController@producto');
     Route::post('admin/alamacen/producto/Addproducto','admin\AlmacenController@addproducto');
@@ -47,6 +47,7 @@
     Route::get('admin/caja/estadoInactivoCaja','admin\AlmacenController@estadoInactivoCaja');
     Route::get('admin/caja/estadoActivoCaja','admin\AlmacenController@estadoActivoCaja');
     Route::get('admin/caja/eliminarcaja','admin\AlmacenController@EliminarCaja');
+
 
 
 

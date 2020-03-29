@@ -31,7 +31,7 @@
     <link href="{{asset('assets/libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/custombox/custombox.min.css')}}" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
@@ -633,6 +633,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 <script src="{{asset('assets/libs/ladda/spin.js')}}"></script>
 <script src="{{asset('assets/libs/ladda/ladda.js')}}"></script>
+
 
 <!-- Buttons init js-->
 <script src="{{asset('assets/js/pages/loading-btn.init.js')}}"></script>

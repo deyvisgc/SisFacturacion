@@ -3,12 +3,25 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Repositorios\AlmacenRepository;
+use App\Modelos\Caja;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use DB;
 
 class AlmacenController extends Controller
 {
+
+    /**
+     * AlmacenController constructor.
+     * @param AlmacenRepository $repository
+     */
+    public function __construct(AlmacenRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function producto(){
         $categoriaActivo=AlmacenRepository::listCategoriaActivo();
         return view('admin.almacen.producto.index',compact('categoriaActivo'));
@@ -105,5 +118,19 @@ class AlmacenController extends Controller
     public function estadoActivoCaja(Request $request){
         $dato=AlmacenRepository::estadoActivoCaja($request['id']);
         return $dato;
+    }
+    /************* APERTURA DE CAJA  *************************************/
+    public function aperturacaja(){
+        $id_user = Auth::user()->idusuarios;
+       $caja=DB::table('caja as c')
+           ->join('usuarios as u','c.usuarios_idusuarios','=','u.idusuarios')
+           ->where('c.usuarios_idusuarios','=',$id_user)
+           ->select('c.idCaja','c.caj_descripcion')->get();
+       $caja1=DB::table('caja')->where('idusuarios','=',$id_user);
+        return view('admin.caja.aperturacaja',['caja'=>$caja,'caja1'=>$caja1]);
+
+    }
+    public function store(Request $request){
+        return response()->json($this->repository->aperturarcaja($request));
     }
 }

@@ -87,8 +87,8 @@ $(document).ready(function () {
                     toastr.options ={ "closeButton":true, "progressBar": true};
                     toastr.success(
                         "!Registro Exitoso",
-                        "Revise su historial de usuarios",
                     );
+                    console.log(respon)
                     $('#updateuser').modal('hide');
                     $('.tbusuarios').DataTable().ajax.reload();
                 } else {

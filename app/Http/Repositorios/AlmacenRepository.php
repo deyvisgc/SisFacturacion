@@ -4,15 +4,17 @@
 namespace App\Http\Repositorios;
 
 
+use App\Http\Interfaces\CajaInterface;
 use App\Modelos\Caja;
 use App\Modelos\Categoria;
 use App\Imagen;
+use App\Modelos\detallecaja;
 use App\Modelos\Producto;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class AlmacenRepository
+class AlmacenRepository implements CajaInterface
 {
     /******** CATEGORIA ********************/
     public static function insertar($data){
@@ -58,13 +60,13 @@ class AlmacenRepository
         return $model;
     }
     /************************************************************/
-    
+
     /***** PRODUCTO *******************/
     public static function insertarproducto($data){
         try {
             DB::beginTransaction();
             $imagen=new Imagen();
-        
+
             if($imagen->ruta_imagen==null){
                 if ($data->hasFile('foto')) {
                     $file = $data->file('foto');
@@ -106,7 +108,7 @@ class AlmacenRepository
                 'p.Estado_Producto','p.modelo_producto','p.codigo_Producto'
             )
             ->get();
-        
+
     }
     public static function getproducto($id){
         $data=Categoria::where('idcategoria',$id)->get();
@@ -199,4 +201,19 @@ class AlmacenRepository
         return User::where('estado_user',$estado)->get();
     }
     /************************************************************/
+    public function aperturarcaja($data)
+    {
+      $caja=  detallecaja::create([
+            'Monto_Caja_apertura'=>$data->monto,
+            'id_Caja'=>$data->caja,
+            'Caja_abierta'=>1,
+            'Monto_Caja_final'=>0
+          ]);
+      if($caja==true){
+          $data=['success'=>true];
+          return $data;
+      }else{
+          return response()->json('ERROR AL APERTURAR LA CAJA', 500);
+      }
+    }
 }

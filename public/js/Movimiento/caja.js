@@ -3,7 +3,7 @@ $(document).ready(function() {
    if (id==='true'){
        $("#monto" ).prop( "disabled", true );
        $("#caja" ).prop( "disabled", true );
-       $("#aperturarcaja").remove();
+       $('#aperturarcaja').hide();
        $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
    }
     var ListCategoria    = $('#rg_lisCategoria').val();
@@ -267,7 +267,7 @@ function aperturarcaja() {
                );
                $("#monto" ).prop( "disabled", true );
                $("#caja" ).prop( "disabled", true );
-               $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
+               $('#aperturarcaja').hide();
                $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
 
                localStorage.setItem('cajabierta','true');

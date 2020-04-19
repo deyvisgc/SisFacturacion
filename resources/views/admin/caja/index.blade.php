@@ -23,7 +23,7 @@
                     <div align="center">
                         <button type="button" id="modalCategoria" class="btn btn-outline-success waves-effect waves-light">AGREGAR</button>
                     </div>
-                
+
                     <table id="example" class="table table-striped dt-responsive nowrap">
                         <thead>
                         <tr>
@@ -36,13 +36,13 @@
                             <th>Acciones</th>
                         </tr>
                         </thead>
-                    
-                    
+
+
                         <tbody>
-                       
+
                         </tbody>
                     </table>
-            
+
                 </div> <!-- end card body-->
             </div> <!-- end card -->
         </div><!-- end col-->
@@ -50,5 +50,5 @@
     @include('admin.caja.add')
 @endsection
 @section('script')
-<script src="{{asset("js/caja.js")}}"></script>
+<script src="{{asset("js/Movimiento/caja.js")}}"></script>
 @endsection

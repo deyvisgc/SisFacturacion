@@ -260,7 +260,7 @@
                                 <a href="{{url('Usuario')}}">Usuarios</a>
                             </li>
                             <li>
-                                <a href="icons-mdi.html">Roles</a>
+                                <a href="{{url('Permisos')}}">Roles Y Privilegios</a>
                             </li>
                             <li>
                                 <a href="icons-dripicons.html">Permisos</a>
@@ -294,7 +294,7 @@
                                 <a href="forms-advanced.html">Ventas</a>
                             </li>
                             <li>
-                                <a href="forms-validation.html">Validation</a>
+                                <a href="{{url('Movimiento/Aperturacaja')}}">APERTURAR CAJA</a>
                             </li>
                             <li>
                                 <a href="forms-pickers.html">Pickers</a>

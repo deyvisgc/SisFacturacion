@@ -64,7 +64,7 @@ $(document).ready(function() {
                     if(data==null){
                         return '<img src="'+imagen1+'" style="width: 50px">';
                     }else{
-                        return '<img src="'+imagen2+'/'+JsonResultRow.ruta_imagen+'" style="width: 50px">';
+                        return ''+imagen2+'<img src="/" style="width: 50px">'+JsonResultRow.ruta_imagen+'';
                     }
                 }},
             {data: 'Stock_Productos',name:'Stock_Productos'},

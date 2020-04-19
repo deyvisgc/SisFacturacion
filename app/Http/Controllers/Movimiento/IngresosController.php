@@ -48,7 +48,7 @@ class IngresosController extends Controller
 
   }
     public function BuscarProducto(Request $request){
-        $producto=$request->texto;
+               $producto=$request->texto;
         $query=DB::select(" SELECT  p.Nombre_Productos,p.Precio_Productos,p.idProductos,p.precio_compra, p.precio_venta FROM productos as p WHERE  p.Nombre_Productos LIKE  '%".$producto."%'");
         foreach ($query as $quer)
         {
@@ -110,13 +110,15 @@ class IngresosController extends Controller
         $Cantidad=$request->cantidad;
         $idcarrito=$request->idtem;
         $Iduser=$request->idvendedor;
-        return  DB::select("call UpdateCantidad(?,?,?)",array($Cantidad,$idcarrito,$Iduser));
+        $Idestadocompra=0;
+        return  DB::select("call UpdateCantidad(?,?,?,?)",array($Cantidad,$idcarrito,$Iduser,$Idestadocompra));
     }
     public function Pagar(Request $request){
         $this->repository->Pagar($request);
         $detalle=DB::select("SELECT productos.Nombre_Productos,productos.precio_compra,empresas.Razon_social_Empre,empresas.Ruc_Empre,ingresos.Ingre_IGV,ingresos.Ingre_Fecha, ingresos.Ingre_Subtotal,detalle_ingreso.Ingre_Deta_Total,detalle_ingreso.Ingre_Deta_Cantidad from detalle_ingreso,ingresos,productos,empresas WHERE detalle_ingreso.Ingresos_Id_Ingresos=ingresos.Id_Ingresos and detalle_ingreso.productos_idProductos=productos.idProductos and detalle_ingreso.id_proveedor=empresas.Id_Empresas_Empre and ingresos.Usuario_id_Usuarios=1");
         return response()->json($detalle);
     }
+
 
 
 

@@ -174,7 +174,7 @@
                                                     <button class="btn btn-primary waves-effect waves-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Proveedor</button>
                                                 </div>
                                                 <input type="text" class="form-control" id="searchproveedor" placeholder="Buscar por Ruc" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-label="" aria-describedby="basic-addon1" onkeyup="validar()">
-                                                <input  class="form-control" id="rutaProve" hidden value="{{url('Buscar/Proveedor')}}" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-label="" aria-describedby="basic-addon1">
+                                                <input  class="form-control" id="rutaProve" hidden value="{{url('buscar/Proveedor')}}" style='font-size: 12pt; font-weight: bold; color: #0000ff;' aria-label="" aria-describedby="basic-addon1">
 
                                             </div>
                                         </div>
@@ -204,7 +204,7 @@
                                                 <th>Vuelto</th>
                                                 <th>Importe</th>
                                                 <th>Subtotal</th>
-                                                <th style="width: 125px;">accion</th>
+                                                <th>accion</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -329,7 +329,8 @@
     </div>
 @endsection
 @section('script')
-    <script src="{{asset('js/Ingresos.js')}}"></script>
+    <script src="{{asset('js/Movimiento/Ingresos.js')}}"></script>
+
 
 
 

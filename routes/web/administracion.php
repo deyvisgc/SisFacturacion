@@ -13,6 +13,8 @@
  //modulo usuario
      Auth::routes();
      Route::resource('Usuario','admin\UsuarioController');
+     Route::resource('Permisos','admin\PermisosController');
+     Route::post('delete','admin\PermisosController@deletepermisos');
      Route::post('edit/{id}','admin\UsuarioController@edit');
      Route::post('update','admin\UsuarioController@update');
 
@@ -47,6 +49,7 @@
     Route::get('admin/caja/estadoInactivoCaja','admin\AlmacenController@estadoInactivoCaja');
     Route::get('admin/caja/estadoActivoCaja','admin\AlmacenController@estadoActivoCaja');
     Route::get('admin/caja/eliminarcaja','admin\AlmacenController@EliminarCaja');
+
 
 
 

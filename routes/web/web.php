@@ -19,7 +19,7 @@ Route::get('/', function () {
 // Route::get('/', 'admin\HomeController@index');
   //  Route::get('/alamacen/articulo', 'admin\AlmacenController@articulo');
     // Modulo de Ingreso
-    Route::post('Buscar/Proveedor', 'Movimiento\IngresosController@buscarProveedor');
+    Route::post('buscar/Proveedor', 'Movimiento\IngresosController@buscarProveedor');
     Route::post('Buscar/Producto', 'Movimiento\IngresosController@BuscarProducto');
     Route::post('AddCarrito', 'Movimiento\IngresosController@AddCarrito');
     Route::get('detallecarrito/{id}', 'Movimiento\IngresosController@detallecarrito');
@@ -34,8 +34,26 @@ Route::get('/', function () {
     Route::resource('Compras/Ingresos','Movimiento\IngresosController');
     //modulo ventas
      Route::resource('Ventas','Movimiento\VentaController');
-     Route::post('buscardni','Movimiento\VentaController@buscardni');
+     Route::post('ModuloVentas/validarcaja','Movimiento\VentaController@validarcajaaperurada');
+     Route::post('ModuloVentas/ADDCARRITO','Movimiento\VentaController@ADDCARRITO');
+Route::post('ModuloVentas/Listarcarrito','Movimiento\VentaController@Listarcarrito');
+Route::post('ModuloVentas/Obtenertotales','Movimiento\VentaController@Obtenertotales');
+Route::post('ModuloVentas/UpdateCantidadd','Movimiento\VentaController@UpdateCantidadd');
+Route::post('ModuloVentas/EliminarCarrito','Movimiento\VentaController@EliminarCarrito');
+Route::post('ModuloVentas/Obtenercantidadcomprobante','Movimiento\VentaController@Obtenercantidadcomprobante');
+Route::post('ModuloVentas/Vender','Movimiento\VentaController@Vender');
+//clientes nuevos del sistema
+Route::post('ModuloVentas/validardni','Movimiento\VentaController@validardni');
+Route::post('ModuloVentas/crearnewcliente','Movimiento\VentaController@crearnewcliente');
+Route::post('ModuloVentas/validarruc','Movimiento\VentaController@validarruc');
+Route::post('ModuloVentas/crearnewclientexruc','Movimiento\VentaController@crearnewclientexruc');
 
+
+//busquedas del sistema
+Route::post('buscar/buscardni','Movimiento\VentaController@buscardni');
+Route::post('buscar/buscarruc','Movimiento\VentaController@buscarruc');
+Route::post('buscar/buscardnixsistema','Movimiento\VentaController@buscardnixsistema');
+Route::post('buscar/Productoventa', 'Movimiento\VentaController@BuscarProducto');
 
 
      //modelo administrativo

@@ -13,7 +13,7 @@ use App\Modelos\Producto;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon;
 class AlmacenRepository implements CajaInterface
 {
     /******** CATEGORIA ********************/
@@ -70,7 +70,7 @@ class AlmacenRepository implements CajaInterface
             if($imagen->ruta_imagen==null){
                 if ($data->hasFile('foto')) {
                     $file = $data->file('foto');
-                    $file->move(public_path() . '/img/producto/', $file->getClientOriginalName());
+                    $file->move(public_path() . '/Imagenes/Productos/', $file->getClientOriginalName());
                     $imagen->ruta_imagen =  $file->getClientOriginalName();
                 }
             } else{
@@ -203,11 +203,13 @@ class AlmacenRepository implements CajaInterface
     /************************************************************/
     public function aperturarcaja($data)
     {
+        $fecha_entrega = Carbon::now('America/Lima');
       $caja=  detallecaja::create([
             'Monto_Caja_apertura'=>$data->monto,
             'id_Caja'=>$data->caja,
             'Caja_abierta'=>1,
-            'Monto_Caja_final'=>0
+            'Monto_Caja_final'=>0,
+            'fecha_apertura'=>$fecha_entrega
           ]);
       if($caja==true){
           $data=['success'=>true];

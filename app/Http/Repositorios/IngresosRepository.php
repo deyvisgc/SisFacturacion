@@ -31,7 +31,6 @@ class IngresosRepository implements IngresoInterface
 
     Public function ElimianrCarrito($data)
     {
-
         if ($data->id==''){
             return 'registro no encontrado';
         }else{

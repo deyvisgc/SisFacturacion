@@ -445,7 +445,7 @@
 @endsection
 @section('script')
     <link href="{{asset('css/alertjs.css')}}" rel="stylesheet" type="text/css" />
-    <script src="{{asset("js/caja.js")}}"></script>
+    <script src="{{asset("js/Movimiento/caja.js")}}"></script>
     <script>
         var url = '{{url('Aperturacaja')}}'
     </script>

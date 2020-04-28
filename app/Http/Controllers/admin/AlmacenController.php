@@ -39,19 +39,19 @@ class AlmacenController extends Controller
         return response()->json([$update]);
     }
     public function updateproducto(Request $request,$id){
-        AlmacenRepository::updateCategoria($request,$id);
+        AlmacenRepository::updateproducto($request,$id);
         return response()->json(array("success" => true));
     }
     public function Eliminarproducto(Request $request){
-        $del=AlmacenRepository::EliminarCategoria($request['id']);
+        $del=AlmacenRepository::Eliminarproducto($request['id']);
         return $del;
     }
     public function estadoInactivoproducto(Request $request){
-        $dato=AlmacenRepository::estadoInactivo($request['id']);
+        $dato=AlmacenRepository::estadoInactivoproducto($request['id']);
         return $dato;
     }
     public function estadoActivoproducto(Request $request){
-        $dato=AlmacenRepository::estadoActivo($request['id']);
+        $dato=AlmacenRepository::estadoActivoproducto($request['id']);
         return $dato;
     }
     /************* CATEGORIA  *************************************/

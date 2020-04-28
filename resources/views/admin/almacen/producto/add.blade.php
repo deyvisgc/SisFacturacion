@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <form class="needs-validation formaddproducto"  >
                     {{ csrf_field() }}
-                    <input class="f_id_user" type="hidden" name="id_user">
+                    <input class="f_id_prod" type="hidden" name="id_prod">
                     <input class="f_id_per" type="hidden" name="id_per">
                     <input class="f_id_serv" type="hidden" name="id_serv">
                         <div class="form-row">

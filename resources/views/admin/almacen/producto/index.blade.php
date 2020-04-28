@@ -50,5 +50,5 @@
     @include('admin.almacen.producto.add')
 @endsection
 @section('script')
-    <script src="{{asset("js/producto.js")}}"></script>
+    <script src="{{asset("js/Almacen/producto.js")}}"></script>
 @endsection

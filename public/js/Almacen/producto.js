@@ -40,9 +40,10 @@ $(document).ready(function() {
                 }
             },
             {data: 'Nombre_Productos', name: 'Nombre_Productos'},
+            {data: 'precio_venta',name:'precio_venta'},
+            {data: 'descripcion_Productos',name:'descripcion_Productos'},
             {data: 'Nombre_Categoria',name:'Nombre_Categoria'},
             {data: 'Stock_Productos',name:'Stock_Productos'},
-            {data: 'precio_venta',name:'precio_venta'},
             {data: 'precio_compra',name:'precio_compra'},
             {data: 'imagen', name: 'imagen', orderable: true, searchable: true},
             {data: 'Estado_Producto',
@@ -57,17 +58,16 @@ $(document).ready(function() {
             {
                 data: null,
                 render: function (data, type, row) {
-                    if (data.Estado_Producto===0){
-                        return '<a href="javascript:void(0);" style="margin-left: 20px;color: #F2EF1D" class="action-icon"> <i class="mdi mdi-eye"></i></a>'+
-                            '<a onclick="editarProductos('+row.idProductos+')"  style="color: #18F526"  class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>'+
-                            '<a  onclick="EliminarCategoria('+row.idProductos+')" href="javascript:void(0);" style="color: red;"  class="action-icon"> <i class="mdi mdi-delete"></i></a>'+
-                            '<a  onclick="Activar('+row.idProductos+')" href="javascript:void(0);" style="color: red;"  class="action-icon"><i class="mdi mdi-check-outline"></i></a>'                            ;
-                    }else{
-                        return '<a href="javascript:void(0);" style="margin-left: 20px;color: #F2EF1D" class="action-icon"> <i class="mdi mdi-eye"></i></a>'+
-                            '<a onclick="editarProductos('+row.idProductos+')"  style="color: #18F526"  class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>'+
-                            '<a  onclick="EliminarCategoria('+row.idProductos+')" href="javascript:void(0);" style="color: red;"  class="action-icon"> <i class="mdi mdi-delete"></i></a>'+
-                            '<a  onclick="Activar('+row.idProductos+')" href="javascript:void(0);" style="color: #2a9055;"  class="action-icon"><i class="mdi mdi-check-outline"></i></a>'
-                            ;
+                    if (data.Estado_Producto === 0) {
+                        return '<a href="javascript:void(0);" style="margin-left: 20px;color: #F2EF1D" class="action-icon"> <i class="mdi mdi-eye"></i></a>' +
+                            '<a onclick="editarProductos(' + row.idProductos + ')"  style="color: #18F526"  class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>' +
+                            '<a  onclick="EliminarCategoria(' + row.idProductos + ')" href="javascript:void(0);" style="color: red;"  class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
+                            '<a  onclick="Activar(' + row.idProductos + ')" href="javascript:void(0);" style="color: red;"  class="action-icon"><i class="mdi mdi-check-outline"></i></a>';
+                    } else {
+                        return '<a href="javascript:void(0);" style="margin-left: 20px;color: #F2EF1D" class="action-icon"> <i class="mdi mdi-eye"></i></a>' +
+                            '<a onclick="editarProductos(' + row.idProductos + ')"  style="color: #18F526"  class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>' +
+                            '<a  onclick="EliminarCategoria(' + row.idProductos + ')" href="javascript:void(0);" style="color: red;"  class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
+                            '<a  onclick="Activar(' + row.idProductos + ')" href="javascript:void(0);" style="color: #2a9055;"  class="action-icon"><i class="mdi mdi-check-outline"></i></a>'
                     }
                 }
             }
@@ -178,4 +178,133 @@ function editarProductos(id) {
     })
 
 }
+//// reset form ////////
+$('#modalProducto').click(function () {
+    $('.formaddproducto')[0].reset();
+    $('#pro_categoria').val('default').selectpicker('refresh');
+});
+var producto;
+function editarProducto(id) {
+    var urlrf    = $('#rg_getproducto').val();
+    producto=id;
+    $('.UpdateProducto').show();
+    $('.GuardarProducto').hide();
+    $('.modal-title').text('Editar Producto');
+    $.get(urlrf+'?id=' + id, function (data) {
+        $('.f_id_prod').val(data[0].idProductos);
+        $('.pro_nombre').val(data[0].Nombre_Productos);
+        $('.pro_precio').val(data[0].precio_venta);
+        $('#pro_categoria').val(data[0].categoria);
+        $('.pro_codigo').val(data[0].codigo_Producto);
+        $('.pro_stock').val(data[0].Stock_Productos);
+        $('.pro_modelo').val(data[0].modelo_producto);
+        $('#pro_imagen').val(data[0].imagen);
+        $('.pro_descripcion').val(data[0].descripcion_Productos);
+        console.log(data);
+        $('#modalAddProducto').modal('show');
+    });
+}
+$('.UpdateProducto').click(function (e) {
+    var urlrf    = $('#rg_updateproducto').val();
+    var frm=$('.formaddproducto');
+    e.preventDefault();
+    $.ajax({
+        url:urlrf+'/'+producto,
+        dataType:'json',
+        type:'post',
+        data:frm.serialize(),
+        success:function (response) {
+            if (response.success===true){
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Se Edito Correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                $('#modalAddProducto').modal('hide');
+                tabla.ajax.reload();
+                $('.formaddproducto')[0].reset();
+            } else {
+            }
+
+
+        }
+    })
+});
+function EliminarProducto(id) {
+    var urlrf    = $('#rg_Eliminarproducto').val();
+    Swal.fire({
+        title: 'Esta Seguro de Eliminar el Producto.. ?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+        if (result.value) {
+            $.get(urlrf+'?id=' + id, function (data) {
+                if (data) {
+                    tabla.ajax.reload();
+                }
+                Swal.fire(
+                    'Eliminado!',
+                    'success'
+                )
+            });
+        }
+    })
+}
+function inactivoProducto(id) {
+    var urlrf    = $('#rg_estadoInactivoproducto').val();
+    Swal.fire({
+        title: 'Esta Seguro de Cambiar de estado.. ?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+        if (result.value) {
+            $.get(urlrf+'?id=' + id, function (data) {
+                if (data) {
+                    tabla.ajax.reload();
+                }
+                Swal.fire(
+                    'Cambiado!',
+                    'El Estado fue Cambiado Correctamente.',
+                    'success'
+                )
+            });
+        }
+    })
+}
+function activoProducto(id) {
+    var urlrf    = $('#rg_estadoActivoproducto').val();
+    Swal.fire({
+        title: 'Esta Seguro de Cambiar de estado.. ?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+        if (result.value) {
+            $.get(urlrf+'?id=' + id, function (data) {
+                if (data) {
+                    tabla.ajax.reload();
+                }
+                Swal.fire(
+                    'Cambiado!',
+                    'El Estado fue Cambiado Correctamente.',
+                    'success'
+                )
+            });
+        }
+    })
+}
+//// reset form ////////
+$('#modalProducto').click(function () {
+    $('.formaddproducto')[0].reset();
+});
 

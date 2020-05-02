@@ -113,29 +113,42 @@ class AlmacenRepository implements CajaInterface
 
     }
     public static function getproducto($id){
-        $data=Categoria::where('idcategoria',$id)->get();
+        $data=DB::table("productos as p")
+            ->join("categoria as c","c.idcategoria","=","p.categoria_idcategoria")
+            ->join("imagenes as i","i.idImagenes","=","p.Imagenes_idImagenes")
+            ->select("p.idProductos",
+                "p.Nombre_Productos",
+                "p.descripcion_Productos",
+                "c.Nombre_Categoria as categoria",
+                "i.ruta_imagen as imagen",
+                "p.Stock_Productos",
+                "p.Estado_Producto",
+                "p.modelo_producto",
+                "p.codigo_Producto",
+                "p.precio_compra",
+                "p.precio_venta")->get();
         return $data[0];
     }
     public static function updateproducto($data,$id){
-        $up= Categoria::find($id);
+        $up= Producto::find($id);
         $up->Nombre_Categoria=$data->get('Nombre_Categoria');
         $up->Estado_categoria=0;
         $up->update();
         return $up;
     }
     public static function Eliminarproducto($id){
-        $del=Categoria::destroy($id);
+        $del=Producto::destroy($id);
         return $del;
     }
     public static function estadoInactivoproducto($id){
-        $model=Categoria::where('idcategoria',$id)->first();
-        $model->Estado_categoria=1;
+        $model=Producto::where('idProductos',$id)->first();
+        $model->Estado_Producto=1;
         $model->update();
         return $model;
     }
     public static function estadoActivoproducto($id){
-        $model=Categoria::where('idcategoria',$id)->first();
-        $model->Estado_categoria=0;
+        $model=Producto::where('idProductos',$id)->first();
+        $model->Estado_Producto=0;
         $model->update();
         return $model;
     }

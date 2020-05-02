@@ -286,55 +286,7 @@
             </div> <!-- end card-box-->
         </div> <!-- end col -->
 
-
-    </div>
-    <div class="modal fade" id="modalPagar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form id="frm" action="{{url('Pagar')}}">
-                    <div class="modal-header custom-modal-title">
-                        <h5 class="modal-title" id="exampleModalLabel" style="color: white">PAGO EFECTIVO</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body p-4">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field-4" class="control-label">TOTAL</label>
-                                    <input type="text" class="form-control" readonly id="totalapagar" name="totalapagar" placeholder="Boston">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field-5" class="control-label">MONTO</label>
-                                    <input type="text" name="monto" class="form-control" id="monto" placeholder="0.00">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field-6" class="control-label">VUELTO</label>
-                                    <input type="text" class="form-control" name="vuelto" readonly id="vuelto" value="0.00">
-                                    <input type="text" hidden class="form-control" name="idprovepagar" readonly id="idprovepagar">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button id="btnmodal" type="button"  class="btn btn-danger waves-effect waves-light mb-2 mr-2"  data-dismiss="modal">Cerrar</button>
-                        <button id="btnpagar" type="button"  class="btn btn-success waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-square-inc-cash mr-1"></i>Pagar</button>
-                        <button class="btn btn-primary" type="button" id="btncargando" disabled="">
-                            <span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>
-                            Cargando...
-                        </button>
-
-                    </div>
-                </form>
-            </div>
-        </div>
+        @include('admin.Ventas.modalventas')
     </div>
 
 

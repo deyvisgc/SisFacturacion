@@ -71,7 +71,6 @@ class VentaRepository implements VentaInterface
 
     }
     public function addcarrito($data){
-
        $varidproducto=$data->idproducto;
         $cantidad=$data->cantidad;
         $idvendedor=$data->idvendedor;
@@ -110,14 +109,13 @@ class VentaRepository implements VentaInterface
         $cantidad=$data->cantidad;
         $idcarrito=$data->idtem;
         $Iduser=$data->idvendedor;
-        $idproveedor=$data->idproveechangecan;
         $idcliente=$data->idclienchangecan;
         if ($idcliente==''){
-            $hola=  DB::select("call UpdateCantidad(?,?,?,?)",array($cantidad,$idcarrito,$Iduser,0));
+            $result=  DB::select("call UpdateCantidad(?,?,?,?)",array($cantidad,$idcarrito,$Iduser,0));
         }else{
-            $hola=  DB::select("call UpdateCantidad(?,?,?,?)",array($cantidad,$idcarrito,$Iduser,1));
+            $result=  DB::select("call UpdateCantidad(?,?,?,?)",array($cantidad,$idcarrito,$Iduser,1));
         }
-       return $result = collect($hola);
+       return collect($result);
     }
     Public function ElimianrCarrito($data)
     {
@@ -155,22 +153,31 @@ class VentaRepository implements VentaInterface
     }
     public function Venta($data){
         $idcliente=$data->idcliente;
-        $idvendedor=$data->idusuario;
-        $montoefectivo=$data->monto_efectivo;
-        $vuelto=$data->vuelto;
+        $idproveedor=$data->idproveedor;
+        $idvendedor=$data->idvendedor;
+        $montoefectivo=$data->monto_ventanormal;
+        $vuelto=$data->vuelto_ventanormal;
         $tipo_pago=$data->tipo_pago;
         $comprobante=$data->comprobante;
         $num_venta=$data->num_venta;
         $var_Serie=$data->serie;
-        DB::select("call proc_venta(?,?,?,?,?,?,?,?)",array($idcliente,$idvendedor,$montoefectivo,$vuelto,$tipo_pago,$comprobante,$num_venta,$var_Serie));
-        $data=['success'=>true];
-        return $data;
-        if ($venta==true){
-            return  $data['succes']=true;
-        }else{
-            return $data=['error'=>true];
-        }
+        $telefonoempre=$data->telefonoempre;
+        $correoempre=$data->correoempresa;
+        $telefonocliente=$data->telefonocliente;
+        $correocliente=$data->correocliente;
 
+        if ($telefonoempre=='' && $correoempre=='' && $telefonocliente=='' && $correocliente=='' ){
+            DB::select("call proc_venta(?,?,?,?,?,?,?,?,?)",array($idcliente,$idproveedor,$idvendedor,$montoefectivo,$vuelto,$tipo_pago,$comprobante,$num_venta,$var_Serie));
+            $data=['success'=>true];
+            return $data;
+        }else if ($telefonoempre!=null  || $correoempre!=''){
+            return $data;
+            $empre=DB::table('empresas')->where('Id_Empresas_Empre','=',$idproveedor)->update(['gmail_Empre'=>$correoempre,'telefono_Empre'=>$telefonoempre]);
+        }else if ($telefonocliente!=null  || $correocliente!='') {
+            $cliente = DB::table('persona')->where('id_Persona', '=', $idcliente)->update(['telefono_per' => $telefonocliente, 'gmail' => $correocliente]);
+           DB::select("call proc_venta(?,?,?,?,?,?,?,?,?)",array($idcliente,$idproveedor,$idvendedor,$montoefectivo,$vuelto,$tipo_pago,$comprobante,$num_venta,$var_Serie));
+            return ['success'=>true];
+        }
     }
     public function validardni($data)
     {

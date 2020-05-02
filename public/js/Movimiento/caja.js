@@ -1,11 +1,6 @@
 $(document).ready(function() {
     var id=localStorage.getItem('cajabierta');
-   if (id==='true'){
-       $("#monto" ).prop( "disabled", true );
-       $("#caja" ).prop( "disabled", true );
-       $('#aperturarcaja').hide();
-       $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
-   }
+    mostrartotalcaja(id);
     var ListCategoria    = $('#rg_lisCategoria').val();
     tabla=$('#example').DataTable({
         "pageLength": 10,
@@ -266,9 +261,13 @@ function aperturarcaja() {
                    "EXITO AL APERTURAR  CAJA",
                );
                $("#monto" ).prop( "disabled", true );
+               var idcaja=response['caja']['id_Detallecaja'];
+               var monto_apertura=response['caja']['Monto_Caja_apertura'];
+                $('#montoapertura').val(monto_apertura);
                $("#caja" ).prop( "disabled", true );
                $('#aperturarcaja').hide();
-               $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
+               $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2" id="aperturarcaja" onclick="cerrarcaja('+idcaja+')' +
+                   '"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
 
                localStorage.setItem('cajabierta','true');
            }else{
@@ -279,4 +278,69 @@ function aperturarcaja() {
 
    })
 
+}
+function mostrartotalcaja(id) {
+    var idcaja=$('#caja').val();
+
+    if (id==='true'){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            }
+        });
+        $.ajax({
+            url:url1+'/gettotalcaja',
+            type:'post',
+            dataType:'json',
+            data:{'idcaja':idcaja},
+            success:function (response) {
+                console.log('llego',response);
+                $('#monto').val(response[0]['Monto_Caja_apertura']);
+                var iddetalle=response[0]['id_Detallecaja'];
+
+                $("#monto" ).prop( "disabled", true );
+                $("#caja" ).prop( "disabled", true );
+                $('#aperturarcaja').hide();
+                $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja('+iddetalle+')" id="cerrarrarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
+            }
+
+        })
+
+    }
+
+}
+function cerrarcaja(iddeta) {
+    var monto=$('#monto').val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+    });
+    $.ajax({
+        url:url1+'/cerrarcaja',
+        type:'post',
+        dataType:'json',
+        data:{'monto':monto,'iddeta':iddeta},
+        success:function (response) {
+            $('#monto').val(0,0);
+            return
+            if (response.success==true){
+                toastr.options ={ "closeButton":true, "progressBar": true};
+                toastr.success(
+                    "!Registro Exitoso",
+                    "EXITO AL APERTURAR  CAJA",
+                );
+                $("#monto" ).prop( "disabled", true );
+                $("#caja" ).prop( "disabled", true );
+                $('#aperturarcaja').hide();
+                $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
+
+                localStorage.setItem('cajabierta','true');
+            }else{
+                console.log(response);
+            }
+
+        }
+
+    })
 }

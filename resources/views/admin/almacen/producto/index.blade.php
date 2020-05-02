@@ -4,13 +4,6 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">UBold</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
-                    </ol>
-                </div>
                 <h4 class="page-title">PRODUCTO</h4>
             </div>
         </div>
@@ -20,29 +13,32 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div align="center">
-                        <button type="button" id="modalProducto" class="btn btn-outline-success waves-effect waves-light">AGREGAR</button>
+                    <div class="table-responsive">
+                        <div>
+                            <button type="button" id="modalProducto" class="btn btn-outline-success waves-effect waves-light">AGREGAR</button>
+                        </div><br><br>
+                        <table class="table table-centered mb-0 tbproductos">
+                            <thead class="thead-light">
+                            <tr>
+                                <th style="width: 20px;">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1">&nbsp;</label>
+                                    </div>
+                                </th>
+                                <th>Producto</th>
+                                <th>Categoria</th>
+                                <th>Stock</th>
+                                <th>Precio Venta</th>
+                                <th>Precio Compra</th>
+                                <th>Foto</th>
+                                <th>Estado</th>
+                                <th style="width: 125px;">Acciones</th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
-                    
-                    <table id="example" class="table table-striped dt-responsive nowrap">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Descripcion</th>
-                            <th>Categoria</th>
-                            <th>Imagen</th>
-                            <th>Stock</th>
-                            <th>Estado</th>
-                            <th>Modelo</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        
-                        </tbody>
-                    </table>
-            
+
                 </div> <!-- end card body-->
             </div> <!-- end card -->
         </div><!-- end col-->
@@ -50,5 +46,8 @@
     @include('admin.almacen.producto.add')
 @endsection
 @section('script')
-    <script src="{{asset("js/producto.js")}}"></script>
+    <script src="{{asset("js/Almacen/producto.js")}}"></script>
+    <script>
+        var url = '{{url('admin/alamacen/producto/')}}';
+    </script>
 @endsection

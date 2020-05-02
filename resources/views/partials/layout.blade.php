@@ -265,18 +265,7 @@
                             <li>
                                 <a href="icons-dripicons.html">Permisos</a>
                             </li>
-                            <li>
-                                <a href="icons-font-awesome.html">Font Awesome</a>
-                            </li>
-                            <li>
-                                <a href="icons-themify.html">Themify</a>
-                            </li>
-                            <li>
-                                <a href="icons-simple-line.html">Simple Line</a>
-                            </li>
-                            <li>
-                                <a href="icons-weather.html">Weather</a>
-                            </li>
+
                         </ul>
                     </li>
 
@@ -302,24 +291,7 @@
                             <li>
                                 <a href="forms-wizard.html">Wizard</a>
                             </li>
-                            <li>
-                                <a href="forms-masks.html">Masks</a>
-                            </li>
-                            <li>
-                                <a href="forms-summernote.html">Summernote</a>
-                            </li>
-                            <li>
-                                <a href="forms-quilljs.html">Quilljs Editor</a>
-                            </li>
-                            <li>
-                                <a href="forms-file-uploads.html">File Uploads</a>
-                            </li>
-                            <li>
-                                <a href="forms-x-editable.html">X Editable</a>
-                            </li>
-                            <li>
-                                <a href="forms-image-crop.html">Image Crop</a>
-                            </li>
+
                         </ul>
                     </li>
 
@@ -338,21 +310,6 @@
                             </li>
                             <li>
                                 <a href="{{url('admin/Caja')}}">Caja</a>
-                            </li>
-                            <li>
-                                <a href="tables-responsive.html">Responsive Tables</a>
-                            </li>
-                            <li>
-                                <a href="tables-footables.html">FooTable</a>
-                            </li>
-                            <li>
-                                <a href="tables-bootstrap.html">Bootstrap Tables</a>
-                            </li>
-                            <li>
-                                <a href="tables-tablesaw.html">Tablesaw Tables</a>
-                            </li>
-                            <li>
-                                <a href="tables-jsgrid.html">JsGrid Tables</a>
                             </li>
                         </ul>
                     </li>
@@ -373,27 +330,7 @@
                             <li>
                                 <a href="charts-chartjs.html">Chartjs Charts</a>
                             </li>
-                            <li>
-                                <a href="charts-peity.html">Peity Charts</a>
-                            </li>
-                            <li>
-                                <a href="charts-chartist.html">Chartist Charts</a>
-                            </li>
-                            <li>
-                                <a href="charts-c3.html">C3 Charts</a>
-                            </li>
-                            <li>
-                                <a href="charts-sparklines.html">Sparklines Charts</a>
-                            </li>
-                            <li>
-                                <a href="charts-knob.html">Jquery Knob Charts</a>
-                            </li>
-                            <li>
-                                <a href="charts-ricksaw.html">Ricksaw Charts</a>
-                            </li>
-                            <li>
-                                <a href="charts-just-gage.html">JustGage Charts</a>
-                            </li>
+
                         </ul>
                     </li>
 
@@ -633,7 +570,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 <script src="{{asset('assets/libs/ladda/spin.js')}}"></script>
 <script src="{{asset('assets/libs/ladda/ladda.js')}}"></script>
-
 
 <!-- Buttons init js-->
 <script src="{{asset('assets/js/pages/loading-btn.init.js')}}"></script>

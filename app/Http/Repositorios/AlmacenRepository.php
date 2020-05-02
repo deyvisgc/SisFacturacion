@@ -66,7 +66,6 @@ class AlmacenRepository implements CajaInterface
         try {
             DB::beginTransaction();
             $imagen=new Imagen();
-
             if($imagen->ruta_imagen==null){
                 if ($data->hasFile('foto')) {
                     $file = $data->file('foto');
@@ -80,12 +79,14 @@ class AlmacenRepository implements CajaInterface
             $producto=new Producto();
             $producto->Nombre_Productos=$data->get('nombre');
             $producto->categoria_idcategoria=$data->get('categoria');
-            $producto->Precio_Productos=$data->get('precio');
             $producto->Stock_Productos=$data->get('stock');
             $producto->descripcion_Productos=$data->get('descripcion');
             $producto->modelo_producto=$data->get('modelo');
             $producto->Imagenes_idImagenes= $imagen->idImagenes;
             $producto->Estado_Producto=0;
+            $producto->precio_venta=$data->get('precioventa');
+            $producto->precio_compra=$data->get('preciocompra');
+            $producto->codigo_Producto=$data->codigo;
             $producto->save();
             DB::commit();
         } catch (Exception $e) {
@@ -100,7 +101,8 @@ class AlmacenRepository implements CajaInterface
             ->select(
                 'p.idProductos',
                 'p.Nombre_Productos',
-                'p.Precio_Productos',
+                'p.precio_venta',
+                'p.precio_compra',
                 'p.descripcion_Productos',
                 'c.Nombre_Categoria',
                 'i.ruta_imagen',
@@ -212,10 +214,36 @@ class AlmacenRepository implements CajaInterface
             'fecha_apertura'=>$fecha_entrega
           ]);
       if($caja==true){
-          $data=['success'=>true];
+          $data=['success'=>true,'caja'=>$caja];
           return $data;
       }else{
           return response()->json('ERROR AL APERTURAR LA CAJA', 500);
       }
+    }
+
+    public function obtenertotalcaja($id,$data){
+     $date = Carbon::now('America/Lima');
+     $date = $date->format('yy-m-d');
+     $idcaja=$data->idcaja;
+     return DB::table('detallecaja as dtc')
+            ->join('caja as c','dtc.id_Caja','=','c.idCaja')
+            ->where('c.usuarios_idusuarios','=',$id)
+            ->where('dtc.fecha_apertura','=',$date)
+            ->where('dtc.id_Caja','=',$idcaja)
+            ->where('dtc.Caja_abierta','=',1)
+            ->select('Monto_Caja_apertura','dtc.id_Detallecaja')
+            ->get();
+    }
+    public function cerrarcaja($data){
+        $fecha_cierre = Carbon::now('America/Lima');
+        $id=$data->iddeta;
+        $monto=$data->monto;
+      $ciere= detallecaja::where('id_Detallecaja','=',$id)->update(['Monto_Caja_final'=>$monto,'Caja_abierta'=>0,'fecha_cierre'=>$fecha_cierre]);
+        if($ciere==true){
+            $data=['success'=>true];
+            return $data;
+        }else{
+            return response()->json('ERROR AL CERRAR CAJA', 200);
+        }
     }
 }

@@ -11,6 +11,6 @@ class detallecaja extends Model
     protected $primaryKey = 'id_Detallecaja';
     public $timestamps=false;
     protected $fillable = [
-      'Monto_Caja_final','Monto_Caja_apertura','Caja_abierta','id_Caja','fecha_apertura'
+      'Monto_Caja_final','Monto_Caja_apertura','Caja_abierta','id_Caja','fecha_apertura','fecha_cierre'
     ];
 }

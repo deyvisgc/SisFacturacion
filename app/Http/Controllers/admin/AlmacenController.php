@@ -32,7 +32,10 @@ class AlmacenController extends Controller
     }
     public function listarproducto(){
         $list = AlmacenRepository::listproducto();
-        return DataTables::of($list)->make(true);
+        return DataTables::of($list)->addColumn('imagen', function ($pro){
+            $url= asset('Imagenes/Productos/'.$pro->ruta_imagen);
+            return '<img src="'.$url.'"  height="60px" width="60px"/>';
+        })->rawColumns(['imagen'])->make(true);
     }
     public function getproducto(Request $request){
         $update = AlmacenRepository::getproducto($request->id);
@@ -132,5 +135,12 @@ class AlmacenController extends Controller
     }
     public function store(Request $request){
         return response()->json($this->repository->aperturarcaja($request));
+    }
+    public function gettotalcaja(Request $request){
+        $id_user = Auth::user()->idusuarios;
+        return response()->json($this->repository->obtenertotalcaja($id_user,$request));
+    }
+    public function cerrarcaja(Request $request){
+        return response()->json($this->repository->cerrarcaja($request));
     }
 }

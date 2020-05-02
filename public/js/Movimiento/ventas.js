@@ -2,7 +2,7 @@ $(document).ready(function (e) {
     var tipo_pago;
     var idpersona=localStorage.getItem("id_persona");
     var idvendedor=$('#idvendedor').html();
-    var idproveedor=localStorage.getItem("idproveedor");;
+    var idproveedor=localStorage.getItem("idproveedor");
     var comprobante;
     Listar(idpersona,idvendedor,idproveedor);
     obtenertotales(idvendedor,idpersona,idproveedor);
@@ -134,70 +134,61 @@ $(document).ready(function (e) {
     $('#btnmodal').click(function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
+        var idproveedor=localStorage.getItem("idproveedor");
+        var idcliente=localStorage.getItem("id_persona");
+        var iddni=localStorage.getItem("iddni");
+        var idruc=localStorage.getItem("idruc");
         if (tipo_pago==2){
-            $('#modalPagar').modal('show');
-            var subtotal= $('#total1').html();
-            $('#totalapagar').val(subtotal);
-            var serie=$('#serie').val();
-            var num_venta=$('#n_venta').val();
-            document.getElementById('btncargando').style.display = 'none';
-            $('#btnpagar').click(function () {
-                document.getElementById('btnpagar').style.display = 'none';
-                document.getElementById('btncargando').style.display = 'block';
-                var data={};
-                data.idcliente=idpersona;
-                data.idusuario=idvendedor;
-                data.monto_efectivo=$('#monto').val();
-                data.vuelto=$('#vuelto').val();
-                data.tipo_pago=tipo_pago;
-                data.comprobante=comprobante;
-                data.num_venta=num_venta;
-                data.serie=$('#serie').val();
-                console.log(data);
-                $.ajax({
-                    url: urlventas+'/Vender',
-                    dataType: 'json',
-                    type: 'post',
-                    data:data,
-                    success: function (data) {
-                        console.log(data);
-                        if(data.success==true){
-                            toastr.options ={ "closeButton":true, "progressBar": true};
-                            toastr.success(
-                                "!Venta Exitosa",
-                                "Productos vendidos",
-                            );
-                            $('#modalPagar').modal('hide');
-                            $('#totalapagar').val(0);
-                            $('#monto').val(0);
-                            $('#vuelto').val(0);
-                            document.getElementById('btncargando').style.display = 'none';
-                            document.getElementById('btnpagar').style.display = 'block';
-                            $('#tablecarventa').DataTable().ajax.reload();
-                            $('#total').html(0);
-                            $('#subtotal').html(0);
-                            $('#Igv').html(0);
-                            $('#total1').html(0);
-
-                        }
-                    },
-                    error: function (data) {
-                        if (data.error==true) {
-                            toastr.options ={ "closeButton":true, "progressBar": true};
-                            toastr.error(
-                                "!Porfavor revisa los productos",
-                                "No se encontraron productos",
-                            );
-                        }
-                    }
-                });
-            });
+            if (iddni!=''){
+                $('#modalPagarCliente').modal('show');
+                var subtotal= $('#total1').html();
+                $('#totalapagarcliente').val(subtotal);
+                var serie=$('#serie').val();
+                var num_venta=$('#n_venta').val();
+                $('#btnpagarcliente').click(function (e) {
+                    vender(idproveedor,idvendedor,tipo_pago,comprobante,num_venta,serie,idcliente);
+                })
+            }else if (idruc!=''){
+                $('#modalPagarProveedor').modal('show');
+                var subtotal= $('#total1').html();
+                $('#totalapagarproveedor').val(subtotal);
+                var serie=$('#serie').val();
+                var num_venta=$('#n_venta').val();
+                $('#btnpagarcliente').click(function (e) {
+                    vender(idproveedor,idvendedor,tipo_pago,comprobante,num_venta,serie,idcliente);
+                })
 
 
-        }else {
-            alert('pago con tarjeta');
+            }else if (idproveedor!=''){
+                $('#modalPagarnormal').modal('show');
+                var subtotal= $('#total1').html();
+                $('#totalapagarventanormal').val(subtotal);
+                var serie=$('#serie').val();
+                var num_venta=$('#n_venta').val();
+                $('#btnpagarventasnormales').click(function (e) {
+                    vender(idproveedor,idvendedor,tipo_pago,comprobante,num_venta,serie,idcliente);
+                })
+            } else if (idcliente!=''){
+                $('#modalPagarnormal').modal('show');
+                var subtotal= $('#total1').html();
+                $('#totalapagarventanormal').val(subtotal);
+                var serie=$('#serie').val();
+                var num_venta=$('#n_venta').val();
+                $('#btnpagarventasnormales').click(function (e) {
+                    vender(idproveedor,idvendedor,tipo_pago,comprobante,num_venta,serie,idcliente);
+                })
+            }
         }
-
+    });
+    $('#montoventanormal').keyup(function (event) {
+        var monto=event.target.value;
+        var total=$('#totalapagarventanormal').val();
+        var vuelto=parseFloat(monto)-parseFloat(total);
+        if (monto==''){
+            $('#vueltoventanormal').val('0.00');
+        }else {
+            $('#vueltoventanormal').val(vuelto.toFixed(2));
+        }
     });
     $('#monto').keyup(function (event) {
         var monto=event.target.value;
@@ -209,9 +200,80 @@ $(document).ready(function (e) {
             $('#vuelto').val(vuelto.toFixed(2));
         }
     });
+    $('#montocliente').keyup(function (event) {
+        var monto=event.target.value;
+        var total=$('#totalapagarcliente').val();
+        var vuelto=parseFloat(monto)-parseFloat(total);
+        if (monto==''){
+            $('#vueltocliente').val('0.00');
+        }else {
+            $('#vueltocliente').val(vuelto.toFixed(2));
+        }
+    });
+    $('#montoproveedor').keyup(function (event) {
+        var monto=event.target.value;
+        var total=$('#totalapagarproveedor').val();
+        var vuelto=parseFloat(monto)-parseFloat(total);
+        if (monto==''){
+            $('#vueltoproveedor').val('0.00');
+        }else {
+            $('#vueltoproveedor').val(vuelto.toFixed(2));
+        }
+    });
     });
 
 
+function vender(idproveedor,idvendedor,tipo_pago,comprobante,num_venta,serie,idcliente) {
+    var data={};
+    data.idcliente=idcliente;
+    data.idproveedor=idproveedor;
+    data.idvendedor=idvendedor;
+    data.monto_ventanormal=$('#montoventanormal').val();
+    data.vuelto_ventanormal=$('#vueltoventanormal').val();
+    data.tipo_pago=tipo_pago;
+    data.comprobante=comprobante;
+    data.num_venta=num_venta;
+    data.serie=serie;
+    data.telefonoempre=$('#telefono_empre').val();
+    data.correoempresa=$('#correo_electr_empre').val();
+    data.telefonocliente=$('#telefono_clien').val();
+    data.correocliente=$('#correo_electr_cli').val();
+    $.ajax({
+        url: urlventas+'/Vender',
+        dataType: 'json',
+        type: 'post',
+        data:data,
+        success: function (data) {
+            console.log(data);
+            if(data.success==true){
+                toastr.options ={ "closeButton":true, "progressBar": true};
+                toastr.success(
+                    "!Venta Exitosa",
+                    "Productos vendidos",
+                );
+                $('#modalPagar').modal('hide');
+                $('#totalapagar').val(0);
+                $('#monto').val(0);
+                $('#vuelto').val(0);
+                $('#tablecarventa').DataTable().ajax.reload();
+                $('#total').html(0);
+                $('#subtotal').html(0);
+                $('#Igv').html(0);
+                $('#total1').html(0);
+
+            }
+        },
+        error: function (data) {
+            if (data.error==true) {
+                toastr.options ={ "closeButton":true, "progressBar": true};
+                toastr.error(
+                    "!Porfavor revisa los productos",
+                    "No se encontraron productos",
+                );
+            }
+        }
+    });
+}
 function escogercliente(even) {
     if (even == 1) {
         $("#dni").remove();
@@ -354,7 +416,8 @@ function escogerclientedelsistema(even) {
         });
         $(".ui-autocomplete.ui-widget").css('font-size', '15px');
         $('#idproveedor').val("");
-
+         localStorage.setItem("iddni",'');
+         localStorage.setItem("idruc",'');
     } else {
         $("#dnilabelsistema").remove();
         $('#client_sistema').remove();
@@ -398,12 +461,15 @@ function escogerclientedelsistema(even) {
                 $('#razon_social1').val(ui.item.razonsocial);
                 $('#idproveedor').val(ui.item.idprovee);
                 $('#ruc1222').val(ui.item.ruc);
+
                 return false;
             }
 
         });
         $(".ui-autocomplete.ui-widget").css('font-size', '15px');
         $('#idcliente').val("");
+        localStorage.setItem("iddni",'');
+        localStorage.setItem("idruc",'');
         if (localStorage.getItem("id_persona")!=''){
             localStorage.removeItem('id_persona');
         }
@@ -443,7 +509,11 @@ function buscardni() {
             localStorage.setItem('paterno',response.paterno);
             localStorage.setItem('fecha_naci',response.nacimiento);
             $('#buscardni').buttonLoader('stop');
+            localStorage.setItem('iddni','dni');
+            var ruc=0;
             $('#cliente').val(response.nombre.concat(' ',response.paterno,' ', response.materno));
+            limpiardatos(ruc);
+
         }
     });
 }
@@ -470,6 +540,9 @@ function busarruc(){
             localStorage.setItem('provincia',response.provincia);
             localStorage.setItem('departamento',response.departamento);
             localStorage.setItem('direccion',response.direccion);
+           localStorage.setItem('idruc','ruc');
+          var ruc=1;
+            limpiardatos(ruc);
         }
     });
 }
@@ -682,15 +755,18 @@ function validarcarrito() {
             type: 'post',
             data:data,
             success: function (data) {
-                console.log(data)
                 dataventa={};
-                console.log(data);
                dataventa.idpersona=data['id_persona'];
                 dataventa.idproveedor=data['idproveedor'];
-              localStorage.setItem("id_persona",data['id_persona']);
-                localStorage.setItem("idproveedor",data['idproveedor']);
+                console.log(dataventa);
+                if (data['id_persona']!=undefined){
+                    localStorage.setItem("id_persona",data['id_persona']);
+                    localStorage.setItem("idproveedor",'');
+                }else if (data['idproveedor']!=undefined){
+                    localStorage.setItem("idproveedor",data['idproveedor']);
+                    localStorage.setItem("id_persona",'');
+                }
 
-            //    console.log(dataventa.idproveedor);
                 $('#total').html(data['total']);
                 $('#total1').html(data['total']);
                 $('#subtotal').html(data['subtotal']);
@@ -853,5 +929,26 @@ function generarnumero(numero){
         return "0000" + (Number(numero)+1);
     }
 }
+
+function limpiardatos(valor) {
+    if (valor == 0) {
+        localStorage.removeItem('ruc');
+        localStorage.removeItem('nombre_o_razon_social');
+        localStorage.removeItem('estado_del_contribuyente');
+        localStorage.removeItem('provincia');
+        localStorage.removeItem('departamento');
+        localStorage.removeItem('direccion');
+        localStorage.setItem('idruc', '');
+    } else {
+        localStorage.removeItem('dni');
+        localStorage.removeItem('nombres');
+        localStorage.removeItem('paterno');
+        localStorage.removeItem('materno');
+        localStorage.removeItem('fecha_naci');
+        localStorage.removeItem('apellidoma');
+        localStorage.setItem('iddni', '');
+    }
+}
+
 
 

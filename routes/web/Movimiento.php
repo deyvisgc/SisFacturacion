@@ -22,7 +22,8 @@ Route::get('/', function () {
 ######apertura de caja#######################33
 Route::resource('Aperturacaja','admin\AlmacenController');
 Route::get('Movimiento/Aperturacaja','admin\AlmacenController@aperturacaja');
-
+Route::post('Movimiento/gettotalcaja','admin\AlmacenController@gettotalcaja');
+Route::post('Movimiento/cerrarcaja','admin\AlmacenController@cerrarcaja');
 
 
 

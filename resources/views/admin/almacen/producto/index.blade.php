@@ -2,18 +2,14 @@
 @section('contenido')
     <!-- start page title -->
     <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <h4 class="page-title">PRODUCTO</h4>
-            </div>
-        </div>
-    </div>
+    </div><br>
     <!-- end page title -->
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
+                        <h4 style="text-align: center" >ALMACEN DE PRODUCTOS</h4>
                         <div>
                             <button type="button" id="modalProducto" class="btn btn-outline-success waves-effect waves-light">AGREGAR</button>
                         </div><br><br>
@@ -48,6 +44,8 @@
 @section('script')
     <script src="{{asset("js/Almacen/producto.js")}}"></script>
     <script>
-        var url = '{{url('admin/alamacen/producto/')}}';
+        var asset = '{{asset('Imagenes/Productos/')}}/'
+        var url = '{{url('admin/almacen/producto/')}}';
     </script>
+
 @endsection

@@ -17,7 +17,6 @@
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet" type="text/css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
     <link href="{{asset('assets/libs/ladda/ladda-themeless.min.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- App css -->
@@ -32,8 +31,15 @@
     <link href="{{asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/libs/custombox/custombox.min.css')}}" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">--->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link href="{{asset('css/alertjs.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/flatpickr/flatpickr.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/clockpicker/bootstrap-clockpicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+
+
 
 
     <!-- Main css -->
@@ -260,7 +266,7 @@
                                 <a href="{{url('Usuario')}}">Usuarios</a>
                             </li>
                             <li>
-                                <a href="{{url('Permisos')}}">Roles Y Privilegios</a>
+                                <a href="{{url('PriviRol')}}">Roles Y Privilegios</a>
                             </li>
                             <li>
                                 <a href="icons-dripicons.html">Permisos</a>
@@ -280,7 +286,7 @@
                                 <a href="{{url('Compras/Ingresos')}}">Compras</a>
                             </li>
                             <li>
-                                <a href="forms-advanced.html">Ventas</a>
+                                <a href="{{url('Ventas')}}">Ventas</a>
                             </li>
                             <li>
                                 <a href="{{url('Movimiento/Aperturacaja')}}">APERTURAR CAJA</a>
@@ -311,24 +317,36 @@
                             <li>
                                 <a href="{{url('admin/Caja')}}">Caja</a>
                             </li>
+                            <li>
+                                <a href="{{url('admin/Caja')}}">AJUSTAR STOCK</a>
+                            </li>
                         </ul>
                     </li>
 
                     <li>
                         <a href="javascript: void(0);">
                             <i class="fe-bar-chart-2"></i>
-                            <span> Charts </span>
+                            <span>Reportes</span>
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
                             <li>
-                                <a href="charts-flot.html">Flot Charts</a>
+                                <a href="charts-flot.html">Historial Ventas</a>
                             </li>
                             <li>
-                                <a href="charts-morris.html">Morris Charts</a>
+                                <a href="charts-morris.html">Historial compras</a>
                             </li>
                             <li>
-                                <a href="charts-chartjs.html">Chartjs Charts</a>
+                                <a href="charts-chartjs.html">Productos mas vendidos</a>
+                            </li>
+                            <li>
+                                <a href="charts-chartjs.html">Productos menos vendidos</a>
+                            </li>
+                            <li>
+                                <a href="charts-chartjs.html">Productos Faltantes</a>
+                            </li>
+                            <li>
+                                <a href="charts-chartjs.html">Ganancias</a>
                             </li>
 
                         </ul>
@@ -541,10 +559,10 @@
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
 <script src="{{asset('assets/libs/jquery-knob/jquery.knob.min.js')}}"></script>
 <script src="{{asset('assets/libs/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
-<!-- App js-->
+<!-- App js
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+-->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="{{asset('assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/dataTables.bootstrap4.js')}}"></script>
@@ -565,14 +583,16 @@
 <script src="https://github.com/CodeSeven/toastr/blob/master/nuget/content/scripts/toastr.js"></script>
 <script src="{{asset('assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
 <!-- Init js-->
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 <script src="{{asset('assets/libs/ladda/spin.js')}}"></script>
 <script src="{{asset('assets/libs/ladda/ladda.js')}}"></script>
 
 <!-- Buttons init js-->
 <script src="{{asset('assets/js/pages/loading-btn.init.js')}}"></script>
+<script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
+<script src="{{asset('assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js')}}"></script>
+<script src="{{asset('assets/libs/clockpicker/bootstrap-clockpicker.min.js')}}"></script>
+<script src="{{asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 
 
 

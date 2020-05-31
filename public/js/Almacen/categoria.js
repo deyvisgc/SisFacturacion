@@ -3,30 +3,6 @@ $(document).ready(function() {
     tabla=$('#example').DataTable({
         "pageLength": 10,
         responsive: true,
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'excelHtml5',
-                title: "lista de Clientes",
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                title:"lista de Clientes",
-                exportOptions:{
-                    columns:[0,1,2,3,4,5]
-                }
-            },
-            {
-                extend:  'csvHtml5',
-                title:"lista de Clientes",
-                exportOptions:{
-                    columns:[0,1,2,3,4,5]
-                }
-            }
-        ],
         language: {
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -66,15 +42,16 @@ $(document).ready(function() {
                 }},
             {"mRender": function ( data, type, row ) {
                     if (row.Estado_categoria===0){
-                        return '<a onclick="editarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Editar" ><i class="fe-edit fa-2x" style="color: green"></i></a>'+
-                            '<a onclick="EliminarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Eliminar" ><i class="fa fa-trash fa-2x" style="color: red"></i></a>'+
-                            '<a onclick="inactivoCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Cambiar de estado" ><i class="fa fa-exclamation-triangle fa-2x" style="color: yellow"></i></a>'
+
+                        return '<a onclick="editarCategoria('+row.idcategoria+')" style="color: #18F526"  class="action-icon" href="javascript:void(0)" title="Editar" ><i class="mdi mdi-square-edit-outline"></i></a>'+
+                            '<a onclick="EliminarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Eliminar" style="color: red;" class="action-icon" ><i class="mdi mdi-delete"></i></a>'+
+                            '<a onclick="inactivoCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Cambiar de estado" class="action-icon" style="color: red;"><i class="mdi mdi-check-outline"></i></a>'
                     }else if (row.Estado_categoria==="1"){
-                        return '<a onclick="editarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Editar" ><i class="fe-edit fa-2x" style="color: green"></i></a>'+
-                            '<a onclick="EliminarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Eliminar" ><i class="fa fa-trash fa-2x" style="color: red"></i></a>'+
-                            '<a onclick="activoCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Cambiar de estado" ><i class="fa fa-check fa-2x" style="color: green"></i></a>'
+                        return '<a onclick="editarCategoria('+row.idcategoria+')" href="javascript:void(0)" style="color: #18F526"  class="action-icon" title="Editar" ><i class="mdi mdi-square-edit-outline"></i></a>'+
+                            '<a onclick="EliminarCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Eliminar" style="color: red;" class="action-icon" ><i class="mdi mdi-delete"></i></a>'+
+                            '<a onclick="activoCategoria('+row.idcategoria+')" href="javascript:void(0)" title="Cambiar de estado" class="action-icon" style="color: green;" ><i class="mdi mdi-check-outline"></i></a>'
                     }
-                        ;}
+            }
             }
 
         ],

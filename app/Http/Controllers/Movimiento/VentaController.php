@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Movimiento;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositorios\VentaRepository;
+use App\Modelos\Persona;
+use App\Modelos\Producto;
 use App\Modelos\TipoComprobante;
+use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 use Tecactus\Reniec\DNI;
 use DB;
+
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\App;
 
 class VentaController extends Controller
 {
@@ -170,5 +178,55 @@ class VentaController extends Controller
  public function crearnewclientexruc(Request $request){
      return response()->json($this->repository->crearnewclientexruc($request));
  }
+ public function descargarcomprobante(Request $request){
 
+      $idvendedor=$request->idvendedor;
+        $idcliente=$request->idcliente;
+        $idproveedor=$request->idproveedor;
+         $data = Persona::find(85);
+        $persona=DB::select("call datosclientes(?,?,?)",array($idvendedor,$idcliente,$idproveedor));
+        $productos=DB::select("call comprobante(?,?,?)",array($idvendedor,$idcliente,$idproveedor));
+     //  $productos=Producto::all();
+        $fecha_emicion=Carbon::now('America/Lima');
+        $fecha = explode(" ", $fecha_emicion);
+        $fecha1=$fecha[0];
+         $fecha2=$fecha[1];
+         $fec=$fecha1.'.'.$fecha2;
+
+         $pdf = App::make('dompdf.wrapper');
+         $pdf->loadView('Factura',array('productos'=>$productos,'fecha'=>$fecha_emicion));
+         $pdf->setPaper('A4');
+   /*  $path = public_path('pdf/');
+     $fileName =  $data['nombre_per'] .'.'. str_random(25) .'.' . 'pdf'  ;
+     $pdf->save($path . '/' . $fileName);
+     return $pdf->download($fileName);
+*/
+     $path = base_path('storage/app/public/PDF_Ventas');
+     $pdfPath = $path.'/'.$data['nombre_per'] .'.'. str_random(25) .'.' . 'pdf';
+     $pdf->save($pdfPath);
+    // $url = base64_decode($pdfPath);
+     return $pdf->download($pdfPath);
+    // $img_url = 'http://127.0.0.1:8000/storage/app/public/PDF_Ventas'.''.$nombre;
+    // return $img_url;
+
+     // Guardar el pdf generado en aws amazon
+    // Storage::disk('local')->put('PDF_Ventas/'.$data['nombre_per'] .'.'. str_random(25) .'.' . 'pdf', file_get_contents($pdfPath),'public');
+/*
+     $public_path = public_path();
+     $fileName =  $data['nombre_per'] .'.'. str_random(25) .'.' . 'pdf'  ;
+     $url = $public_path.'/storage/'.$fileName;
+     $pdf->save($url);
+*/
+     //verificamos si el archivo existe y lo retornamos
+    // if (Storage::exists($archivo))
+  //  {
+
+   //  }
+     //si no se encuentra lanzamos un error 404.
+  //   abort(404);
+
+ }
+    public  function descargar($nombre){
+
+    }
 }

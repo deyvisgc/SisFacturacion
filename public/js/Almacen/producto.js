@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    var ListProducto    = $('#rg_lisproducto').val();
-    var imagen1    = $('#rg_img1').val();
-    var imagen2    = $('#rg_img2').val();
     tabla=$('.tbproductos').DataTable({
         "pageLength": 10,
         responsive: true,
@@ -29,7 +26,7 @@ $(document).ready(function() {
                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
             },
         },
-        ajax: ListProducto,
+        ajax: url+'/listarproducto',
         columns: [
             {
                 mRender: function(data, type, row) {
@@ -40,10 +37,9 @@ $(document).ready(function() {
                 }
             },
             {data: 'Nombre_Productos', name: 'Nombre_Productos'},
-            {data: 'precio_venta',name:'precio_venta'},
-            {data: 'descripcion_Productos',name:'descripcion_Productos'},
             {data: 'Nombre_Categoria',name:'Nombre_Categoria'},
             {data: 'Stock_Productos',name:'Stock_Productos'},
+            {data: 'precio_venta',name:'precio_venta'},
             {data: 'precio_compra',name:'precio_compra'},
             {data: 'imagen', name: 'imagen', orderable: true, searchable: true},
             {data: 'Estado_Producto',
@@ -59,33 +55,39 @@ $(document).ready(function() {
                 data: null,
                 render: function (data, type, row) {
                     if (data.Estado_Producto === 0) {
-                        return '<a href="javascript:void(0);" style="margin-left: 20px;color: #F2EF1D" class="action-icon"> <i class="mdi mdi-eye"></i></a>' +
-                            '<a onclick="editarProductos(' + row.idProductos + ')"  style="color: #18F526"  class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>' +
-                            '<a  onclick="EliminarCategoria(' + row.idProductos + ')" href="javascript:void(0);" style="color: red;"  class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
+                        return '<a onclick="editarProductos(' + row.idProductos + ')"  style="color: #18F526"  class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>' +
+                            '<a  onclick="EliminarProducto(' + row.idProductos + ','+ row.idImagenes+')" href="javascript:void(0);" style="color: red;"  class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
                             '<a  onclick="Activar(' + row.idProductos + ')" href="javascript:void(0);" style="color: red;"  class="action-icon"><i class="mdi mdi-check-outline"></i></a>';
                     } else {
-                        return '<a href="javascript:void(0);" style="margin-left: 20px;color: #F2EF1D" class="action-icon"> <i class="mdi mdi-eye"></i></a>' +
-                            '<a onclick="editarProductos(' + row.idProductos + ')"  style="color: #18F526"  class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>' +
-                            '<a  onclick="EliminarCategoria(' + row.idProductos + ')" href="javascript:void(0);" style="color: red;"  class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
-                            '<a  onclick="Activar(' + row.idProductos + ')" href="javascript:void(0);" style="color: #2a9055;"  class="action-icon"><i class="mdi mdi-check-outline"></i></a>'
+                        return '<a onclick="editarProductos(' + row.idProductos + ')"  style="color: #18F526"  class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>' +
+                            '<a  onclick="EliminarProducto(' + row.idProductos + ','+ row.idImagenes+')" href="javascript:void(0);" style="color: red;"  class="action-icon"> <i class="mdi mdi-delete"></i></a>' +
+                            '<a  onclick="Desactivar(' + row.idProductos + ')" href="javascript:void(0);" style="color: #2a9055;"  class="action-icon"><i class="mdi mdi-check-outline"></i></a>'
                     }
+
                 }
             }
 
         ],
     });
-    $('.UpdateProducto').hide();
-    $('#modalProducto').click(function () {
-        $('.formaddproducto')[0].reset();
-        $('#pro_categoria').val('default').selectpicker('refresh');
-    });
+
     $('#modalProducto').click(function () {
         $('.formaddproducto')[0].reset();
         $('.modal-title').text('Nuevo Producto');
         $('#modalAddProducto').modal('show');
+        $('#RegistrarProducto').show();
+        $('#ActualizarProducto').hide();
+        $(".pro_Catego").show();
+
     });
-    $('.GuardarProducto').click(funcionRegistrar);
+    $('#RegistrarProducto').click(funcionRegistrar);
     mostrarimagen();
+    $('body').on('hidden.bs.modal', '.modal', function () {
+        $("#updatecate").empty();
+        $('#updatecate').remove();
+
+        $('#imagenPrevisualizacion').removeAttr('src');
+    });
+
 });
 function funcionRegistrar(e){
     var addInfo    = $('#rg_addproducto').val();
@@ -117,7 +119,7 @@ function funcionRegistrar(e){
         }
     });
     $.ajax({
-        url: addInfo,
+        url: url+'/Addproducto',
         dataType: 'json',
         type: 'post',
         data: formData,
@@ -161,59 +163,67 @@ function mostrarimagen(){
         $imagenPrevisualizacion.src = objectURL;
     });
 }
+var producto;
+var idimagenes;
 function editarProductos(id) {
     $('#formaddproducto')[0].reset();
-    $("#pro_categoria").remove();
-    $('#selectcategoria').append('<select class="form-control" id="updatecate"><option >escoger categoria</option></select>')
+    $(".pro_Catego").hide();
+    $('#selectcate').append('<select class="form-control" name="cate" id="updatecate"><option ></option></select>');
     $('.modal-title').text('Actualizar Producto');
-    $('#modalAddProducto').modal('show');
+    $('#RegistrarProducto').hide();
+    $('#ActualizarProducto').show();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    producto=id;
+
     $.ajax({
-        url:url+'getproducto',
+        url:url+'/getproducto',
         type:'post',
         dataType: 'json',
         data:{'id':id},
         success:function (response) {
-            console.log(response);
+            $.each(response.producto,function (index,val) {
+                idimagenes=val.idImagenes;
+                $('#modalAddProducto').modal('show');
+                $('.pro_nombre').val(val.Nombre_Productos);
+                $('.pro_preventa').val(val.precio_venta);
+                $('.pro_precompra').val(val.precio_compra);
+                $('.pro_codigo').val(val.codigo_Producto);
+                $('.pro_stock').val(val.Stock_Productos);
+                $('.pro_modelo').val(val.modelo_producto);
+                $('.pro_descripcion').val(val.descripcion_Productos);
+                $('#imagenPrevisualizacion').removeAttr('src');
+                $('#imagenPrevisualizacion').attr('src', asset + val.imagen);
+                $.each(response.cate,function (index,va) {
+                    if(val.categoria_idcategoria===va.idcategoria){
+                        $("#updatecate").append('<option value='+va.idcategoria+ '  selected >'+va.Nombre_Categoria+ '</option>');
+                    }else {
+                        $("#updatecate").append('<option value='+va.idcategoria+ '  >'+va.Nombre_Categoria+ '</option>');
+                    }
+                })
+            });
         }
     })
 
 }
-//// reset form ////////
-$('#modalProducto').click(function () {
-    $('.formaddproducto')[0].reset();
-    $('#pro_categoria').val('default').selectpicker('refresh');
-});
-var producto;
-function editarProducto(id) {
-    var urlrf    = $('#rg_getproducto').val();
-    producto=id;
-    $('.UpdateProducto').show();
-    $('.GuardarProducto').hide();
-    $('.modal-title').text('Editar Producto');
-    $.get(urlrf+'?id=' + id, function (data) {
-        $('.f_id_prod').val(data[0].idProductos);
-        $('.pro_nombre').val(data[0].Nombre_Productos);
-        $('.pro_precio').val(data[0].precio_venta);
-        $('#pro_categoria').val(data[0].categoria);
-        $('.pro_codigo').val(data[0].codigo_Producto);
-        $('.pro_stock').val(data[0].Stock_Productos);
-        $('.pro_modelo').val(data[0].modelo_producto);
-        $('#pro_imagen').val(data[0].imagen);
-        $('.pro_descripcion').val(data[0].descripcion_Productos);
-        console.log(data);
-        $('#modalAddProducto').modal('show');
-    });
-}
-$('.UpdateProducto').click(function (e) {
-    var urlrf    = $('#rg_updateproducto').val();
-    var frm=$('.formaddproducto');
+$('#ActualizarProducto').click(function (e) {
+    var form = $('.formaddproducto')[0];
+    var formData = new FormData(form);
+     formData.append('idimagenes',idimagenes);
     e.preventDefault();
     $.ajax({
-        url:urlrf+'/'+producto,
+        url:url+'/updateproducto/'+producto,
         dataType:'json',
         type:'post',
-        data:frm.serialize(),
+        processData: false,
+        contentType: false,
+        data: formData,
         success:function (response) {
+            console.log(response);
             if (response.success===true){
                 Swal.fire({
                     position: 'top-end',
@@ -231,80 +241,84 @@ $('.UpdateProducto').click(function (e) {
 
         }
     })
+
+
 });
-function EliminarProducto(id) {
-    var urlrf    = $('#rg_Eliminarproducto').val();
-    Swal.fire({
-        title: 'Esta Seguro de Eliminar el Producto.. ?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminar!'
-    }).then((result) => {
-        if (result.value) {
-            $.get(urlrf+'?id=' + id, function (data) {
-                if (data) {
-                    tabla.ajax.reload();
-                }
-                Swal.fire(
-                    'Eliminado!',
-                    'success'
-                )
-            });
-        }
-    })
+function EliminarProducto(idproducto,idimagen) {
+    Swal.fire
+    ({
+        title:"Seguro de eliminar ?",
+        text:"Este Producto!",
+        type:"warning",
+        height:50,
+        showCancelButton:!0,confirmButtonText:"Si, Eliminar!",
+        cancelButtonText:"No, cancelar!",confirmButtonClass:"btn btn-success mt-2",
+        cancelButtonClass:"btn btn-danger ml-2 mt-2",
+        buttonsStyling:!1})
+        .then((result) => {
+            if (result.value) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: url+'/eliminarproducto',
+                    type: 'post',
+                    datType: 'json',
+                    data:{'idproducto':idproducto,'idimagen':idimagen},
+                    success: function (data) {
+                        if (data.status=='succes'){
+                            Swal.fire({title:"Deleted!",
+                                text:"Su producto ha sido eliminado.",
+                                type:"success"
+                            })
+                            $('.tbproductos').DataTable().ajax.reload();
+                        }else{
+                            $('.tbproductos').DataTable().ajax.reload();
+                            t.dismiss===Swal.DismissReason.cancel&&Swal.fire({title:"Cancelled",text:"Error al eliminar este producto :)",
+                                type:"error"});
+
+                        }
+
+
+                    }
+                });
+            }
+            else {
+                Swal.fire({title:"Cancelled",text:"Your imaginary file is safe :)",type:"error"})
+            }
+        })
+
 }
-function inactivoProducto(id) {
-    var urlrf    = $('#rg_estadoInactivoproducto').val();
-    Swal.fire({
-        title: 'Esta Seguro de Cambiar de estado.. ?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminar!'
-    }).then((result) => {
-        if (result.value) {
-            $.get(urlrf+'?id=' + id, function (data) {
-                if (data) {
-                    tabla.ajax.reload();
-                }
-                Swal.fire(
-                    'Cambiado!',
-                    'El Estado fue Cambiado Correctamente.',
-                    'success'
-                )
-            });
+function Activar(id) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    })
+    });
+    $.post(url+'/activarProducto',{'id':id}, function (data) {
+        if (data) {tabla.ajax.reload();}
+        Swal.fire(
+            'Cambiado!',
+            'El Estado fue Cambiado Correctamente.',
+            'success'
+        )
+    });
 }
-function activoProducto(id) {
-    var urlrf    = $('#rg_estadoActivoproducto').val();
-    Swal.fire({
-        title: 'Esta Seguro de Cambiar de estado.. ?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminar!'
-    }).then((result) => {
-        if (result.value) {
-            $.get(urlrf+'?id=' + id, function (data) {
-                if (data) {
-                    tabla.ajax.reload();
-                }
-                Swal.fire(
-                    'Cambiado!',
-                    'El Estado fue Cambiado Correctamente.',
-                    'success'
-                )
-            });
+function Desactivar(id) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    })
+    });
+    $.post(url+'/desactivarProducto',{'id':id}, function (data) {
+        if (data) {tabla.ajax.reload();}
+        Swal.fire(
+            'Cambiado!',
+            'El Estado fue Cambiado Correctamente.',
+            'success'
+        )
+    });
 }
-//// reset form ////////
-$('#modalProducto').click(function () {
-    $('.formaddproducto')[0].reset();
-});
 

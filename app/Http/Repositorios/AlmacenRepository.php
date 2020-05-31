@@ -14,6 +14,8 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Input;
+
 class AlmacenRepository implements CajaInterface
 {
     /******** CATEGORIA ********************/
@@ -107,38 +109,83 @@ class AlmacenRepository implements CajaInterface
                 'c.Nombre_Categoria',
                 'i.ruta_imagen',
                 'p.Stock_Productos',
-                'p.Estado_Producto','p.modelo_producto','p.codigo_Producto'
+                'p.Estado_Producto','p.modelo_producto','p.codigo_Producto',
+                'i.idImagenes'
             )
             ->get();
 
     }
     public static function getproducto($id){
-        $data=DB::table("productos as p")
-            ->join("categoria as c","c.idcategoria","=","p.categoria_idcategoria")
+        $categoria=Categoria::all();
+        $productos=DB::table("productos as p")
             ->join("imagenes as i","i.idImagenes","=","p.Imagenes_idImagenes")
-            ->select("p.idProductos",
+            ->select(
+                "p.idProductos",
                 "p.Nombre_Productos",
                 "p.descripcion_Productos",
-                "c.Nombre_Categoria as categoria",
-                "i.ruta_imagen as imagen",
+               "i.ruta_imagen as imagen",
                 "p.Stock_Productos",
                 "p.Estado_Producto",
                 "p.modelo_producto",
                 "p.codigo_Producto",
                 "p.precio_compra",
-                "p.precio_venta")->get();
-        return $data[0];
+                'p.categoria_idcategoria',
+                'i.idImagenes',
+                "p.precio_venta")
+             ->where('p.idProductos','=',$id)->get();
+         return array('producto'=>$productos,'cate'=>$categoria);
     }
     public static function updateproducto($data,$id){
-        $up= Producto::find($id);
-        $up->Nombre_Categoria=$data->get('Nombre_Categoria');
-        $up->Estado_categoria=0;
-        $up->update();
-        return $up;
+        try {
+            DB::beginTransaction();
+            $imagen=Imagen::find(Input::get('idimagenes'));
+            $image_path="Imagenes/Productos/$imagen->ruta_imagen";
+
+            if(\File::exists(Public_path($image_path))){
+                \File::delete(Public_path($image_path));
+            }
+            if($imagen->ruta_imagen!=null){
+                if ($data->hasFile('imagen')) {
+                    $file = $data->file('imagen');
+                    $file->move(public_path() . '/Imagenes/Productos/', $file->getClientOriginalName());
+                    $imagen->ruta_imagen =  $file->getClientOriginalName();
+                }
+            } else{
+                $imagen->ruta_imagen='dora.jpg';
+            }
+            $imagen->save();
+            $producto=Producto::find($id);
+            $producto->Imagenes_idImagenes= $imagen->idImagenes;
+            $producto->Nombre_Productos=$data->get('pro_nombre');
+            $producto->categoria_idcategoria=$data->get('cate');
+            $producto->Stock_Productos=$data->get('stock');
+            $producto->descripcion_Productos=$data->get('descripcion');
+            $producto->modelo_producto=$data->get('modelo');
+            $producto->precio_venta=$data->get('precio_Venta');
+            $producto->precio_compra=$data->get('precio_compra');
+            $producto->codigo_Producto=$data->codigo;
+            $producto->save();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
-    public static function Eliminarproducto($id){
-        $del=Producto::destroy($id);
-        return $del;
+    public static function Eliminarproducto($data){
+        $idproducto=$data->idproducto;
+        $idimagen=$data->idimagen;
+        $imagen=Imagen::find($idimagen);
+        $image_path="Imagenes/Productos/$imagen->ruta_imagen";
+        if(\File::exists(Public_path($image_path))){
+            \File::delete(Public_path($image_path));
+        }
+        if($idproducto!=''&&$idimagen!=''){
+            $del=Producto::destroy($idproducto);
+            $ima=Imagen::destroy($idimagen);
+             return  array('status'=>'succes');
+        }else{
+            return  array('status'=>'error');
+        }
+
     }
     public static function estadoInactivoproducto($id){
         $model=Producto::where('idProductos',$id)->first();
@@ -251,12 +298,35 @@ class AlmacenRepository implements CajaInterface
         $fecha_cierre = Carbon::now('America/Lima');
         $id=$data->iddeta;
         $monto=$data->monto;
-      $ciere= detallecaja::where('id_Detallecaja','=',$id)->update(['Monto_Caja_final'=>$monto,'Caja_abierta'=>0,'fecha_cierre'=>$fecha_cierre]);
+        $montoapertura=$data->montoapertura;
+      $ciere= detallecaja::where('id_Detallecaja','=',$id)
+          ->update(['Monto_Caja_final'=>$monto,'Caja_abierta'=>0,'fecha_cierre'=>$fecha_cierre,
+                   'Monto_Caja_apertura'=>$montoapertura]);
         if($ciere==true){
             $data=['success'=>true];
             return $data;
         }else{
             return response()->json('ERROR AL CERRAR CAJA', 200);
         }
+    }
+    public function listarcaja($id){
+        return DB::table('detallecaja as dtc')
+            ->join('caja as c','dtc.id_Caja','=','c.idCaja')
+            ->where('c.usuarios_idusuarios','=',$id)
+            ->where('dtc.Caja_abierta','=',0)
+            ->select('c.caj_codigo','dtc.Monto_Caja_apertura','dtc.Monto_Caja_final','dtc.fecha_apertura','dtc.fecha_cierre')
+            ->get();
+    }
+    public function buscar($fecha_ini,$fecha_fin){
+        $id_user = Auth::user()->idusuarios;
+         return    DB::table('detallecaja as dtc')
+                 ->join('caja as c','dtc.id_Caja','=','c.idCaja')
+                 ->select('c.caj_codigo','dtc.Monto_Caja_apertura','dtc.Monto_Caja_final','dtc.fecha_apertura','dtc.fecha_cierre')
+                 ->where('c.usuarios_idusuarios','=',$id_user)
+                 ->whereBetween('fecha_apertura', [$fecha_ini, $fecha_fin])
+                 ->whereBetween('fecha_cierre',[$fecha_ini, $fecha_fin])
+                 ->get();
+
+
     }
 }

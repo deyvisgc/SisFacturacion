@@ -24,8 +24,8 @@ Route::resource('Aperturacaja','admin\AlmacenController');
 Route::get('Movimiento/Aperturacaja','admin\AlmacenController@aperturacaja');
 Route::post('Movimiento/gettotalcaja','admin\AlmacenController@gettotalcaja');
 Route::post('Movimiento/cerrarcaja','admin\AlmacenController@cerrarcaja');
-
-
+Route::post('Movimiento/buscar','admin\AlmacenController@buscar');
+Route::get('Movimiento/verfactura','admin\AlmacenController@vefactura');
 
 
 //modelo administrativo

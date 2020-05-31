@@ -1,94 +1,13 @@
 $(document).ready(function() {
     var id=localStorage.getItem('cajabierta');
     mostrartotalcaja(id);
-    var ListCategoria    = $('#rg_lisCategoria').val();
-    tabla=$('#example').DataTable({
-        "pageLength": 10,
-        responsive: true,
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'excelHtml5',
-                title: "lista de Clientes",
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                title:"lista de Clientes",
-                exportOptions:{
-                    columns:[0,1,2,3,4,5]
-                }
-            },
-            {
-                extend:  'csvHtml5',
-                title:"lista de Clientes",
-                exportOptions:{
-                    columns:[0,1,2,3,4,5]
-                }
-            }
-        ],
-        language: {
-            "sProcessing":     "Procesando...",
-            "sLengthMenu":     "Mostrar _MENU_ registros",
-            "sZeroRecords":    "No se encontraron resultados",
-            "sEmptyTable":     "Ningún dato disponible en esta tabla",
-            "sInfo":           "Mostrando del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty":      "Ningún dato disponible en esta tabla",
-            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix":    "",
-            "sSearch":         "Buscar:",
-            "sUrl":            "",
-            "sInfoThousands":  ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":     "Último",
-                "sNext":     "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            },
-        },
-        ajax: ListCategoria,
-        columns: [
-            {data: 'caj_codigo', name: 'caj_codigo'},
-            {data: 'caj_descripcion',name:'caj_descripcion'},
-            {data: 'caj_abierta',name:'caj_abierta'},
-            {data: 'monto_Caja_Inicial',name:'monto_Caja_Inicial'},
-            {data: 'Monto_Caja_final',name:'Monto_Caja_final'},
-            {data: 'estado',
-                "render": function (data, type, row) {
-                    if (row.estado === 0) {
-                        return ' <label class="badge badge-success badge-pill">Activo</label>';
-                    }
-                    else if(row.estado === "1"){
-                        return '<label class="badge badge-danger badge-pill">Inactivo</label>';
-                    }
-                }},
-            {"mRender": function ( data, type, row ) {
-                    if (row.estado===0){
-                        return '<a onclick="editarCategoria('+row.idCaja+')" href="javascript:void(0)" title="Editar" ><i class="fe-edit fa-2x" style="color: green"></i></a>'+
-                            '<a onclick="EliminarCategoria('+row.idCaja+')" href="javascript:void(0)" title="Eliminar" ><i class="fa fa-trash fa-2x" style="color: red"></i></a>'+
-                            '<a onclick="inactivoCategoria('+row.idCaja+')" href="javascript:void(0)" title="Cambiar de estado" ><i class="fa fa-exclamation-triangle fa-2x" style="color: yellow"></i></a>'
-                    }else if (row.estado==="1"){
-                        return '<a onclick="editarCategoria('+row.idCaja+')" href="javascript:void(0)" title="Editar" ><i class="fe-edit fa-2x" style="color: green"></i></a>'+
-                            '<a onclick="EliminarCategoria('+row.idCaja+')" href="javascript:void(0)" title="Eliminar" ><i class="fa fa-trash fa-2x" style="color: red"></i></a>'+
-                            '<a onclick="activoCategoria('+row.idCaja+')" href="javascript:void(0)" title="Cambiar de estado" ><i class="fa fa-check fa-2x" style="color: green"></i></a>'
-                    }
-                    ;}
-            }
-
-        ],
-    });
+    Listarcaja();
     $('.UpdateCategoria').hide();
 $('#modalCategoria').click(function () {
     $('.formaddcategoria')[0].reset();
     $('.modal-title').text('Nueva Caja');
     $('#modalAddCategoria').modal('show');
+
 });
 var categoria;
 $('.GuardarCategoria').click(funcionRegistrar);
@@ -241,6 +160,87 @@ $('#modalCategoria').click(function () {
     $('.formaddcategoria')[0].reset();
     $('#usuarios_idusuarios').val('default').selectpicker('refresh');
 });
+function Listarcaja() {
+    $('#tbcaja').DataTable({
+        "pageLength": 10,
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                title: "lista de Clientes",
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                title:"lista de Clientes",
+                exportOptions:{
+                    columns:[0,1,2,3,4,5]
+                }
+            },
+            {
+                extend:  'csvHtml5',
+                title:"lista de Clientes",
+                exportOptions:{
+                    columns:[0,1,2,3,4,5]
+                }
+            }
+        ],
+        "ajax": {
+            "url": url,
+            "dataSrc": ""
+        },
+        language: {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Ningún dato disponible en esta tabla",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            },
+        },
+        columns: [
+            {
+                mRender: function(data, type, row) {
+                    return ' <div class="custom-control custom-checkbox">\n' +
+                        '<input type="checkbox" class="custom-control-input" id="customCheck2">\n' +
+                        '<label class="custom-control-label" for="customCheck2">&nbsp;</label>\n' +
+                        '</div>'
+                }
+            },
+            {data: 'caj_codigo'},
+            {data: 'Monto_Caja_apertura'},
+            {data: 'Monto_Caja_final'},
+            {data: 'fecha_apertura'},
+            {data: 'fecha_cierre'},
+            {
+                mRender: function(data, type, row) {
+                    return '<a style="color: #18F526"  class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>';
+                }
+            }
+
+        ],
+        destroy:true
+    });
+
+}
 function aperturarcaja() {
    var frm= $('#frmaperturarcaja').serialize();
     $.ajaxSetup({
@@ -264,11 +264,12 @@ function aperturarcaja() {
                var idcaja=response['caja']['id_Detallecaja'];
                var monto_apertura=response['caja']['Monto_Caja_apertura'];
                 $('#montoapertura').val(monto_apertura);
+               localStorage.setItem('montoapertura',monto_apertura);
+
                $("#caja" ).prop( "disabled", true );
                $('#aperturarcaja').hide();
-               $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2" id="aperturarcaja" onclick="cerrarcaja('+idcaja+')' +
+               $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2" id="cerrarcaja" onclick="cerrarcaja('+idcaja+')' +
                    '"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
-
                localStorage.setItem('cajabierta','true');
            }else{
                console.log(response);
@@ -295,13 +296,16 @@ function mostrartotalcaja(id) {
             data:{'idcaja':idcaja},
             success:function (response) {
                 console.log('llego',response);
-                $('#monto').val(response[0]['Monto_Caja_apertura']);
-                var iddetalle=response[0]['id_Detallecaja'];
+                if (response.length==''){
+                    alert('monto de apertura 0');
+                }else{
+                    $('#monto').val(response[0]['Monto_Caja_apertura']);
+                    var iddetalle=response[0]['id_Detallecaja'];
+                    $("#monto" ).val('0.00');
+                    $('#aperturarcaja').hide();
+                    $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja('+iddetalle+')" id="cerrarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
+                }
 
-                $("#monto" ).prop( "disabled", true );
-                $("#caja" ).prop( "disabled", true );
-                $('#aperturarcaja').hide();
-                $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja('+iddetalle+')" id="cerrarrarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
             }
 
         })
@@ -311,6 +315,8 @@ function mostrartotalcaja(id) {
 }
 function cerrarcaja(iddeta) {
     var monto=$('#monto').val();
+    var montoapertura=localStorage.getItem('montoapertura');
+    alert(montoapertura);
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -320,26 +326,48 @@ function cerrarcaja(iddeta) {
         url:url1+'/cerrarcaja',
         type:'post',
         dataType:'json',
-        data:{'monto':monto,'iddeta':iddeta},
+        data:{'monto':monto,'iddeta':iddeta,'montoapertura':montoapertura},
         success:function (response) {
             $('#monto').val(0,0);
-            return
             if (response.success==true){
                 toastr.options ={ "closeButton":true, "progressBar": true};
                 toastr.success(
                     "!Registro Exitoso",
-                    "EXITO AL APERTURAR  CAJA",
+                    "EXITO AL CERRAR  CAJA",
                 );
                 $("#monto" ).prop( "disabled", true );
                 $("#caja" ).prop( "disabled", true );
-                $('#aperturarcaja').hide();
-                $('#btncaja').append(' <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"onclick="cerrarcaja()" id="aperturarcaja"><i class="mdi mdi-basket mr-1"></i>CERRAR CAJA</button>');
-
-                localStorage.setItem('cajabierta','true');
+                localStorage.setItem('cajabierta',false)
+                $('#aperturarcaja').show();
+                $('#cerrarcaja').remove();
+                $('#tbcaja').DataTable({
+                    destroy:true
+                });
             }else{
                 console.log(response);
             }
 
+        }
+
+    })
+}
+function buscar() {
+    var fecha= $('#range-datepicker').val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+    });
+    $.ajax({
+        'url':url1+'/buscar',
+        'type':'post',
+        'data':{'fecha':fecha},
+        dataType:'json',
+        success:function (response) {
+            $('#range-datepicker').val("");
+            $('#tbcaja').DataTable({
+                destroy:true
+            });
         }
 
     })

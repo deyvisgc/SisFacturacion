@@ -19,13 +19,13 @@
                             <div class="col-md-4 mb-3">
                             </div>
                         </div>
-                    <input type="hidden" id="rg_addCategoria" value="{{url('admin/alamacen/categoria/AddCategoria')}}">
-                    <input type="hidden"  id="rg_lisCategoria" value="{{url('admin/alamacen/categoria/listarCategoria')}}"/>
-                    <input type="hidden"  id="rg_getCategoria" value="{{url('admin/alamacen/categoria/getCategoria')}}"/>
-                    <input type="hidden"  id="rg_updateCategoria" value="{{url('admin/alamacen/categoria/updateCategoria')}}"/>
-                    <input type="hidden"  id="rg_Eliminar" value="{{url('admin/alamacen/categoria/eliminar')}}"/>
-                    <input type="hidden"  id="rg_estadoInactivo" value="{{url('admin/alamacen/categoria/estadoInactivo')}}"/>
-                    <input type="hidden"  id="rg_estadoActivo" value="{{url('admin/alamacen/categoria/estadoActivo')}}"/>
+                    <input type="hidden" id="rg_addCategoria" value="{{url('admin/almacen/categoria/AddCategoria')}}">
+                    <input type="hidden"  id="rg_lisCategoria" value="{{url('admin/almacen/categoria/listarCategoria')}}"/>
+                    <input type="hidden"  id="rg_getCategoria" value="{{url('admin/almacen/categoria/getCategoria')}}"/>
+                    <input type="hidden"  id="rg_updateCategoria" value="{{url('admin/almacen/categoria/updateCategoria')}}"/>
+                    <input type="hidden"  id="rg_Eliminar" value="{{url('admin/almacen/categoria/eliminar')}}"/>
+                    <input type="hidden"  id="rg_estadoInactivo" value="{{url('admin/almacen/categoria/estadoInactivo')}}"/>
+                    <input type="hidden"  id="rg_estadoActivo" value="{{url('admin/almacen/categoria/estadoActivo')}}"/>
                     <div class="card-footer">
                         <div  align="center">
                             <button class="btn btn-primary GuardarCategoria" type="button">Guardar</button>

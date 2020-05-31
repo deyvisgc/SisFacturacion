@@ -294,16 +294,15 @@
 @section('script')
 
     <link href="{{asset('css/alertjs.css')}}" rel="stylesheet" type="text/css" />
-    <script src="{{asset('js/Movimiento/ventas.js')}}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js" ></script>
     <script src="{{asset('js/Movimiento/ventas.js')}}"></script>
     <script src="{{asset('js/jquery.buttonLoader.js')}}"></script>
     <script>
         var url = '{{url('Ventas')}}';
         var urlventas='{{url('ModuloVentas')}}'
         var urlbuscar = '{{url('buscar')}}';
-
         var asset = '{{asset('Imagenes/Productos/')}}/'
-
+        //var pdf = '{{asset('storage/app/public/PDF_Ventas')}}/'
 
     </script>
 

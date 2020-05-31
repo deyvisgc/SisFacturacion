@@ -6,19 +6,16 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
-                <form class="needs-validation formaddproducto" id="formaddproducto"  >
+                <form class="needs-validation formaddproducto" id="formaddproducto" accept-charset="multipart/form-data"  >
                     {{ csrf_field() }}
-                    <input class="f_id_prod" type="hidden" name="id_prod">
-                    <input class="f_id_per" type="hidden" name="id_per">
-                    <input class="f_id_serv" type="hidden" name="id_serv">
                         <div class="form-row">
                             <div class="col-md-4 mb-3">
                                 <label >Nombre Producto</label>
-                                <input class="form-control pro_nombre" id="pro_nombre" name="dni" type="text" autocomplete="off" onKeyPress="return SoloNumeros(event);" >
+                                <input class="form-control pro_nombre" id="pro_nombre" name="pro_nombre" type="text" autocomplete="off" onKeyPress="return SoloNumeros(event);" >
                             </div>
-                            <div class="col-md-4 mb-3" id="selectcategoria">
+                            <div class="col-md-4 mb-3" id="selectcate">
                                 <label>Categoria</label>
-                                <select  name="idcategoria" id="pro_categoria" class="form-control pro_Categoria" data-width="100%">
+                                <select  name="idcategoria" id="pro_categoria" class="form-control pro_Catego" data-width="100%">
                                     <option data-tokens="ketchup mustard" value="" disabled selected>Seleccionar</option>
                                     @foreach($categoriaActivo as $row)
                                         <option value="{{$row->idcategoria}}" selected >{{$row->Nombre_Categoria}}</option>
@@ -45,7 +42,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label >Modelo</label>
-                                <input class="form-control pro_modelo" id="pro_model"   name="model" type="text" placeholder="" >
+                                <input class="form-control pro_modelo" id="pro_model"   name="modelo" type="text" placeholder="" >
                             </div>
                         </div>
                         <div class="form-row">
@@ -62,21 +59,12 @@
                                 <textarea class="form-control pro_descripcion" id="pro_descrip" name="descripcion" ></textarea>
                             </div>
                         </div>
-                    <input type="hidden" id="rg_addproducto" value="{{url('admin/alamacen/producto/Addproducto')}}">
-                    <input type="hidden"  id="rg_lisproducto" value="{{url('admin/alamacen/producto/listarproducto')}}"/>
-                    <input type="hidden"  id="rg_getproducto" value="{{url('admin/alamacen/producto/getproducto')}}"/>
-                    <input type="hidden"  id="rg_updateproducto" value="{{url('admin/alamacen/producto/updateproducto')}}"/>
-                    <input type="hidden"  id="rg_Eliminarproducto" value="{{url('admin/alamacen/producto/eliminarproducto')}}"/>
-                    <input type="hidden"  id="rg_estadoInactivoproducto" value="{{url('admin/alamacen/producto/estadoInactivoproducto')}}"/>
-                    <input type="hidden"  id="rg_estadoActivoproducto" value="{{url('admin/alamacen/producto/estadoActivoproducto')}}"/>
-
                     <input type="hidden"  id="rg_img1" value="{{asset("img/producto/dora.jpg")}}"/>
-                    <input type="hidden"  id="rg_img2" value="{{asset("Imagenes/Productos/")}}"/>
                     <div class="card-footer">
-                        <div class="col-sm-9 offset-sm-3">
-                            <button class="btn btn-primary GuardarProducto" type="button">Guardar</button>
-                            <button class="btn btn-primary UpdateProducto" type="button">Cambiar</button>
-                            <input class="btn btn-light" type="reset" value="Borrar">
+                        <div class="col-sm-9 offset-sm-3" >
+                            <button class="btn btn-success" style="margin-left: 100px" id="RegistrarProducto" type="button">Registrar</button>
+                            <button class="btn btn-success" style="margin-left: 100px" id="ActualizarProducto" type="button">Actualizar</button>
+                            <input class="btn btn-danger" type="reset" value="Borrar">
                         </div>
                     </div>
                 </form>

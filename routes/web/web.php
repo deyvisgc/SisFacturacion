@@ -47,6 +47,7 @@ Route::post('ModuloVentas/validardni','Movimiento\VentaController@validardni');
 Route::post('ModuloVentas/crearnewcliente','Movimiento\VentaController@crearnewcliente');
 Route::post('ModuloVentas/validarruc','Movimiento\VentaController@validarruc');
 Route::post('ModuloVentas/crearnewclientexruc','Movimiento\VentaController@crearnewclientexruc');
+Route::get('ModuloVentas/descargarcomprobante','Movimiento\VentaController@descargarcomprobante');
 
 
 //busquedas del sistema

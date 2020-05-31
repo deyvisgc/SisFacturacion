@@ -56,24 +56,24 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row mb-2">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <form class="form-inline">
-                                    <div class="form-group mb-2">
-                                        <label for="inputPassword2" class="sr-only">Search</label>
-                                        <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
+                                    <div class="form-group mb-6">
+                                        <label >SELECCION FECHAS</label>
+                                        <input style="margin-left: 10px;width: 250px" type="text"  id="range-datepicker" class="form-control flatpickr-input" placeholder="2018-10-03 to 2018-10-10" readonly="readonly">
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="text-md-right">
-                                    <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-basket mr-1"></i> Add Sellers</button>
-                                    <button type="button" class="btn btn-success waves-effect waves-light mb-2 mr-1"><i class="mdi mdi-settings"></i></button>
+                                    <button type="button" class="btn btn-success waves-effect waves-light mb-2 mr-2" onclick="buscar()"><i class="mdi mdi-search-web mr-1"></i>BUSCAR</button>
+                                    <button type="button" class="btn btn-danger waves-effect waves-light mb-2 mr-1"><i class="mdi mdi-settings"></i>LINPIAR</button>
                                 </div>
                             </div><!-- end col-->
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-centered table-borderless table-hover mb-0">
+                            <table class="table table-centered table-borderless table-hover mb-0" id="tbcaja">
                                 <thead class="thead-light">
                                 <tr>
                                     <th style="width: 20px;">
@@ -82,23 +82,15 @@
                                             <label class="custom-control-label" for="customCheck1">&nbsp;</label>
                                         </div>
                                     </th>
-                                    <th>N#</th>
                                     <th>CODIGO CAJA</th>
                                     <th>MONTO APERTURA</th>
                                     <th>MONTO CIERRE</th>
-                                    <th>FECHA</th>
+                                    <th>FECHA APERTURA</th>
+                                    <th>FECHA CIERRE</th>
                                     <th style="width: 82px;">ACCIONES</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                            <label class="custom-control-label" for="customCheck2">&nbsp;</label>
-                                        </div>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -111,7 +103,11 @@
     </div>
 @endsection
 @section('script')
-    <link href="{{asset('css/alertjs.css')}}" rel="stylesheet" type="text/css" />
+
+
+
+    <!-- Init js-->
+
     <script src="{{asset("js/Movimiento/caja.js")}}"></script>
     <script>
         var url = '{{url('Aperturacaja')}}';

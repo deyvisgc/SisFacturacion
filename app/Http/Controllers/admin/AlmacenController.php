@@ -39,21 +39,21 @@ class AlmacenController extends Controller
     }
     public function getproducto(Request $request){
         $update = AlmacenRepository::getproducto($request->id);
-        return response()->json([$update]);
+        return response()->json($update);
     }
     public function updateproducto(Request $request,$id){
-        AlmacenRepository::updateproducto($request,$id);
+       $result= AlmacenRepository::updateproducto($request,$id);
         return response()->json(array("success" => true));
     }
     public function Eliminarproducto(Request $request){
-        $del=AlmacenRepository::Eliminarproducto($request['id']);
-        return $del;
+        $del=AlmacenRepository::Eliminarproducto($request);
+        return response()->json($del);
     }
-    public function estadoInactivoproducto(Request $request){
+    public function activarproducto(Request $request){
         $dato=AlmacenRepository::estadoInactivoproducto($request['id']);
         return $dato;
     }
-    public function estadoActivoproducto(Request $request){
+    public function Desactivar(Request $request){
         $dato=AlmacenRepository::estadoActivoproducto($request['id']);
         return $dato;
     }
@@ -142,5 +142,19 @@ class AlmacenController extends Controller
     }
     public function cerrarcaja(Request $request){
         return response()->json($this->repository->cerrarcaja($request));
+    }
+    public function index(){
+        $id_user = Auth::user()->idusuarios;
+        return response()->json($this->repository->listarcaja($id_user));
+    }
+    public function buscar(Request  $request){
+        $fecha= $request->fecha;
+        $array = explode("to", $fecha);
+        $fecha1=$array[0];
+        $fecha2=$array[1];
+        return response()->json($this->repository->buscar($fecha1,$fecha2));
+    }
+    public function vefactura(){
+        return view('welcome');
     }
 }

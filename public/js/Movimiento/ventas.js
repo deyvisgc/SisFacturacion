@@ -260,6 +260,7 @@ function vender(idproveedor,idvendedor,tipo_pago,comprobante,num_venta,serie,idc
                 $('#subtotal').html(0);
                 $('#Igv').html(0);
                 $('#total1').html(0);
+                descargarcomprobante(idproveedor,idvendedor,idcliente);
 
             }
         },
@@ -949,6 +950,22 @@ function limpiardatos(valor) {
         localStorage.setItem('iddni', '');
     }
 }
+function descargarcomprobante(idproveedor,idvendedor,idcliente) {
+    $.ajax({
+        url:urlventas+'/descargarcomprobante',
+        type:'get',
+       data:{'idproveedor':idproveedor,'idvendedor':idvendedor,'idcliente':idcliente},
+        success:function (response) {
+           window.open("http://127.0.0.1:8000/ModuloVentas/descargarcomprobante");
+          //  window.open("data:application/octet-stream;charset=utf-16le;base64,"+response);
+
+
+        }
+
+    })
+}
+
+
 
 
 
